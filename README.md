@@ -26,6 +26,12 @@ This project asks: **can structured graph retrieval improve both accuracy and gr
 
 ---
 
+## Pipeline Overview
+
+![Architecture](assets/figures/architecture.png)
+
+---
+
 ## Project Structure
 
 ```
@@ -117,6 +123,8 @@ Evaluated on the **MELD test set** (7-class emotion classification).
 
 Graph-RAG achieves the **best Macro-F1 (0.500)** among retrieval-based methods and outperforms all RAG baselines on every metric. It closes ~60% of the gap to the LLM-only upper bound while using only local graph evidence.
 
+![Method Comparison](assets/figures/method_comparison.png)
+
 ---
 
 ## Setup
@@ -201,6 +209,8 @@ Ablation results on the MELD test set (removing one graph component at a time):
 | w/o Audio Features | 0.574 | 0.495 |
 
 Same-speaker history is the most impactful component (−9.7 pp accuracy when removed).
+
+![Ablation Study](assets/figures/ablation_study.png)
 
 ```bash
 # Reproduce

@@ -7,6 +7,7 @@ Output format per instance:
   "dialogue_id":       str,
   "utterance_id":      str,
   "method":            str,
+  "prompt_mode":       str,   # "baseline" | "constrained"
   "gold_emotion":      str,
   "predicted_emotion": str,
   "explanation":       str,
@@ -55,7 +56,6 @@ def call_llm(messages: list, retries: int = 3, wait: float = 5.0) -> str:
 
 def parse_response(raw: str) -> dict:
     """Extract JSON from the model output (handles markdown code fences)."""
-    # Strip markdown fences if present
     cleaned = re.sub(r"```(?:json)?\s*", "", raw).strip().rstrip("`").strip()
     try:
         obj = json.loads(cleaned)
@@ -65,7 +65,6 @@ def parse_response(raw: str) -> dict:
             "evidence_used":     obj.get("evidence_used", []),
         }
     except json.JSONDecodeError:
-        # Fallback: try to extract predicted_emotion via regex
         match = re.search(
             r'"predicted_emotion"\s*:\s*"([^"]+)"', raw, re.IGNORECASE
         )
@@ -83,12 +82,14 @@ def run_instance(
     instance: dict,
     method: str,
     graphs: Optional[dict] = None,
+    prompt_mode: str = "constrained",
 ) -> dict:
     result = {
         "dataset":             instance["dataset"],
         "dialogue_id":         instance["dialogue_id"],
         "utterance_id":        instance["target_utterance"]["utterance_id"],
         "method":              method,
+        "prompt_mode":         prompt_mode,
         "gold_emotion":        instance["gold_emotion"],
         "predicted_emotion":   "unknown",
         "explanation":         "",
@@ -100,7 +101,6 @@ def run_instance(
     }
 
     try:
-        # Build retrieval evidence if needed
         retrieved_utts = None
         graph_evidence_text = None
 
@@ -132,7 +132,6 @@ def run_instance(
             else:
                 graph_evidence_text = "Graph not available."
 
-        # Save evidence so faithfulness evaluator can reference it
         if graph_evidence_text:
             result["graph_evidence_text"] = graph_evidence_text
         if retrieved_utts:
@@ -145,6 +144,7 @@ def run_instance(
             instance=instance,
             retrieved_utts=retrieved_utts,
             graph_evidence_text=graph_evidence_text,
+            mode=prompt_mode,
         )
 
         raw = call_llm(messages)
@@ -177,6 +177,7 @@ def run_experiment(
     out_path: Optional[Path] = None,
     max_instances: Optional[int] = None,
     max_workers: int = 8,
+    prompt_mode: str = "constrained",
 ) -> List[dict]:
     from concurrent.futures import ThreadPoolExecutor, as_completed
 
@@ -186,7 +187,7 @@ def run_experiment(
 
     def _process(idx_inst):
         idx, inst = idx_inst
-        return idx, run_instance(inst, method, graphs)
+        return idx, run_instance(inst, method, graphs, prompt_mode)
 
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         futures = {
@@ -198,7 +199,7 @@ def run_experiment(
             results[idx] = res
             completed += 1
             if completed % 50 == 0:
-                print(f"  [{method}] {completed}/{len(subset)} done", flush=True)
+                print(f"  [{method}|{prompt_mode}] {completed}/{len(subset)} done", flush=True)
 
     if out_path:
         out_path.parent.mkdir(parents=True, exist_ok=True)

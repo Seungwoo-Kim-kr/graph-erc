@@ -10,6 +10,7 @@ Variants:
 
 Usage:
     python run_ablation.py --dataset meld --split test --max-instances 500
+    python run_ablation.py --dataset meld --split test --prompt-mode baseline
 """
 
 import argparse
@@ -60,14 +61,17 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument("--dataset",           default="meld")
     p.add_argument("--split",             default="test")
+    p.add_argument("--prompt-mode",       default="constrained", choices=["baseline", "constrained"])
     p.add_argument("--max-instances",     default=500, type=int)
     p.add_argument("--max-samples",       default=500, type=int)
     p.add_argument("--skip-inference",    action="store_true")
     p.add_argument("--skip-faithfulness", action="store_true")
     args = p.parse_args()
 
+    mode_suffix = f"_{args.prompt_mode}" if args.prompt_mode == "baseline" else ""
+
     # ── Load data ─────────────────────────────────────────────────────────────
-    print(f"\n[1] Loading {args.dataset} / {args.split}")
+    print(f"\n[1] Loading {args.dataset} / {args.split}  [prompt_mode={args.prompt_mode}]")
     dlg_path = Path(CFG.data_dir) / "processed" / args.dataset / f"{args.split}_dialogues.json"
     dialogues = load_dialogues(dlg_path)
     instances = build_instances(dialogues, args.dataset)
@@ -78,9 +82,9 @@ def main():
     graphs = load_graphs(graph_path)
     print(f"    Graphs: {len(graphs)}")
 
-    outdir        = Path(CFG.output_dir) / "predictions"  / args.dataset / args.split
-    metrics_dir   = Path(CFG.output_dir) / "tables"       / args.dataset / args.split
-    grounding_dir = Path(CFG.output_dir) / "grounding"    / args.dataset / args.split
+    outdir        = Path(CFG.output_dir) / "predictions"  / args.dataset / f"{args.split}{mode_suffix}"
+    metrics_dir   = Path(CFG.output_dir) / "tables"       / args.dataset / f"{args.split}{mode_suffix}"
+    grounding_dir = Path(CFG.output_dir) / "grounding"    / args.dataset / f"{args.split}{mode_suffix}"
     for d in [outdir, metrics_dir, grounding_dir]:
         d.mkdir(parents=True, exist_ok=True)
 
@@ -106,6 +110,7 @@ def main():
                 instances, method, graphs,
                 out_path=out_path,
                 max_instances=args.max_instances,
+                prompt_mode=args.prompt_mode,
             )
 
         # Reset flags
@@ -137,7 +142,7 @@ def main():
     if not args.skip_faithfulness:
         print("\n[4] Faithfulness evaluation (claim-level, parallel)...")
         for label, fname in all_variants:
-            pred_path   = outdir       / f"{fname}.json"
+            pred_path   = outdir        / f"{fname}.json"
             judged_path = grounding_dir / f"{fname}_judged.json"
 
             if judged_path.exists():
@@ -156,7 +161,7 @@ def main():
 
     # ── Final summary table ───────────────────────────────────────────────────
     print("\n" + "="*70)
-    print("  ABLATION RESULTS — " + args.dataset.upper())
+    print("  ABLATION RESULTS — " + args.dataset.upper() + f"  [{args.prompt_mode}]")
     print("="*70)
     print("{:<35} {:>7} {:>7} {:>7}".format("Variant", "Faith", "MacF1", "Acc"))
     print("-"*70)

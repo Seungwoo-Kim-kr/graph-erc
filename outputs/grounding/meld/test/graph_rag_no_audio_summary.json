@@ -1,0 +1,18 @@
+{
+  "faithfulness_score": {
+    "mean": 0.235,
+    "std": 0.2596,
+    "n": 424
+  },
+  "supported_ratio": {
+    "mean": 0.1751,
+    "std": 0.2276,
+    "n": 424
+  },
+  "unsupported_ratio": {
+    "mean": 0.705,
+    "std": 0.3188,
+    "n": 424
+  },
+  "avg_n_claims": 4.71
+}

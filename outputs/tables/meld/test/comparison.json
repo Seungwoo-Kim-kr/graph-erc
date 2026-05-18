@@ -1,0 +1,38 @@
+{
+  "llm_only": {
+    "accuracy": 0.6176,
+    "macro_f1": 0.4848,
+    "weighted_f1": 0.6207,
+    "worst_class_f1": 0.2923
+  },
+  "full_context_llm": {
+    "accuracy": 0.5736,
+    "macro_f1": 0.4906,
+    "weighted_f1": 0.5856,
+    "worst_class_f1": 0.3284
+  },
+  "bm25_rag": {
+    "accuracy": 0.5264,
+    "macro_f1": 0.4528,
+    "weighted_f1": 0.5389,
+    "worst_class_f1": 0.2981
+  },
+  "dense_rag": {
+    "accuracy": 0.5287,
+    "macro_f1": 0.454,
+    "weighted_f1": 0.5411,
+    "worst_class_f1": 0.2917
+  },
+  "text_only_rag": {
+    "accuracy": 0.5303,
+    "macro_f1": 0.4617,
+    "weighted_f1": 0.5416,
+    "worst_class_f1": 0.2817
+  },
+  "graph_rag": {
+    "accuracy": 0.5912,
+    "macro_f1": 0.4996,
+    "weighted_f1": 0.6024,
+    "worst_class_f1": 0.3077
+  }
+}

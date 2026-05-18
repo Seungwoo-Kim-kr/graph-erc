@@ -1,0 +1,1983 @@
+[
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d0",
+    "utterance_id": "meld_d0_u0",
+    "method": "dense_rag",
+    "gold_emotion": "surprise",
+    "predicted_emotion": "neutral",
+    "explanation": "The question about the numbers on the bottom of coffee mugs is straightforward and lacks any emotional cues.",
+    "evidence_used": [
+      "The target utterance is a simple question without emotional language."
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"neutral\",\n  \"explanation\": \"The question about the numbers on the bottom of coffee mugs is straightforward and lacks any emotional cues.\",\n  \"evidence_used\": [\"The target utterance is a simple question without emotional language.\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation is directly grounded in the evidence, consistent with it, and does not make unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d0",
+    "utterance_id": "meld_d0_u1",
+    "method": "dense_rag",
+    "gold_emotion": "anger",
+    "predicted_emotion": "neutral",
+    "explanation": "Rachel is providing a factual explanation about why the mugs are numbered, without expressing any strong emotion.",
+    "evidence_used": [
+      "Rachel: Oh. That’s so Monica can keep track.",
+      "That way if one on them is missing, she can be like, ‘Where’s number 27?!’"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"neutral\",\n  \"explanation\": \"Rachel is providing a factual explanation about why the mugs are numbered, without expressing any strong emotion.\",\n  \"evidence_used\": [\"Rachel: Oh. That’s so Monica can keep track.\", \"That way if one on them is missing, she can be like, ‘Where’s number 27?!’\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation is directly supported by the evidence, consistent with it, and does not make unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d0",
+    "utterance_id": "meld_d0_u2",
+    "method": "dense_rag",
+    "gold_emotion": "neutral",
+    "predicted_emotion": "neutral",
+    "explanation": "Rachel's response 'Y'know what?' does not convey any strong emotion and seems to be a neutral continuation of the conversation.",
+    "evidence_used": [
+      "Rachel: 'Oh. That’s so Monica can keep track. That way if one on them is missing, she can be like, ‘Where’s number 27?!’'",
+      "Mark: 'Why do all you’re coffee mugs have numbers on the bottom?'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"neutral\",\n  \"explanation\": \"Rachel's response 'Y'know what?' does not convey any strong emotion and seems to be a neutral continuation of the conversation.\",\n  \"evidence_used\": [\"Rachel: 'Oh. That’s so Monica can keep track. That way if one on them is missing, she can be like, ‘Where’s number 27?!’'\", \"Mark: 'Why do all you’re coffee mugs have numbers on the bottom?'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 0,
+    "judge_faithfulness": 0,
+    "judge_over_inference": 0,
+    "judge_rationale": "The explanation incorrectly references 'Y'know what?' which is not present in the retrieved evidence, leading to a lack of grounding, faithfulness, and over-inference.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d1",
+    "utterance_id": "meld_d1_u0",
+    "method": "dense_rag",
+    "gold_emotion": "neutral",
+    "predicted_emotion": "encouragement",
+    "explanation": "Joey's words suggest he is trying to motivate or support Lydia, which is typically associated with a positive or neutral emotional state.",
+    "evidence_used": [
+      "Joey's use of 'Come on' indicates encouragement.",
+      "The phrase 'you can do it' is supportive and motivational."
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"encouragement\",\n  \"explanation\": \"Joey's words suggest he is trying to motivate or support Lydia, which is typically associated with a positive or neutral emotional state.\",\n  \"evidence_used\": [\"Joey's use of 'Come on' indicates encouragement.\", \"The phrase 'you can do it' is supportive and motivational.\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation is clearly grounded in the evidence, consistent with it, and does not make unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d1",
+    "utterance_id": "meld_d1_u1",
+    "method": "dense_rag",
+    "gold_emotion": "joy",
+    "predicted_emotion": "joy",
+    "explanation": "Joey's encouragement and supportive tone suggest he is feeling positive and hopeful about Lydia's ability to succeed.",
+    "evidence_used": [
+      "Joey: 'Come on, Lydia, you can do it.'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"joy\",\n  \"explanation\": \"Joey's encouragement and supportive tone suggest he is feeling positive and hopeful about Lydia's ability to succeed.\",\n  \"evidence_used\": [\"Joey: 'Come on, Lydia, you can do it.'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation is clearly grounded in the evidence, consistent with it, and does not make unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d1",
+    "utterance_id": "meld_d1_u2",
+    "method": "dense_rag",
+    "gold_emotion": "joy",
+    "predicted_emotion": "joy",
+    "explanation": "Joey's repeated encouragement and cheering suggest excitement and support, indicating a positive and joyful emotion.",
+    "evidence_used": [
+      "Joey: 'Come on, Lydia, you can do it.'",
+      "Joey: 'Push!'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"joy\",\n  \"explanation\": \"Joey's repeated encouragement and cheering suggest excitement and support, indicating a positive and joyful emotion.\",\n  \"evidence_used\": [\"Joey: 'Come on, Lydia, you can do it.'\", \"Joey: 'Push!'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation is clearly grounded in the evidence, consistent with it, and does not make unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d1",
+    "utterance_id": "meld_d1_u3",
+    "method": "dense_rag",
+    "gold_emotion": "joy",
+    "predicted_emotion": "joy",
+    "explanation": "Joey's repeated encouragement and enthusiastic tone suggest he is feeling joyful and supportive.",
+    "evidence_used": [
+      "Joey: 'Come on, Lydia, you can do it.'",
+      "Joey: 'Push 'em out, push 'em out, harder, harder.'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"joy\",\n  \"explanation\": \"Joey's repeated encouragement and enthusiastic tone suggest he is feeling joyful and supportive.\",\n  \"evidence_used\": [\"Joey: 'Come on, Lydia, you can do it.'\", \"Joey: 'Push 'em out, push 'em out, harder, harder.'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation is clearly grounded in the evidence, consistent with it, and does not make unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d1",
+    "utterance_id": "meld_d1_u4",
+    "method": "dense_rag",
+    "gold_emotion": "joy",
+    "predicted_emotion": "joy",
+    "explanation": "Joey's enthusiastic and repetitive cheering suggests excitement and encouragement, typical of someone experiencing joy.",
+    "evidence_used": [
+      "Joey: 'Push!'",
+      "Joey: 'Push 'em out, push 'em out, harder, harder.'",
+      "Joey: 'Push 'em out, push 'em out, way out!'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"joy\",\n  \"explanation\": \"Joey's enthusiastic and repetitive cheering suggests excitement and encouragement, typical of someone experiencing joy.\",\n  \"evidence_used\": [\"Joey: 'Push!'\", \"Joey: 'Push 'em out, push 'em out, harder, harder.'\", \"Joey: 'Push 'em out, push 'em out, way out!'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation is clearly grounded in the evidence, consistent with it, and does not make unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d1",
+    "utterance_id": "meld_d1_u5",
+    "method": "dense_rag",
+    "gold_emotion": "joy",
+    "predicted_emotion": "neutral",
+    "explanation": "Joey's target utterance seems to be a moment of hesitation or self-correction, lacking strong emotional cues.",
+    "evidence_used": [
+      "Joey: 'Let's— I was just—yeah, right.'",
+      "Joey: 'Push 'em out, push 'em out, harder, harder.'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"neutral\",\n  \"explanation\": \"Joey's target utterance seems to be a moment of hesitation or self-correction, lacking strong emotional cues.\",\n  \"evidence_used\": [\"Joey: 'Let's— I was just—yeah, right.'\", \"Joey: 'Push 'em out, push 'em out, harder, harder.'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 0,
+    "judge_faithfulness": 1,
+    "judge_over_inference": 1,
+    "judge_rationale": "The explanation does not reference the specific content of the retrieved evidence and makes assumptions about hesitation not clearly supported by the evidence.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d1",
+    "utterance_id": "meld_d1_u6",
+    "method": "dense_rag",
+    "gold_emotion": "joy",
+    "predicted_emotion": "joy",
+    "explanation": "Joey's repeated and enthusiastic cheering suggests he is in a positive and energetic mood, typical of joy.",
+    "evidence_used": [
+      "Joey: 'Push 'em out, push 'em out, way out!'",
+      "Joey: 'Let's get that ball and really move, hey, hey, ho, ho.'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"joy\",\n  \"explanation\": \"Joey's repeated and enthusiastic cheering suggests he is in a positive and energetic mood, typical of joy.\",\n  \"evidence_used\": [\"Joey: 'Push 'em out, push 'em out, way out!'\", \"Joey: 'Let's get that ball and really move, hey, hey, ho, ho.'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation is clearly grounded in the evidence, consistent with it, and does not make unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d1",
+    "utterance_id": "meld_d1_u7",
+    "method": "dense_rag",
+    "gold_emotion": "joy",
+    "predicted_emotion": "joy",
+    "explanation": "Joey's repeated encouragement and enthusiastic phrases suggest excitement and motivation.",
+    "evidence_used": [
+      "Joey: 'Push!'",
+      "Joey: 'Let's get that ball and really move, hey, hey, ho, ho.'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"joy\",\n  \"explanation\": \"Joey's repeated encouragement and enthusiastic phrases suggest excitement and motivation.\",\n  \"evidence_used\": [\"Joey: 'Push!'\", \"Joey: 'Let's get that ball and really move, hey, hey, ho, ho.'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation is clearly grounded in the evidence, consistent with it, and does not make unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d2",
+    "utterance_id": "meld_d2_u0",
+    "method": "dense_rag",
+    "gold_emotion": "neutral",
+    "predicted_emotion": "neutral",
+    "explanation": "The word 'Okay' is often used as a neutral response, lacking any specific emotional indicators.",
+    "evidence_used": [
+      "The word 'Okay' is typically neutral in tone."
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"neutral\",\n  \"explanation\": \"The word 'Okay' is often used as a neutral response, lacking any specific emotional indicators.\",\n  \"evidence_used\": [\"The word 'Okay' is typically neutral in tone.\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation directly references the retrieved evidence, is consistent with it, and does not make unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d2",
+    "utterance_id": "meld_d2_u1",
+    "method": "dense_rag",
+    "gold_emotion": "neutral",
+    "predicted_emotion": "neutral",
+    "explanation": "Rachel's question about the elevator seems straightforward and lacks any emotional cues, suggesting a neutral tone.",
+    "evidence_used": [
+      "Rachel's question is direct and factual.",
+      "There is no indication of emotional intensity or context suggesting otherwise."
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"neutral\",\n  \"explanation\": \"Rachel's question about the elevator seems straightforward and lacks any emotional cues, suggesting a neutral tone.\",\n  \"evidence_used\": [\"Rachel's question is direct and factual.\", \"There is no indication of emotional intensity or context suggesting otherwise.\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation is clearly grounded in the evidence, consistent with it, and does not make unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d2",
+    "utterance_id": "meld_d2_u2",
+    "method": "dense_rag",
+    "gold_emotion": "sadness",
+    "predicted_emotion": "neutral",
+    "explanation": "Ross's response is straightforward and lacks any emotional cues, indicating a neutral emotion.",
+    "evidence_used": [
+      "Ross: Uhh, yes I did but there isn't. Okay, here we go.",
+      "Rachel: Ross, didn't you say that there was an elevator in here?"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"neutral\",\n  \"explanation\": \"Ross's response is straightforward and lacks any emotional cues, indicating a neutral emotion.\",\n  \"evidence_used\": [\"Ross: Uhh, yes I did but there isn't. Okay, here we go.\", \"Rachel: Ross, didn't you say that there was an elevator in here?\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation is grounded in the evidence, consistent with it, and does not make unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d2",
+    "utterance_id": "meld_d2_u3",
+    "method": "dense_rag",
+    "gold_emotion": "surprise",
+    "predicted_emotion": "neutral",
+    "explanation": "Ross's directive to go left is straightforward and lacks emotional intensity, indicating a neutral tone.",
+    "evidence_used": [
+      "Ross: 'Okay, go left. Left! Left!'",
+      "Ross: 'Okay.'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"neutral\",\n  \"explanation\": \"Ross's directive to go left is straightforward and lacks emotional intensity, indicating a neutral tone.\",\n  \"evidence_used\": [\"Ross: 'Okay, go left. Left! Left!'\", \"Ross: 'Okay.'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 0,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation does not reference the retrieved evidence, which does not include any directive to go left.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d2",
+    "utterance_id": "meld_d2_u4",
+    "method": "dense_rag",
+    "gold_emotion": "anger",
+    "predicted_emotion": "frustration",
+    "explanation": "Rachel's exclamation indicates frustration due to the lack of an elevator and Ross's unclear directions.",
+    "evidence_used": [
+      "Ross: 'Okay, go left. Left! Left!'",
+      "Rachel: 'Okay, y'know what? There is no more left, left!'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"frustration\",\n  \"explanation\": \"Rachel's exclamation indicates frustration due to the lack of an elevator and Ross's unclear directions.\",\n  \"evidence_used\": [\"Ross: 'Okay, go left. Left! Left!'\", \"Rachel: 'Okay, y'know what? There is no more left, left!'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 1,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 1,
+    "judge_rationale": "The explanation implicitly draws on evidence but assumes frustration from unclear directions without direct evidence.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d2",
+    "utterance_id": "meld_d2_u5",
+    "method": "dense_rag",
+    "gold_emotion": "anger",
+    "predicted_emotion": "neutral",
+    "explanation": "Ross's instruction to lift the object straight up is a straightforward directive without any emotional charge, indicating a focus on solving the task at hand.",
+    "evidence_used": [
+      "Ross: 'Okay, go left. Left! Left!'",
+      "Rachel: 'Okay, y'know what? There is no more left, left!'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"neutral\",\n  \"explanation\": \"Ross's instruction to lift the object straight up is a straightforward directive without any emotional charge, indicating a focus on solving the task at hand.\",\n  \"evidence_used\": [\"Ross: 'Okay, go left. Left! Left!'\", \"Rachel: 'Okay, y'know what? There is no more left, left!'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 0,
+    "judge_faithfulness": 0,
+    "judge_over_inference": 0,
+    "judge_rationale": "The explanation incorrectly references an instruction to lift an object, which is not present in the evidence, leading to a lack of grounding, faithfulness, and over-inference.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d2",
+    "utterance_id": "meld_d2_u6",
+    "method": "dense_rag",
+    "gold_emotion": "anger",
+    "predicted_emotion": "neutral",
+    "explanation": "Ross's directive to lift the object straight up over Rachel's head is straightforward and lacks emotional intensity, indicating a neutral tone.",
+    "evidence_used": [
+      "Ross: 'Oh okay, lift it straight up over your head!'",
+      "Ross: 'Straight up over your head!'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"neutral\",\n  \"explanation\": \"Ross's directive to lift the object straight up over Rachel's head is straightforward and lacks emotional intensity, indicating a neutral tone.\",\n  \"evidence_used\": [\"Ross: 'Oh okay, lift it straight up over your head!'\", \"Ross: 'Straight up over your head!'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation is directly grounded in the evidence, consistent with it, and does not make unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d2",
+    "utterance_id": "meld_d2_u7",
+    "method": "dense_rag",
+    "gold_emotion": "joy",
+    "predicted_emotion": "encouragement",
+    "explanation": "Ross's statement 'You can do it!' is supportive and aims to motivate Rachel, indicating encouragement.",
+    "evidence_used": [
+      "Ross: 'You can do it!'",
+      "Ross: 'Straight up over your head!'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"encouragement\",\n  \"explanation\": \"Ross's statement 'You can do it!' is supportive and aims to motivate Rachel, indicating encouragement.\",\n  \"evidence_used\": [\"Ross: 'You can do it!'\", \"Ross: 'Straight up over your head!'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 0,
+    "judge_faithfulness": 0,
+    "judge_over_inference": 1,
+    "judge_rationale": "The explanation references a statement 'You can do it!' that is not present in the retrieved evidence, leading to a lack of grounding and faithfulness, but the inference of encouragement is plausible given the context.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d2",
+    "utterance_id": "meld_d2_u8",
+    "method": "dense_rag",
+    "gold_emotion": "joy",
+    "predicted_emotion": "joy",
+    "explanation": "Ross's repeated encouragement and positive reinforcement suggest he is feeling supportive and optimistic.",
+    "evidence_used": [
+      "Ross: 'You can do it!'",
+      "Ross: 'Straight up over your head!'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"joy\",\n  \"explanation\": \"Ross's repeated encouragement and positive reinforcement suggest he is feeling supportive and optimistic.\",\n  \"evidence_used\": [\"Ross: 'You can do it!'\", \"Ross: 'Straight up over your head!'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation is clearly grounded in the evidence, consistent with it, and does not make unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d2",
+    "utterance_id": "meld_d2_u9",
+    "method": "dense_rag",
+    "gold_emotion": "neutral",
+    "predicted_emotion": "neutral",
+    "explanation": "Ross's response 'Okay' is short and lacks any emotional indicators, suggesting a neutral state.",
+    "evidence_used": [
+      "Ross: 'Okay.'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"neutral\",\n  \"explanation\": \"Ross's response 'Okay' is short and lacks any emotional indicators, suggesting a neutral state.\",\n  \"evidence_used\": [\"Ross: 'Okay.'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 0,
+    "judge_faithfulness": 0,
+    "judge_over_inference": 0,
+    "judge_rationale": "The explanation references an utterance 'Okay' that is not present in the provided dialogue context or evidence.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d2",
+    "utterance_id": "meld_d2_u10",
+    "method": "dense_rag",
+    "gold_emotion": "neutral",
+    "predicted_emotion": "neutral",
+    "explanation": "Ross's repeated encouragement and the neutral question 'You got it?' suggest a calm and supportive demeanor without strong emotional expression.",
+    "evidence_used": [
+      "Ross: 'You can do it!'",
+      "Ross: 'Okay.'",
+      "Ross: 'You got it?'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"neutral\",\n  \"explanation\": \"Ross's repeated encouragement and the neutral question 'You got it?' suggest a calm and supportive demeanor without strong emotional expression.\",\n  \"evidence_used\": [\"Ross: 'You can do it!'\", \"Ross: 'Okay.'\", \"Ross: 'You got it?'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 1,
+    "judge_faithfulness": 1,
+    "judge_over_inference": 1,
+    "judge_rationale": "The explanation references evidence but includes a question not present in the dialogue, and it speculates on Ross's demeanor without clear support from the evidence.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d3",
+    "utterance_id": "meld_d3_u0",
+    "method": "dense_rag",
+    "gold_emotion": "neutral",
+    "predicted_emotion": "neutral",
+    "explanation": "The phrase 'Oh, okay, I get it' suggests a simple acknowledgment or understanding without any strong emotional cues.",
+    "evidence_used": [
+      "The phrase 'Oh, okay, I get it' is typically used to indicate understanding or acknowledgment."
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"neutral\",\n  \"explanation\": \"The phrase 'Oh, okay, I get it' suggests a simple acknowledgment or understanding without any strong emotional cues.\",\n  \"evidence_used\": [\"The phrase 'Oh, okay, I get it' is typically used to indicate understanding or acknowledgment.\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation is directly grounded in the evidence, consistent with it, and does not make unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d3",
+    "utterance_id": "meld_d3_u1",
+    "method": "dense_rag",
+    "gold_emotion": "fear",
+    "predicted_emotion": "surprise",
+    "explanation": "Ross's repeated use of 'look' and 'I'm sorry' suggests an unexpected realization or reaction to something Steve said.",
+    "evidence_used": [
+      "Ross: 'No wait, look. Look!'",
+      "Ross: 'I'm sorry, it's just I've never even'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"surprise\",\n  \"explanation\": \"Ross's repeated use of 'look' and 'I'm sorry' suggests an unexpected realization or reaction to something Steve said.\",\n  \"evidence_used\": [\"Ross: 'No wait, look. Look!'\", \"Ross: 'I'm sorry, it's just I've never even'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 1,
+    "judge_rationale": "The explanation is grounded in the evidence and consistent with it, but it speculates on Steve's reaction without direct evidence.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d3",
+    "utterance_id": "meld_d3_u2",
+    "method": "dense_rag",
+    "gold_emotion": "neutral",
+    "predicted_emotion": "neutral",
+    "explanation": "Steve's utterance 'Howard's the' does not convey any strong emotional cues and follows a neutral acknowledgment.",
+    "evidence_used": [
+      "Steve: 'Oh, okay, I get it.'",
+      "Steve: 'Howard's the'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"neutral\",\n  \"explanation\": \"Steve's utterance 'Howard's the' does not convey any strong emotional cues and follows a neutral acknowledgment.\",\n  \"evidence_used\": [\"Steve: 'Oh, okay, I get it.'\", \"Steve: 'Howard's the'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 0,
+    "judge_faithfulness": 0,
+    "judge_over_inference": 1,
+    "judge_rationale": "The explanation references an utterance 'Howard's the' not present in the retrieved evidence, leading to a lack of grounding and faithfulness, but it does not make severe unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d3",
+    "utterance_id": "meld_d3_u3",
+    "method": "dense_rag",
+    "gold_emotion": "neutral",
+    "predicted_emotion": "neutral",
+    "explanation": "Ross's statement 'Yes but too me he's just, man.' lacks strong emotional language or context indicating a specific emotion.",
+    "evidence_used": [
+      "Ross: 'Yes but too me he's just, man.'",
+      "Ross: 'No wait, look. Look! I'm sorry, it's just I've never even'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"neutral\",\n  \"explanation\": \"Ross's statement 'Yes but too me he's just, man.' lacks strong emotional language or context indicating a specific emotion.\",\n  \"evidence_used\": [\"Ross: 'Yes but too me he's just, man.'\", \"Ross: 'No wait, look. Look! I'm sorry, it's just I've never even'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation directly references the retrieved evidence and is consistent with it, without making unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d3",
+    "utterance_id": "meld_d3_u4",
+    "method": "dense_rag",
+    "gold_emotion": "anger",
+    "predicted_emotion": "neutral",
+    "explanation": "Steve's response 'Okay, fine, whatever. Welcome to the building.' suggests a neutral acceptance of the situation without strong emotional investment.",
+    "evidence_used": [
+      "Steve: 'Okay, fine, whatever. Welcome to the building.'",
+      "Ross: 'No wait, look. Look! I'm sorry, it's just I've never even'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"neutral\",\n  \"explanation\": \"Steve's response 'Okay, fine, whatever. Welcome to the building.' suggests a neutral acceptance of the situation without strong emotional investment.\",\n  \"evidence_used\": [\"Steve: 'Okay, fine, whatever. Welcome to the building.'\", \"Ross: 'No wait, look. Look! I'm sorry, it's just I've never even'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation directly references Steve's response from the evidence, is consistent with it, and does not make unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d3",
+    "utterance_id": "meld_d3_u5",
+    "method": "dense_rag",
+    "gold_emotion": "disgust",
+    "predicted_emotion": "disgust",
+    "explanation": "Ross's use of 'Ugh' and the rhetorical question 'can you believe that guy!' indicate a strong negative reaction towards Howard, suggesting disgust.",
+    "evidence_used": [
+      "Ross: 'Ugh, can you believe that guy!'",
+      "Ross: 'Yes but too me he's just, man.'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"disgust\",\n  \"explanation\": \"Ross's use of 'Ugh' and the rhetorical question 'can you believe that guy!' indicate a strong negative reaction towards Howard, suggesting disgust.\",\n  \"evidence_used\": [\"Ross: 'Ugh, can you believe that guy!'\", \"Ross: 'Yes but too me he's just, man.'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 0,
+    "judge_faithfulness": 0,
+    "judge_over_inference": 0,
+    "judge_rationale": "The explanation references dialogue not present in the retrieved evidence, contradicting the evidence and making unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d3",
+    "utterance_id": "meld_d3_u6",
+    "method": "dense_rag",
+    "gold_emotion": "neutral",
+    "predicted_emotion": "neutral",
+    "explanation": "Phoebe's response is neutral as she simply comments on liking the guy's glasses without showing any strong emotion.",
+    "evidence_used": [
+      "Phoebe: Yeah. I really like his glasses."
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"neutral\",\n  \"explanation\": \"Phoebe's response is neutral as she simply comments on liking the guy's glasses without showing any strong emotion.\",\n  \"evidence_used\": [\"Phoebe: Yeah. I really like his glasses.\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 0,
+    "judge_faithfulness": 0,
+    "judge_over_inference": 0,
+    "judge_rationale": "The explanation incorrectly references Phoebe, who is not part of the dialogue, and does not relate to the provided evidence or context.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d4",
+    "utterance_id": "meld_d4_u0",
+    "method": "dense_rag",
+    "gold_emotion": "surprise",
+    "predicted_emotion": "surprise",
+    "explanation": "The exclamation 'Ohh!' typically indicates a reaction to something unexpected or sudden, suggesting surprise.",
+    "evidence_used": [
+      "The exclamation 'Ohh!'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"surprise\",\n  \"explanation\": \"The exclamation 'Ohh!' typically indicates a reaction to something unexpected or sudden, suggesting surprise.\",\n  \"evidence_used\": [\"The exclamation 'Ohh!'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation directly references the retrieved evidence and is consistent with it, without making unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d4",
+    "utterance_id": "meld_d4_u1",
+    "method": "dense_rag",
+    "gold_emotion": "neutral",
+    "predicted_emotion": "surprise",
+    "explanation": "Monica's response 'What?' suggests she is reacting to Phoebe's exclamation with curiosity or surprise, seeking clarification.",
+    "evidence_used": [
+      "Phoebe: 'Ohh!'",
+      "Monica: 'What?'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"surprise\",\n  \"explanation\": \"Monica's response 'What?' suggests she is reacting to Phoebe's exclamation with curiosity or surprise, seeking clarification.\",\n  \"evidence_used\": [\"Phoebe: 'Ohh!'\", \"Monica: 'What?'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation is clearly grounded in the evidence, consistent with it, and does not make unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d4",
+    "utterance_id": "meld_d4_u2",
+    "method": "dense_rag",
+    "gold_emotion": "surprise",
+    "predicted_emotion": "surprise",
+    "explanation": "Phoebe's exclamation 'Ohh!' followed by her statement 'It kicked!' indicates an unexpected event, suggesting surprise.",
+    "evidence_used": [
+      "Phoebe: 'Ohh!'",
+      "Phoebe: 'It kicked! I think the baby kicked!'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"surprise\",\n  \"explanation\": \"Phoebe's exclamation 'Ohh!' followed by her statement 'It kicked!' indicates an unexpected event, suggesting surprise.\",\n  \"evidence_used\": [\"Phoebe: 'Ohh!'\", \"Phoebe: 'It kicked! I think the baby kicked!'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation is clearly grounded in the evidence, consistent with it, and does not make unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d4",
+    "utterance_id": "meld_d4_u3",
+    "method": "dense_rag",
+    "gold_emotion": "surprise",
+    "predicted_emotion": "surprise",
+    "explanation": "Monica's exclamation 'Oh my God!' indicates a reaction of surprise to the unexpected news of the baby kicking.",
+    "evidence_used": [
+      "Phoebe: 'It kicked! I think the baby kicked!'",
+      "Monica: 'Oh my God!'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"surprise\",\n  \"explanation\": \"Monica's exclamation 'Oh my God!' indicates a reaction of surprise to the unexpected news of the baby kicking.\",\n  \"evidence_used\": [\"Phoebe: 'It kicked! I think the baby kicked!'\", \"Monica: 'Oh my God!'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 1,
+    "judge_faithfulness": 1,
+    "judge_over_inference": 1,
+    "judge_rationale": "The explanation references Monica's reaction but inaccurately attributes 'Oh my God!' to her, and assumes surprise without explicit evidence of Monica's words.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d4",
+    "utterance_id": "meld_d4_u4",
+    "method": "dense_rag",
+    "gold_emotion": "neutral",
+    "predicted_emotion": "surprise",
+    "explanation": "Phoebe's realization that the sensation was not the baby kicking but rather her underwear's elastic breaking suggests an unexpected turn of events.",
+    "evidence_used": [
+      "Phoebe: 'It kicked! I think the baby kicked!'",
+      "Phoebe: 'Oh no wait, oh no, the elastic on my underwear busted.'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"surprise\",\n  \"explanation\": \"Phoebe's realization that the sensation was not the baby kicking but rather her underwear's elastic breaking suggests an unexpected turn of events.\",\n  \"evidence_used\": [\"Phoebe: 'It kicked! I think the baby kicked!'\", \"Phoebe: 'Oh no wait, oh no, the elastic on my underwear busted.'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation is clearly grounded in the evidence, consistent with it, and does not make unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d4",
+    "utterance_id": "meld_d4_u5",
+    "method": "dense_rag",
+    "gold_emotion": "fear",
+    "predicted_emotion": "surprise",
+    "explanation": "Joey's exclamation 'Oh my God!' and the urgency in his realization that he overslept indicate a sudden and unexpected reaction.",
+    "evidence_used": [
+      "Joey: 'Oh my God! I overslept!'",
+      "Joey: 'I was supposed to be on the set a half an hour ago! I gotta get out of here!'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"surprise\",\n  \"explanation\": \"Joey's exclamation 'Oh my God!' and the urgency in his realization that he overslept indicate a sudden and unexpected reaction.\",\n  \"evidence_used\": [\"Joey: 'Oh my God! I overslept!'\", \"Joey: 'I was supposed to be on the set a half an hour ago! I gotta get out of here!'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 0,
+    "judge_faithfulness": 0,
+    "judge_over_inference": 0,
+    "judge_rationale": "The explanation is not grounded in the provided evidence, contradicts it by referencing Joey instead of Monica, and makes unsupported assumptions about the dialogue context.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d4",
+    "utterance_id": "meld_d4_u6",
+    "method": "dense_rag",
+    "gold_emotion": "disgust",
+    "predicted_emotion": "disgust",
+    "explanation": "Monica's comment about Joey's smell indicates a reaction of disgust.",
+    "evidence_used": [
+      "Monica: Oh wait, Joey, you can’t go like that! You stink!"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"disgust\",\n  \"explanation\": \"Monica's comment about Joey's smell indicates a reaction of disgust.\",\n  \"evidence_used\": [\"Monica: Oh wait, Joey, you can’t go like that! You stink!\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 0,
+    "judge_faithfulness": 0,
+    "judge_over_inference": 0,
+    "judge_rationale": "The explanation is not grounded in the provided evidence, contradicts it, and makes unsupported assumptions about Monica's reaction.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d4",
+    "utterance_id": "meld_d4_u7",
+    "method": "dense_rag",
+    "gold_emotion": "anger",
+    "predicted_emotion": "fear",
+    "explanation": "Joey is expressing urgency and concern about being late for his job, indicating a fear of negative consequences.",
+    "evidence_used": [
+      "Joey: 'Oh my God! I overslept! I was supposed to be on the set a half an hour ago! I gotta get out of here!'",
+      "Joey: 'Look, I know I feel asleep before I could shower and now I don’t have time!'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"fear\",\n  \"explanation\": \"Joey is expressing urgency and concern about being late for his job, indicating a fear of negative consequences.\",\n  \"evidence_used\": [\"Joey: 'Oh my God! I overslept! I was supposed to be on the set a half an hour ago! I gotta get out of here!'\", \"Joey: 'Look, I know I feel asleep before I could shower and now I don’t have time!'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation is clearly grounded in the evidence, consistent with it, and does not make unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d4",
+    "utterance_id": "meld_d4_u8",
+    "method": "dense_rag",
+    "gold_emotion": "neutral",
+    "predicted_emotion": "fear",
+    "explanation": "Joey is expressing urgency and concern about being late to the set, indicating a fear of the consequences of his tardiness.",
+    "evidence_used": [
+      "Joey: 'Oh my God! I overslept! I was supposed to be on the set a half an hour ago! I gotta get out of here!'",
+      "Joey: 'Look, I know I feel asleep before I could shower and now I don’t have time!'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"fear\",\n  \"explanation\": \"Joey is expressing urgency and concern about being late to the set, indicating a fear of the consequences of his tardiness.\",\n  \"evidence_used\": [\"Joey: 'Oh my God! I overslept! I was supposed to be on the set a half an hour ago! I gotta get out of here!'\", \"Joey: 'Look, I know I feel asleep before I could shower and now I don’t have time!'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation is clearly grounded in the evidence, consistent with it, and does not make unsupported assumptions beyond the urgency and concern expressed by Joey about being late.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d5",
+    "utterance_id": "meld_d5_u0",
+    "method": "dense_rag",
+    "gold_emotion": "anger",
+    "predicted_emotion": "anger",
+    "explanation": "Chandler's statement suggests frustration or irritation, likely due to someone behaving inappropriately or drawing unwanted attention.",
+    "evidence_used": [
+      "The phrase 'You’re coming on to the entire room!' implies disapproval of someone's actions.",
+      "The emphasis on 'I’m Chandler' suggests Chandler is asserting himself, possibly out of frustration."
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"anger\",\n  \"explanation\": \"Chandler's statement suggests frustration or irritation, likely due to someone behaving inappropriately or drawing unwanted attention.\",\n  \"evidence_used\": [\"The phrase 'You’re coming on to the entire room!' implies disapproval of someone's actions.\", \"The emphasis on 'I’m Chandler' suggests Chandler is asserting himself, possibly out of frustration.\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation is well-grounded in the evidence, consistent with it, and avoids unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d5",
+    "utterance_id": "meld_d5_u1",
+    "method": "dense_rag",
+    "gold_emotion": "neutral",
+    "predicted_emotion": "neutral",
+    "explanation": "Chandler's simple greeting 'Hi' does not convey any strong emotion and follows a previous statement that might have been sarcastic or humorous.",
+    "evidence_used": [
+      "Chandler: 'You’re coming on to the entire room! I’m Chandler.'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"neutral\",\n  \"explanation\": \"Chandler's simple greeting 'Hi' does not convey any strong emotion and follows a previous statement that might have been sarcastic or humorous.\",\n  \"evidence_used\": [\"Chandler: 'You’re coming on to the entire room! I’m Chandler.'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 0,
+    "judge_faithfulness": 0,
+    "judge_over_inference": 0,
+    "judge_rationale": "The explanation incorrectly references a 'Hi' greeting not present in the evidence, contradicts the sarcastic tone of the evidence, and makes unsupported assumptions about the emotional neutrality.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d5",
+    "utterance_id": "meld_d5_u2",
+    "method": "dense_rag",
+    "gold_emotion": "neutral",
+    "predicted_emotion": "neutral",
+    "explanation": "Marjorie's response 'Hi' is a simple and typical greeting, lacking any emotional indicators such as enthusiasm or negativity.",
+    "evidence_used": [
+      "Chandler: 'Hi.'",
+      "Marjorie: 'Hi.'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"neutral\",\n  \"explanation\": \"Marjorie's response 'Hi' is a simple and typical greeting, lacking any emotional indicators such as enthusiasm or negativity.\",\n  \"evidence_used\": [\"Chandler: 'Hi.'\", \"Marjorie: 'Hi.'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation is directly grounded in the evidence, consistent with it, and does not make unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d5",
+    "utterance_id": "meld_d5_u3",
+    "method": "dense_rag",
+    "gold_emotion": "neutral",
+    "predicted_emotion": "neutral",
+    "explanation": "Chandler's target utterance 'You mind if I' is a neutral inquiry, lacking emotional cues or context indicating a specific emotion.",
+    "evidence_used": [
+      "Chandler: 'You’re coming on to the entire room! I’m Chandler.'",
+      "Chandler: 'Hi.'",
+      "Marjorie: 'Hi.'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"neutral\",\n  \"explanation\": \"Chandler's target utterance 'You mind if I' is a neutral inquiry, lacking emotional cues or context indicating a specific emotion.\",\n  \"evidence_used\": [\"Chandler: 'You’re coming on to the entire room! I’m Chandler.'\", \"Chandler: 'Hi.'\", \"Marjorie: 'Hi.'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 0,
+    "judge_faithfulness": 0,
+    "judge_over_inference": 0,
+    "judge_rationale": "The explanation references an incorrect utterance not present in the evidence, leading to a lack of grounding, faithfulness, and unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d5",
+    "utterance_id": "meld_d5_u4",
+    "method": "dense_rag",
+    "gold_emotion": "neutral",
+    "predicted_emotion": "neutral",
+    "explanation": "Marjorie's response 'No, please.' is a polite and straightforward reply to Chandler's unfinished question, indicating no strong emotion.",
+    "evidence_used": [
+      "Chandler: 'You mind if I'",
+      "Marjorie: 'No, please.'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"neutral\",\n  \"explanation\": \"Marjorie's response 'No, please.' is a polite and straightforward reply to Chandler's unfinished question, indicating no strong emotion.\",\n  \"evidence_used\": [\"Chandler: 'You mind if I'\", \"Marjorie: 'No, please.'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation directly references Marjorie's response from the evidence and aligns with the predicted neutral emotion without making unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d5",
+    "utterance_id": "meld_d5_u5",
+    "method": "dense_rag",
+    "gold_emotion": "neutral",
+    "predicted_emotion": "neutral",
+    "explanation": "Chandler's question 'So uh, what are you in for?' is a straightforward inquiry without any emotional charge, suggesting a neutral tone.",
+    "evidence_used": [
+      "Chandler: 'You mind if I'",
+      "Marjorie: 'No, please.'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"neutral\",\n  \"explanation\": \"Chandler's question 'So uh, what are you in for?' is a straightforward inquiry without any emotional charge, suggesting a neutral tone.\",\n  \"evidence_used\": [\"Chandler: 'You mind if I'\", \"Marjorie: 'No, please.'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 0,
+    "judge_faithfulness": 0,
+    "judge_over_inference": 0,
+    "judge_rationale": "The explanation references a question not present in the retrieved evidence, contradicting the evidence and making unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d5",
+    "utterance_id": "meld_d5_u6",
+    "method": "dense_rag",
+    "gold_emotion": "neutral",
+    "predicted_emotion": "neutral",
+    "explanation": "Marjorie's response is straightforward and factual, indicating no strong emotional reaction.",
+    "evidence_used": [
+      "Marjorie: 'I talk in my sleep.'",
+      "Chandler: 'So uh, what are you in for?'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"neutral\",\n  \"explanation\": \"Marjorie's response is straightforward and factual, indicating no strong emotional reaction.\",\n  \"evidence_used\": [\"Marjorie: 'I talk in my sleep.'\", \"Chandler: 'So uh, what are you in for?'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 1,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation implicitly draws on the evidence by suggesting Marjorie's response is straightforward, which aligns with the factual nature of her statement, without making unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d5",
+    "utterance_id": "meld_d5_u7",
+    "method": "dense_rag",
+    "gold_emotion": "neutral",
+    "predicted_emotion": "joy",
+    "explanation": "Chandler's response is humorous and playful, suggesting he is amused by the situation.",
+    "evidence_used": [
+      "Chandler: 'What a coincidence, I listen in my sleep.'",
+      "Chandler: 'So uh, what are you in for?'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"joy\",\n  \"explanation\": \"Chandler's response is humorous and playful, suggesting he is amused by the situation.\",\n  \"evidence_used\": [\"Chandler: 'What a coincidence, I listen in my sleep.'\", \"Chandler: 'So uh, what are you in for?'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 1,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 1,
+    "judge_rationale": "The explanation is implicitly grounded in the evidence and consistent with it, but it speculates about Chandler's amusement without direct support from the evidence.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d5",
+    "utterance_id": "meld_d5_u8",
+    "method": "dense_rag",
+    "gold_emotion": "neutral",
+    "predicted_emotion": "neutral",
+    "explanation": "Joey's request for a phone number is straightforward and lacks any emotional cues indicating a strong feeling.",
+    "evidence_used": [
+      "Joey: So why don’t you give me your number?"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"neutral\",\n  \"explanation\": \"Joey's request for a phone number is straightforward and lacks any emotional cues indicating a strong feeling.\",\n  \"evidence_used\": [\"Joey: So why don’t you give me your number?\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 0,
+    "judge_faithfulness": 0,
+    "judge_over_inference": 0,
+    "judge_rationale": "The explanation is unrelated to the dialogue context and evidence, which involves Chandler and Marjorie, not Joey.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d6",
+    "utterance_id": "meld_d6_u0",
+    "method": "dense_rag",
+    "gold_emotion": "neutral",
+    "predicted_emotion": "neutral",
+    "explanation": "The target utterance is a factual statement that serves as an introduction to a recap, which typically does not convey any specific emotion.",
+    "evidence_used": [
+      "The phrase 'Previously on Friends' is a standard introduction used in TV shows to recap past events, indicating a neutral tone."
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"neutral\",\n  \"explanation\": \"The target utterance is a factual statement that serves as an introduction to a recap, which typically does not convey any specific emotion.\",\n  \"evidence_used\": [\"The phrase 'Previously on Friends' is a standard introduction used in TV shows to recap past events, indicating a neutral tone.\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation is clearly grounded in the evidence, consistent with it, and does not make unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d6",
+    "utterance_id": "meld_d6_u1",
+    "method": "dense_rag",
+    "gold_emotion": "neutral",
+    "predicted_emotion": "neutral",
+    "explanation": "Monica's statement is descriptive and lacks any emotional cues, suggesting a neutral tone.",
+    "evidence_used": [
+      "Monica: I don’t know exactly. It’s-it’s sorta like wrestling."
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"neutral\",\n  \"explanation\": \"Monica's statement is descriptive and lacks any emotional cues, suggesting a neutral tone.\",\n  \"evidence_used\": [\"Monica: I don’t know exactly. It’s-it’s sorta like wrestling.\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation directly references Monica's descriptive statement from the evidence, is consistent with it, and makes no unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d6",
+    "utterance_id": "meld_d6_u2",
+    "method": "dense_rag",
+    "gold_emotion": "surprise",
+    "predicted_emotion": "surprise",
+    "explanation": "Phoebe's exclamation 'Oh?!' suggests she is reacting with surprise to Monica's unexpected comparison of something to wrestling.",
+    "evidence_used": [
+      "Monica: I don’t know exactly. It’s-it’s sorta like wrestling.",
+      "Phoebe: Oh?!"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"surprise\",\n  \"explanation\": \"Phoebe's exclamation 'Oh?!' suggests she is reacting with surprise to Monica's unexpected comparison of something to wrestling.\",\n  \"evidence_used\": [\"Monica: I don’t know exactly. It’s-it’s sorta like wrestling.\", \"Phoebe: Oh?!\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation is clearly grounded in the evidence, consistent with it, and does not make unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d7",
+    "utterance_id": "meld_d7_u0",
+    "method": "dense_rag",
+    "gold_emotion": "neutral",
+    "predicted_emotion": "neutral",
+    "explanation": "The target utterance is a simple statement without any emotional indicators such as exclamations or emotive language.",
+    "evidence_used": [
+      "The phrase 'Yeah, but without the costumes' is straightforward and lacks emotional cues."
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"neutral\",\n  \"explanation\": \"The target utterance is a simple statement without any emotional indicators such as exclamations or emotive language.\",\n  \"evidence_used\": [\"The phrase 'Yeah, but without the costumes' is straightforward and lacks emotional cues.\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation is directly grounded in the evidence, consistent with it, and does not make unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d7",
+    "utterance_id": "meld_d7_u1",
+    "method": "dense_rag",
+    "gold_emotion": "neutral",
+    "predicted_emotion": "neutral",
+    "explanation": "Phoebe's response 'Oh' is brief and lacks any emotional indicators, suggesting a neutral reaction.",
+    "evidence_used": [
+      "Phoebe: 'Oh.'",
+      "Monica: 'Yeah, but without the costumes.'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"neutral\",\n  \"explanation\": \"Phoebe's response 'Oh' is brief and lacks any emotional indicators, suggesting a neutral reaction.\",\n  \"evidence_used\": [\"Phoebe: 'Oh.'\", \"Monica: 'Yeah, but without the costumes.'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation directly references Phoebe's brief response 'Oh' from the evidence, is consistent with the evidence, and does not make unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d7",
+    "utterance_id": "meld_d7_u2",
+    "method": "dense_rag",
+    "gold_emotion": "neutral",
+    "predicted_emotion": "neutral",
+    "explanation": "Joey's statement seems to be a factual correction or clarification about something being brutal rather than fake, without any emotional cues indicating a strong feeling.",
+    "evidence_used": [
+      "Joey: And it’s not fake, it’s totally brutal.",
+      "Monica: Yeah, but without the costumes.",
+      "Phoebe: Oh."
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"neutral\",\n  \"explanation\": \"Joey's statement seems to be a factual correction or clarification about something being brutal rather than fake, without any emotional cues indicating a strong feeling.\",\n  \"evidence_used\": [\"Joey: And it’s not fake, it’s totally brutal.\", \"Monica: Yeah, but without the costumes.\", \"Phoebe: Oh.\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 0,
+    "judge_faithfulness": 0,
+    "judge_over_inference": 0,
+    "judge_rationale": "The explanation incorrectly references Joey's statement, which is not part of the provided dialogue context or evidence.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d7",
+    "utterance_id": "meld_d7_u3",
+    "method": "dense_rag",
+    "gold_emotion": "neutral",
+    "predicted_emotion": "neutral",
+    "explanation": "Chandler is providing a factual description of an event without any emotional cues.",
+    "evidence_used": [
+      "Joey: 'And it’s not fake, it’s totally brutal.'",
+      "Monica: 'Yeah, but without the costumes.'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"neutral\",\n  \"explanation\": \"Chandler is providing a factual description of an event without any emotional cues.\",\n  \"evidence_used\": [\"Joey: 'And it’s not fake, it’s totally brutal.'\", \"Monica: 'Yeah, but without the costumes.'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 0,
+    "judge_faithfulness": 0,
+    "judge_over_inference": 0,
+    "judge_rationale": "The explanation incorrectly attributes the statement to Chandler, who is not present in the dialogue, and does not reference the actual evidence provided.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d7",
+    "utterance_id": "meld_d7_u4",
+    "method": "dense_rag",
+    "gold_emotion": "surprise",
+    "predicted_emotion": "surprise",
+    "explanation": "Monica's question suggests she is surprised by the brutality of the fighting, as indicated by her mention of biting and pulling hair.",
+    "evidence_used": [
+      "Joey: 'And it’s not fake, it’s totally brutal.'",
+      "Monica: 'So you can like, bite, and pull people’s hair and stuff?'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"surprise\",\n  \"explanation\": \"Monica's question suggests she is surprised by the brutality of the fighting, as indicated by her mention of biting and pulling hair.\",\n  \"evidence_used\": [\"Joey: 'And it’s not fake, it’s totally brutal.'\", \"Monica: 'So you can like, bite, and pull people’s hair and stuff?'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation is clearly grounded in the evidence, consistent with it, and does not make unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d7",
+    "utterance_id": "meld_d7_u5",
+    "method": "dense_rag",
+    "gold_emotion": "neutral",
+    "predicted_emotion": "neutral",
+    "explanation": "Ross is providing factual information about the rules of the fight, without expressing any personal feelings or emotional tone.",
+    "evidence_used": [
+      "Monica: 'So you can like, bite, and pull people’s hair and stuff?'",
+      "Ross: 'Yeah, anything goes, except ah, eye gouging and fish hooking.'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"neutral\",\n  \"explanation\": \"Ross is providing factual information about the rules of the fight, without expressing any personal feelings or emotional tone.\",\n  \"evidence_used\": [\"Monica: 'So you can like, bite, and pull people’s hair and stuff?'\", \"Ross: 'Yeah, anything goes, except ah, eye gouging and fish hooking.'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 0,
+    "judge_faithfulness": 0,
+    "judge_over_inference": 0,
+    "judge_rationale": "The explanation incorrectly attributes the dialogue to Ross and does not reference the actual evidence provided, leading to contradictions and unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d7",
+    "utterance_id": "meld_d7_u6",
+    "method": "dense_rag",
+    "gold_emotion": "surprise",
+    "predicted_emotion": "neutral",
+    "explanation": "Monica's question 'What’s fish hooking?' indicates curiosity or a request for clarification rather than an emotional response.",
+    "evidence_used": [
+      "Monica: 'What’s fish hooking?'",
+      "Monica: 'So you can like, bite, and pull people’s hair and stuff?'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"neutral\",\n  \"explanation\": \"Monica's question 'What’s fish hooking?' indicates curiosity or a request for clarification rather than an emotional response.\",\n  \"evidence_used\": [\"Monica: 'What’s fish hooking?'\", \"Monica: 'So you can like, bite, and pull people’s hair and stuff?'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation is directly grounded in the evidence, consistent with it, and does not make unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d7",
+    "utterance_id": "meld_d7_u7",
+    "method": "dense_rag",
+    "gold_emotion": "neutral",
+    "predicted_emotion": "surprise",
+    "explanation": "Ross's reaction 'Huh, what’s fish hooking...' suggests he is caught off guard by Monica's question, indicating surprise.",
+    "evidence_used": [
+      "Monica: 'What’s fish hooking?'",
+      "Ross: 'Huh, what’s fish hooking...'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"surprise\",\n  \"explanation\": \"Ross's reaction 'Huh, what’s fish hooking...' suggests he is caught off guard by Monica's question, indicating surprise.\",\n  \"evidence_used\": [\"Monica: 'What’s fish hooking?'\", \"Ross: 'Huh, what’s fish hooking...'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 0,
+    "judge_faithfulness": 0,
+    "judge_over_inference": 0,
+    "judge_rationale": "The explanation incorrectly attributes the reaction 'Huh, what’s fish hooking...' to Ross, which is not present in the retrieved evidence, leading to a lack of grounding, faithfulness, and over-inference.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d7",
+    "utterance_id": "meld_d7_u8",
+    "method": "dense_rag",
+    "gold_emotion": "neutral",
+    "predicted_emotion": "neutral",
+    "explanation": "Joey's response is straightforward and factual, indicating no strong emotional reaction.",
+    "evidence_used": [
+      "Joey: What? My hands are totally clean, I just gave the duck a bath."
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"neutral\",\n  \"explanation\": \"Joey's response is straightforward and factual, indicating no strong emotional reaction.\",\n  \"evidence_used\": [\"Joey: What? My hands are totally clean, I just gave the duck a bath.\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 1,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation implicitly draws on the evidence by describing Joey's response as straightforward and factual, which aligns with the evidence provided.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d8",
+    "utterance_id": "meld_d8_u0",
+    "method": "dense_rag",
+    "gold_emotion": "sadness",
+    "predicted_emotion": "joy",
+    "explanation": "Jade's statement suggests admiration and excitement towards Bob, indicating a positive and joyful emotion.",
+    "evidence_used": [
+      "Jade expresses a strong positive comparison to Bob.",
+      "The phrase 'had to bite my lip to keep from screaming your name' suggests excitement and admiration."
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"joy\",\n  \"explanation\": \"Jade's statement suggests admiration and excitement towards Bob, indicating a positive and joyful emotion.\",\n  \"evidence_used\": [\"Jade expresses a strong positive comparison to Bob.\", \"The phrase 'had to bite my lip to keep from screaming your name' suggests excitement and admiration.\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation is clearly grounded in the evidence, consistent with it, and does not make unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d8",
+    "utterance_id": "meld_d8_u1",
+    "method": "dense_rag",
+    "gold_emotion": "joy",
+    "predicted_emotion": "joy",
+    "explanation": "Chandler expresses feeling good, indicating a positive emotional response to Jade's flattering comparison.",
+    "evidence_used": [
+      "Jade: 'Oh, Bob, he was nothing compared to you. I had to bite my lip to keep from screaming your name.'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"joy\",\n  \"explanation\": \"Chandler expresses feeling good, indicating a positive emotional response to Jade's flattering comparison.\",\n  \"evidence_used\": [\"Jade: 'Oh, Bob, he was nothing compared to you. I had to bite my lip to keep from screaming your name.'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 1,
+    "judge_faithfulness": 1,
+    "judge_over_inference": 1,
+    "judge_rationale": "The explanation implicitly draws on the evidence but incorrectly attributes the emotion to Chandler instead of Jade, and assumes Chandler's emotional response without direct evidence.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d8",
+    "utterance_id": "meld_d8_u2",
+    "method": "dense_rag",
+    "gold_emotion": "neutral",
+    "predicted_emotion": "disgust",
+    "explanation": "Jade describes the experience as 'awkward and bumpy,' indicating a negative reaction to the situation.",
+    "evidence_used": [
+      "Jade: 'It was just so awkward and bumpy.'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"disgust\",\n  \"explanation\": \"Jade describes the experience as 'awkward and bumpy,' indicating a negative reaction to the situation.\",\n  \"evidence_used\": [\"Jade: 'It was just so awkward and bumpy.'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 0,
+    "judge_faithfulness": 0,
+    "judge_over_inference": 0,
+    "judge_rationale": "The explanation does not reference the provided evidence and contradicts the dialogue context, making unsupported assumptions about Jade's feelings.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d8",
+    "utterance_id": "meld_d8_u3",
+    "method": "dense_rag",
+    "gold_emotion": "surprise",
+    "predicted_emotion": "surprise",
+    "explanation": "Ross's repetition of the word 'Bumpy?' suggests he is taken aback or surprised by Jade's description of the situation.",
+    "evidence_used": [
+      "Jade: 'It was just so awkward and bumpy.'",
+      "Ross: 'Bumpy?'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"surprise\",\n  \"explanation\": \"Ross's repetition of the word 'Bumpy?' suggests he is taken aback or surprised by Jade's description of the situation.\",\n  \"evidence_used\": [\"Jade: 'It was just so awkward and bumpy.'\", \"Ross: 'Bumpy?'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation is directly grounded in the evidence, consistent with it, and does not make unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d8",
+    "utterance_id": "meld_d8_u4",
+    "method": "dense_rag",
+    "gold_emotion": "neutral",
+    "predicted_emotion": "neutral",
+    "explanation": "Chandler's response seems to be a neutral attempt to rationalize or downplay the awkwardness mentioned by Jade.",
+    "evidence_used": [
+      "Jade: 'It was just so awkward and bumpy.'",
+      "Chandler: 'Well, maybe he had some kind of uh, new, cool style, that you're not familiar with.'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"neutral\",\n  \"explanation\": \"Chandler's response seems to be a neutral attempt to rationalize or downplay the awkwardness mentioned by Jade.\",\n  \"evidence_used\": [\"Jade: 'It was just so awkward and bumpy.'\", \"Chandler: 'Well, maybe he had some kind of uh, new, cool style, that you're not familiar with.'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 1,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 1,
+    "judge_rationale": "The explanation implicitly draws on evidence by suggesting Chandler's neutral tone, but it speculates on his intent to rationalize or downplay awkwardness without direct evidence.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d8",
+    "utterance_id": "meld_d8_u5",
+    "method": "dense_rag",
+    "gold_emotion": "neutral",
+    "predicted_emotion": "neutral",
+    "explanation": "Chandler's comment seems to be a neutral suggestion that Jade might need to adjust to a new style, without any strong emotional undertone.",
+    "evidence_used": [
+      "Chandler: 'Well, maybe he had some kind of uh, new, cool style, that you're not familiar with.'",
+      "Chandler: 'And uh maybe you have to get used to it.'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"neutral\",\n  \"explanation\": \"Chandler's comment seems to be a neutral suggestion that Jade might need to adjust to a new style, without any strong emotional undertone.\",\n  \"evidence_used\": [\"Chandler: 'Well, maybe he had some kind of uh, new, cool style, that you're not familiar with.'\", \"Chandler: 'And uh maybe you have to get used to it.'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation is clearly grounded in the evidence, consistent with it, and does not make unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d8",
+    "utterance_id": "meld_d8_u6",
+    "method": "dense_rag",
+    "gold_emotion": "joy",
+    "predicted_emotion": "neutral",
+    "explanation": "Jade's response is straightforward and factual, indicating a lack of strong emotional reaction.",
+    "evidence_used": [
+      "Chandler: 'And uh maybe you have to get used to it.'",
+      "Jade: 'Well there really wasn't much time to get used to it, you know what I mean?'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"neutral\",\n  \"explanation\": \"Jade's response is straightforward and factual, indicating a lack of strong emotional reaction.\",\n  \"evidence_used\": [\"Chandler: 'And uh maybe you have to get used to it.'\", \"Jade: 'Well there really wasn't much time to get used to it, you know what I mean?'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 1,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation implicitly draws on evidence by suggesting a lack of strong emotional reaction, which is consistent with the neutral tone of the dialogue and does not make unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d9",
+    "utterance_id": "meld_d9_u0",
+    "method": "dense_rag",
+    "gold_emotion": "fear",
+    "predicted_emotion": "surprise",
+    "explanation": "Phoebe's repeated exclamations and the urgency in her words suggest she is reacting to an unexpected situation.",
+    "evidence_used": [
+      "Phoebe's repeated use of 'Coming through!' and 'Oh!' indicates a sudden and unexpected event."
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"surprise\",\n  \"explanation\": \"Phoebe's repeated exclamations and the urgency in her words suggest she is reacting to an unexpected situation.\",\n  \"evidence_used\": [\"Phoebe's repeated use of 'Coming through!' and 'Oh!' indicates a sudden and unexpected event.\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation is clearly grounded in the evidence, consistent with it, and does not make unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d9",
+    "utterance_id": "meld_d9_u1",
+    "method": "dense_rag",
+    "gold_emotion": "neutral",
+    "predicted_emotion": "neutral",
+    "explanation": "Monica's response 'Oh well, it’s not so bad' suggests a neutral or resigned acceptance of the situation.",
+    "evidence_used": [
+      "Monica: Oh well, it’s not so bad.",
+      "Phoebe: Coming through! Oh! Coming through! Oh! Hello! Hi! No! Right! Coming through!"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"neutral\",\n  \"explanation\": \"Monica's response 'Oh well, it’s not so bad' suggests a neutral or resigned acceptance of the situation.\",\n  \"evidence_used\": [\"Monica: Oh well, it’s not so bad.\", \"Phoebe: Coming through! Oh! Coming through! Oh! Hello! Hi! No! Right! Coming through!\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation directly references Monica's response from the evidence and aligns with the predicted neutral emotion without making unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d9",
+    "utterance_id": "meld_d9_u2",
+    "method": "dense_rag",
+    "gold_emotion": "sadness",
+    "predicted_emotion": "neutral",
+    "explanation": "The fireman is providing a factual update about the situation, indicating that the damage is mostly contained, without expressing any personal emotion.",
+    "evidence_used": [
+      "Fireman #1: Yeah, most of the damage is pretty mostly contained in the bedrooms."
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"neutral\",\n  \"explanation\": \"The fireman is providing a factual update about the situation, indicating that the damage is mostly contained, without expressing any personal emotion.\",\n  \"evidence_used\": [\"Fireman #1: Yeah, most of the damage is pretty mostly contained in the bedrooms.\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 0,
+    "judge_faithfulness": 0,
+    "judge_over_inference": 0,
+    "judge_rationale": "The explanation is unrelated to the dialogue context and evidence, which involves Phoebe and Monica, not a fireman or factual update about damage.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d9",
+    "utterance_id": "meld_d9_u3",
+    "method": "dense_rag",
+    "gold_emotion": "surprise",
+    "predicted_emotion": "surprise",
+    "explanation": "Phoebe's exclamation 'Oh!' suggests a reaction to unexpected news about the damage being mostly contained in the bedrooms.",
+    "evidence_used": [
+      "Phoebe: 'Oh!'",
+      "Fireman #1: 'Yeah, most of the damage is pretty mostly contained in the bedrooms.'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"surprise\",\n  \"explanation\": \"Phoebe's exclamation 'Oh!' suggests a reaction to unexpected news about the damage being mostly contained in the bedrooms.\",\n  \"evidence_used\": [\"Phoebe: 'Oh!'\", \"Fireman #1: 'Yeah, most of the damage is pretty mostly contained in the bedrooms.'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation is clearly grounded in the evidence, consistent with it, and does not make unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d9",
+    "utterance_id": "meld_d9_u4",
+    "method": "dense_rag",
+    "gold_emotion": "surprise",
+    "predicted_emotion": "surprise",
+    "explanation": "Rachel's exclamation 'My God!' suggests a reaction of surprise, likely in response to unexpected news about the damage.",
+    "evidence_used": [
+      "Fireman #1: 'Yeah, most of the damage is pretty mostly contained in the bedrooms.'",
+      "Phoebe: 'Oh!'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"surprise\",\n  \"explanation\": \"Rachel's exclamation 'My God!' suggests a reaction of surprise, likely in response to unexpected news about the damage.\",\n  \"evidence_used\": [\"Fireman #1: 'Yeah, most of the damage is pretty mostly contained in the bedrooms.'\", \"Phoebe: 'Oh!'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 0,
+    "judge_faithfulness": 0,
+    "judge_over_inference": 0,
+    "judge_rationale": "The explanation incorrectly attributes the exclamation 'My God!' to Rachel, which is not present in the dialogue or evidence, leading to a lack of grounding, faithfulness, and over-inference.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d9",
+    "utterance_id": "meld_d9_u5",
+    "method": "dense_rag",
+    "gold_emotion": "neutral",
+    "predicted_emotion": "neutral",
+    "explanation": "Joey's request to borrow a uniform is unrelated to the fire incident and does not convey any strong emotion.",
+    "evidence_used": [
+      "Fireman #1: 'Yeah, most of the damage is pretty mostly contained in the bedrooms.'",
+      "Phoebe: 'Oh!'",
+      "Rachel: 'My God!'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"neutral\",\n  \"explanation\": \"Joey's request to borrow a uniform is unrelated to the fire incident and does not convey any strong emotion.\",\n  \"evidence_used\": [\"Fireman #1: 'Yeah, most of the damage is pretty mostly contained in the bedrooms.'\", \"Phoebe: 'Oh!'\", \"Rachel: 'My God!'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 0,
+    "judge_faithfulness": 0,
+    "judge_over_inference": 0,
+    "judge_rationale": "The explanation mentions Joey's request to borrow a uniform, which is not present in the retrieved evidence, making it ungrounded, unfaithful, and speculative.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d9",
+    "utterance_id": "meld_d9_u6",
+    "method": "dense_rag",
+    "gold_emotion": "surprise",
+    "predicted_emotion": "surprise",
+    "explanation": "The fireman's response 'Excuse me?' suggests he is taken aback or surprised by Joey's unexpected and unusual request to borrow a uniform.",
+    "evidence_used": [
+      "Joey: 'Hey buddy, do you think I can borrow your uniform this Thursday?'",
+      "Fireman #1: 'Excuse me?'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"surprise\",\n  \"explanation\": \"The fireman's response 'Excuse me?' suggests he is taken aback or surprised by Joey's unexpected and unusual request to borrow a uniform.\",\n  \"evidence_used\": [\"Joey: 'Hey buddy, do you think I can borrow your uniform this Thursday?'\", \"Fireman #1: 'Excuse me?'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation is clearly grounded in the evidence, consistent with it, and does not make unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d9",
+    "utterance_id": "meld_d9_u7",
+    "method": "dense_rag",
+    "gold_emotion": "anger",
+    "predicted_emotion": "surprise",
+    "explanation": "Monica's exclamation suggests she is surprised by Joey's inappropriate request to borrow a fireman's uniform while he is on duty.",
+    "evidence_used": [
+      "Joey: 'Hey buddy, do you think I can borrow your uniform this Thursday?'",
+      "Fireman #1: 'Excuse me?'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"surprise\",\n  \"explanation\": \"Monica's exclamation suggests she is surprised by Joey's inappropriate request to borrow a fireman's uniform while he is on duty.\",\n  \"evidence_used\": [\"Joey: 'Hey buddy, do you think I can borrow your uniform this Thursday?'\", \"Fireman #1: 'Excuse me?'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 0,
+    "judge_faithfulness": 0,
+    "judge_over_inference": 0,
+    "judge_rationale": "The explanation incorrectly attributes the exclamation to Monica instead of Rachel, contradicts the evidence, and makes unsupported assumptions about the context and characters' roles.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d9",
+    "utterance_id": "meld_d9_u8",
+    "method": "dense_rag",
+    "gold_emotion": "sadness",
+    "predicted_emotion": "surprise",
+    "explanation": "Joey's question 'Oh, how bad is it?' suggests he is surprised by the reaction to his previous request.",
+    "evidence_used": [
+      "Fireman #1: 'Excuse me?'",
+      "Monica: 'Joey! He’s working! You would look'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"surprise\",\n  \"explanation\": \"Joey's question 'Oh, how bad is it?' suggests he is surprised by the reaction to his previous request.\",\n  \"evidence_used\": [\"Fireman #1: 'Excuse me?'\", \"Monica: 'Joey! He’s working! You would look'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 0,
+    "judge_faithfulness": 0,
+    "judge_over_inference": 0,
+    "judge_rationale": "The explanation references a question not present in the evidence, contradicting the evidence and making unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d9",
+    "utterance_id": "meld_d9_u9",
+    "method": "dense_rag",
+    "gold_emotion": "sadness",
+    "predicted_emotion": "disgust",
+    "explanation": "Phoebe's description of the scene as 'bad' and 'really bad' with a specific mention of an 'ass' suggests a reaction of disgust.",
+    "evidence_used": [
+      "Phoebe: 'Oh, it’s bad. It’s really bad.'",
+      "Phoebe: 'The only thing in there that isn’t burned is an ass.'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"disgust\",\n  \"explanation\": \"Phoebe's description of the scene as 'bad' and 'really bad' with a specific mention of an 'ass' suggests a reaction of disgust.\",\n  \"evidence_used\": [\"Phoebe: 'Oh, it’s bad. It’s really bad.'\", \"Phoebe: 'The only thing in there that isn’t burned is an ass.'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation is clearly grounded in the evidence, consistent with it, and does not make unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d9",
+    "utterance_id": "meld_d9_u10",
+    "method": "dense_rag",
+    "gold_emotion": "neutral",
+    "predicted_emotion": "neutral",
+    "explanation": "Chandler's question about Rachel's room is straightforward and lacks any emotional charge, indicating a neutral tone.",
+    "evidence_used": [
+      "Chandler: How’s your room Rach?"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"neutral\",\n  \"explanation\": \"Chandler's question about Rachel's room is straightforward and lacks any emotional charge, indicating a neutral tone.\",\n  \"evidence_used\": [\"Chandler: How’s your room Rach?\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 0,
+    "judge_faithfulness": 0,
+    "judge_over_inference": 0,
+    "judge_rationale": "The explanation and evidence are unrelated to the dialogue context, leading to a lack of grounding, faithfulness, and over-inference.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d9",
+    "utterance_id": "meld_d9_u11",
+    "method": "dense_rag",
+    "gold_emotion": "sadness",
+    "predicted_emotion": "sadness",
+    "explanation": "Rachel expresses sadness over the loss of her belongings, particularly her favorite blue sweater, indicating a sense of loss and disappointment.",
+    "evidence_used": [
+      "Rachel: Everything’s ruined. My bed. My clothes. Look at my favorite blue sweater.",
+      "Phoebe: Oh, it’s bad. It’s really bad."
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"sadness\",\n  \"explanation\": \"Rachel expresses sadness over the loss of her belongings, particularly her favorite blue sweater, indicating a sense of loss and disappointment.\",\n  \"evidence_used\": [\"Rachel: Everything’s ruined. My bed. My clothes. Look at my favorite blue sweater.\", \"Phoebe: Oh, it’s bad. It’s really bad.\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation is clearly grounded in the evidence, consistent with it, and does not make unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d9",
+    "utterance_id": "meld_d9_u12",
+    "method": "dense_rag",
+    "gold_emotion": "neutral",
+    "predicted_emotion": "surprise",
+    "explanation": "Monica's question 'Isn’t that mine?' suggests she is surprised to see her sweater among Rachel's belongings.",
+    "evidence_used": [
+      "Rachel: 'Look at my favorite blue sweater.'",
+      "Monica: 'Isn’t that mine?'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"surprise\",\n  \"explanation\": \"Monica's question 'Isn’t that mine?' suggests she is surprised to see her sweater among Rachel's belongings.\",\n  \"evidence_used\": [\"Rachel: 'Look at my favorite blue sweater.'\", \"Monica: 'Isn’t that mine?'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation is clearly grounded in the evidence, consistent with it, and does not make unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d9",
+    "utterance_id": "meld_d9_u13",
+    "method": "dense_rag",
+    "gold_emotion": "anger",
+    "predicted_emotion": "anger",
+    "explanation": "Rachel's sarcastic response 'Fine! I’m sorry for your loss!' indicates frustration and anger, likely due to Monica's lack of empathy about Rachel's situation.",
+    "evidence_used": [
+      "Rachel: Everything’s ruined. My bed. My clothes. Look at my favorite blue sweater.",
+      "Monica: Isn’t that mine?"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"anger\",\n  \"explanation\": \"Rachel's sarcastic response 'Fine! I’m sorry for your loss!' indicates frustration and anger, likely due to Monica's lack of empathy about Rachel's situation.\",\n  \"evidence_used\": [\"Rachel: Everything’s ruined. My bed. My clothes. Look at my favorite blue sweater.\", \"Monica: Isn’t that mine?\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 0,
+    "judge_faithfulness": 0,
+    "judge_over_inference": 0,
+    "judge_rationale": "The explanation references a sarcastic response not present in the retrieved evidence, contradicting the evidence and making unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d9",
+    "utterance_id": "meld_d9_u14",
+    "method": "dense_rag",
+    "gold_emotion": "neutral",
+    "predicted_emotion": "sadness",
+    "explanation": "The target speaker, Fireman #1, is delivering bad news about the living situation, which likely evokes sadness due to the loss and disruption.",
+    "evidence_used": [
+      "Rachel: 'Everything’s ruined. My bed. My clothes. Look at my favorite blue sweater.'",
+      "Fireman #1: 'So uh, you’re not gonna be able to live here for a while, you ladies have a place to stay?'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"sadness\",\n  \"explanation\": \"The target speaker, Fireman #1, is delivering bad news about the living situation, which likely evokes sadness due to the loss and disruption.\",\n  \"evidence_used\": [\"Rachel: 'Everything’s ruined. My bed. My clothes. Look at my favorite blue sweater.'\", \"Fireman #1: 'So uh, you’re not gonna be able to live here for a while, you ladies have a place to stay?'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 0,
+    "judge_faithfulness": 0,
+    "judge_over_inference": 0,
+    "judge_rationale": "The explanation incorrectly attributes the emotion to Fireman #1, who is not present in the dialogue, and makes unsupported assumptions about the situation.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d9",
+    "utterance_id": "meld_d9_u15",
+    "method": "dense_rag",
+    "gold_emotion": "joy",
+    "predicted_emotion": "surprise",
+    "explanation": "Rachel's exclamation 'Wow! Oh-okay' suggests she is taken aback by the situation, indicating surprise.",
+    "evidence_used": [
+      "Rachel: 'Wow! Oh-okay'",
+      "Fireman #1: 'So uh, you’re not gonna be able to live here for a while, you ladies have a place to stay?'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"surprise\",\n  \"explanation\": \"Rachel's exclamation 'Wow! Oh-okay' suggests she is taken aback by the situation, indicating surprise.\",\n  \"evidence_used\": [\"Rachel: 'Wow! Oh-okay'\", \"Fireman #1: 'So uh, you’re not gonna be able to live here for a while, you ladies have a place to stay?'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation directly references Rachel's exclamation from the evidence, is consistent with the evidence, and does not make unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d9",
+    "utterance_id": "meld_d9_u16",
+    "method": "dense_rag",
+    "gold_emotion": "neutral",
+    "predicted_emotion": "neutral",
+    "explanation": "Monica's response is practical and straightforward, indicating a neutral emotion as she offers a solution to the immediate problem.",
+    "evidence_used": [
+      "Fireman #1: 'So uh, you’re not gonna be able to live here for a while, you ladies have a place to stay?'",
+      "Monica: 'Yes, they can stay with us.'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"neutral\",\n  \"explanation\": \"Monica's response is practical and straightforward, indicating a neutral emotion as she offers a solution to the immediate problem.\",\n  \"evidence_used\": [\"Fireman #1: 'So uh, you’re not gonna be able to live here for a while, you ladies have a place to stay?'\", \"Monica: 'Yes, they can stay with us.'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 0,
+    "judge_faithfulness": 0,
+    "judge_over_inference": 0,
+    "judge_rationale": "The explanation incorrectly attributes a response to Monica that is not present in the provided dialogue or evidence, leading to a lack of grounding, faithfulness, and over-inference.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d9",
+    "utterance_id": "meld_d9_u17",
+    "method": "dense_rag",
+    "gold_emotion": "neutral",
+    "predicted_emotion": "neutral",
+    "explanation": "Chandler's question is straightforward and factual, showing no emotional charge.",
+    "evidence_used": [
+      "Chandler: Have you figured out what started the fire Mr. Fireman?"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"neutral\",\n  \"explanation\": \"Chandler's question is straightforward and factual, showing no emotional charge.\",\n  \"evidence_used\": [\"Chandler: Have you figured out what started the fire Mr. Fireman?\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 0,
+    "judge_faithfulness": 0,
+    "judge_over_inference": 0,
+    "judge_rationale": "The explanation references Chandler's question, which is not present in the dialogue context or retrieved evidence, making it ungrounded, unfaithful, and speculative.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d10",
+    "utterance_id": "meld_d10_u0",
+    "method": "dense_rag",
+    "gold_emotion": "anger",
+    "predicted_emotion": "sadness",
+    "explanation": "The phrase 'there’s just so much pressure' suggests a feeling of being overwhelmed or burdened, which is often associated with sadness.",
+    "evidence_used": [
+      "The phrase 'so much pressure' indicates feeling overwhelmed or burdened."
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"sadness\",\n  \"explanation\": \"The phrase 'there’s just so much pressure' suggests a feeling of being overwhelmed or burdened, which is often associated with sadness.\",\n  \"evidence_used\": [\"The phrase 'so much pressure' indicates feeling overwhelmed or burdened.\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation directly references the retrieved evidence and is consistent with it, without making unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d10",
+    "utterance_id": "meld_d10_u1",
+    "method": "dense_rag",
+    "gold_emotion": "neutral",
+    "predicted_emotion": "neutral",
+    "explanation": "Joey's statement 'I mean no offense' suggests a neutral tone as he is clarifying his intention to not upset others while expressing a factual observation.",
+    "evidence_used": [
+      "Joey: 'I mean no offense'",
+      "Joey: 'what you guys do is very different'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"neutral\",\n  \"explanation\": \"Joey's statement 'I mean no offense' suggests a neutral tone as he is clarifying his intention to not upset others while expressing a factual observation.\",\n  \"evidence_used\": [\"Joey: 'I mean no offense'\", \"Joey: 'what you guys do is very different'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 0,
+    "judge_faithfulness": 0,
+    "judge_over_inference": 0,
+    "judge_rationale": "The explanation is not grounded in the provided evidence, contradicts the evidence by referencing a statement not present, and makes unsupported assumptions about Joey's intention.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d10",
+    "utterance_id": "meld_d10_u2",
+    "method": "dense_rag",
+    "gold_emotion": "neutral",
+    "predicted_emotion": "neutral",
+    "explanation": "Joey's statement 'I don’t know if you’d understand' suggests a neutral tone as he is expressing uncertainty without strong emotional cues.",
+    "evidence_used": [
+      "Joey: 'I mean no offense, but what you guys do is very different.'",
+      "Joey: 'There’s just so much pressure.'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"neutral\",\n  \"explanation\": \"Joey's statement 'I don’t know if you’d understand' suggests a neutral tone as he is expressing uncertainty without strong emotional cues.\",\n  \"evidence_used\": [\"Joey: 'I mean no offense, but what you guys do is very different.'\", \"Joey: 'There’s just so much pressure.'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 0,
+    "judge_faithfulness": 0,
+    "judge_over_inference": 1,
+    "judge_rationale": "The explanation references a statement not present in the evidence, contradicting it and making a minor unsupported assumption about Joey's tone.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d10",
+    "utterance_id": "meld_d10_u3",
+    "method": "dense_rag",
+    "gold_emotion": "neutral",
+    "predicted_emotion": "sarcasm",
+    "explanation": "Ross's response is sarcastic, implying that he believes everyone deals with pressure, contrary to Joey's implication.",
+    "evidence_used": [
+      "Joey: 'There’s just so much pressure.'",
+      "Joey: 'I mean no offense, but what you guys do is very different.'",
+      "Joey: 'I don’t know if you’d understand.'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"sarcasm\",\n  \"explanation\": \"Ross's response is sarcastic, implying that he believes everyone deals with pressure, contrary to Joey's implication.\",\n  \"evidence_used\": [\"Joey: 'There’s just so much pressure.'\", \"Joey: 'I mean no offense, but what you guys do is very different.'\", \"Joey: 'I don’t know if you’d understand.'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 0,
+    "judge_faithfulness": 0,
+    "judge_over_inference": 0,
+    "judge_rationale": "The explanation references Ross's response, which is not present in the retrieved evidence, leading to a lack of grounding, faithfulness, and over-inference.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d11",
+    "utterance_id": "meld_d11_u0",
+    "method": "dense_rag",
+    "gold_emotion": "sadness",
+    "predicted_emotion": "neutral",
+    "explanation": "The target utterance is a straightforward statement without any explicit emotional cues, suggesting a neutral tone.",
+    "evidence_used": [],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"neutral\",\n  \"explanation\": \"The target utterance is a straightforward statement without any explicit emotional cues, suggesting a neutral tone.\",\n  \"evidence_used\": []\n}\n```",
+    "error": null,
+    "judge_grounding": 0,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation is consistent with the predicted emotion and does not make unsupported assumptions, but it does not reference any specific evidence as none is provided.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d11",
+    "utterance_id": "meld_d11_u1",
+    "method": "dense_rag",
+    "gold_emotion": "fear",
+    "predicted_emotion": "concern",
+    "explanation": "Rachel's statement indicates worry about Joey not making it in time, suggesting concern.",
+    "evidence_used": [
+      "Rachel: 'Well Phoebe, we gotta do something!'",
+      "Rachel: 'I mean there’s no way Joey’s gonna make it in time.'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"concern\",\n  \"explanation\": \"Rachel's statement indicates worry about Joey not making it in time, suggesting concern.\",\n  \"evidence_used\": [\"Rachel: 'Well Phoebe, we gotta do something!'\", \"Rachel: 'I mean there’s no way Joey’s gonna make it in time.'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation is clearly grounded in the evidence, consistent with it, and does not make unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d11",
+    "utterance_id": "meld_d11_u2",
+    "method": "dense_rag",
+    "gold_emotion": "neutral",
+    "predicted_emotion": "determination",
+    "explanation": "Rachel's decision to take action by searching the hotel for other weddings indicates a proactive and determined mindset.",
+    "evidence_used": [
+      "Rachel: 'Well Phoebe, we gotta do something!'",
+      "Rachel: 'I mean there’s no way Joey’s gonna make it in time.'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"determination\",\n  \"explanation\": \"Rachel's decision to take action by searching the hotel for other weddings indicates a proactive and determined mindset.\",\n  \"evidence_used\": [\"Rachel: 'Well Phoebe, we gotta do something!'\", \"Rachel: 'I mean there’s no way Joey’s gonna make it in time.'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 1,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 1,
+    "judge_rationale": "The explanation implicitly draws on the evidence of Rachel's urgency but introduces the unsupported detail of 'searching the hotel for other weddings.'",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d11",
+    "utterance_id": "meld_d11_u3",
+    "method": "dense_rag",
+    "gold_emotion": "neutral",
+    "predicted_emotion": "neutral",
+    "explanation": "Phoebe's response is practical and straightforward, focusing on a specific action without expressing any strong emotion.",
+    "evidence_used": [
+      "Phoebe: Okay. Oh but don’t tell them Monica’s pregnant because they frown on that.",
+      "Rachel: Well Phoebe, we gotta do something!"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"neutral\",\n  \"explanation\": \"Phoebe's response is practical and straightforward, focusing on a specific action without expressing any strong emotion.\",\n  \"evidence_used\": [\"Phoebe: Okay. Oh but don’t tell them Monica’s pregnant because they frown on that.\", \"Rachel: Well Phoebe, we gotta do something!\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation is grounded in the evidence, consistent with it, and does not make unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d11",
+    "utterance_id": "meld_d11_u4",
+    "method": "dense_rag",
+    "gold_emotion": "neutral",
+    "predicted_emotion": "neutral",
+    "explanation": "Rachel's response 'Okay' is a simple acknowledgment of Phoebe's instruction, without any indication of strong emotion.",
+    "evidence_used": [
+      "Phoebe: 'Oh but don’t tell them Monica’s pregnant because they frown on that.'",
+      "Rachel: 'Okay.'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"neutral\",\n  \"explanation\": \"Rachel's response 'Okay' is a simple acknowledgment of Phoebe's instruction, without any indication of strong emotion.\",\n  \"evidence_used\": [\"Phoebe: 'Oh but don’t tell them Monica’s pregnant because they frown on that.'\", \"Rachel: 'Okay.'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation directly references Rachel's response 'Okay' and aligns with the evidence without making unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d12",
+    "utterance_id": "meld_d12_u0",
+    "method": "dense_rag",
+    "gold_emotion": "anger",
+    "predicted_emotion": "surprise",
+    "explanation": "Ross's reaction indicates surprise as he questions the reason for the fight and describes it as 'silly,' suggesting unexpectedness.",
+    "evidence_used": [
+      "Ross questions the reason for the fight",
+      "Ross describes the situation as 'silly'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"surprise\",\n  \"explanation\": \"Ross's reaction indicates surprise as he questions the reason for the fight and describes it as 'silly,' suggesting unexpectedness.\",\n  \"evidence_used\": [\"Ross questions the reason for the fight\", \"Ross describes the situation as 'silly'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation is clearly grounded in the evidence, consistent with it, and does not make unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d12",
+    "utterance_id": "meld_d12_u1",
+    "method": "dense_rag",
+    "gold_emotion": "neutral",
+    "predicted_emotion": "neutral",
+    "explanation": "Monica's response to Ross is calm and composed, indicating she is not emotionally charged but rather confident in their ability to resolve the issue.",
+    "evidence_used": [
+      "Monica: Ross, we can handle this.",
+      "Ross: What’s all this about you guys fighting?! Is this really over a room?! I mean, that is so silly!"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"neutral\",\n  \"explanation\": \"Monica's response to Ross is calm and composed, indicating she is not emotionally charged but rather confident in their ability to resolve the issue.\",\n  \"evidence_used\": [\"Monica: Ross, we can handle this.\", \"Ross: What’s all this about you guys fighting?! Is this really over a room?! I mean, that is so silly!\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation is grounded in Monica's calm response, is consistent with the evidence, and does not make unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d12",
+    "utterance_id": "meld_d12_u2",
+    "method": "dense_rag",
+    "gold_emotion": "sadness",
+    "predicted_emotion": "sadness",
+    "explanation": "Ross expresses concern and disappointment about the conflict between people he cares about, indicating sadness over the situation.",
+    "evidence_used": [
+      "Ross: 'What’s all this about you guys fighting?! Is this really over a room?! I mean, that is so silly!'",
+      "Ross: 'I can’t just stand by and watch two people I care about very much be hurt over something that is so silly.'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"sadness\",\n  \"explanation\": \"Ross expresses concern and disappointment about the conflict between people he cares about, indicating sadness over the situation.\",\n  \"evidence_used\": [\"Ross: 'What’s all this about you guys fighting?! Is this really over a room?! I mean, that is so silly!'\", \"Ross: 'I can’t just stand by and watch two people I care about very much be hurt over something that is so silly.'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation is clearly grounded in the evidence, consistent with it, and does not make unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d12",
+    "utterance_id": "meld_d12_u3",
+    "method": "dense_rag",
+    "gold_emotion": "anger",
+    "predicted_emotion": "frustration",
+    "explanation": "Ross expresses frustration over the ongoing conflict between people he cares about, which he perceives as unnecessary and trivial.",
+    "evidence_used": [
+      "Ross: 'What’s all this about you guys fighting?! Is this really over a room?! I mean, that is so silly!'",
+      "Ross: 'Well, apparently not, and I can’t just stand by and watch two people I care about very much be hurt over something that is so silly.'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"frustration\",\n  \"explanation\": \"Ross expresses frustration over the ongoing conflict between people he cares about, which he perceives as unnecessary and trivial.\",\n  \"evidence_used\": [\"Ross: 'What’s all this about you guys fighting?! Is this really over a room?! I mean, that is so silly!'\", \"Ross: 'Well, apparently not, and I can’t just stand by and watch two people I care about very much be hurt over something that is so silly.'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation is clearly grounded in the evidence, consistent with it, and does not make unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d12",
+    "utterance_id": "meld_d12_u4",
+    "method": "dense_rag",
+    "gold_emotion": "anger",
+    "predicted_emotion": "anger",
+    "explanation": "Chandler's response is sarcastic and confrontational, suggesting frustration or anger towards the situation.",
+    "evidence_used": [
+      "Ross: 'Well, apparently not, and I can’t just stand by and watch two people I care about very much be hurt over something that is so silly.'",
+      "Ross: 'I mean, enough of the silliness!'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"anger\",\n  \"explanation\": \"Chandler's response is sarcastic and confrontational, suggesting frustration or anger towards the situation.\",\n  \"evidence_used\": [\"Ross: 'Well, apparently not, and I can’t just stand by and watch two people I care about very much be hurt over something that is so silly.'\", \"Ross: 'I mean, enough of the silliness!'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 0,
+    "judge_faithfulness": 0,
+    "judge_over_inference": 0,
+    "judge_rationale": "The explanation incorrectly attributes the response to Chandler, who is not present in the dialogue, and does not reference the provided evidence about Ross's statements.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d12",
+    "utterance_id": "meld_d12_u5",
+    "method": "dense_rag",
+    "gold_emotion": "anger",
+    "predicted_emotion": "frustration",
+    "explanation": "Ross's repeated emphasis on 'silliness' and his desire to stop it suggests frustration with the ongoing situation.",
+    "evidence_used": [
+      "Ross: 'I mean, enough of the silliness!'",
+      "Ross: 'Well, apparently not, and I can’t just stand by and watch two people I care about very much be hurt over something that is so silly.'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"frustration\",\n  \"explanation\": \"Ross's repeated emphasis on 'silliness' and his desire to stop it suggests frustration with the ongoing situation.\",\n  \"evidence_used\": [\"Ross: 'I mean, enough of the silliness!'\", \"Ross: 'Well, apparently not, and I can’t just stand by and watch two people I care about very much be hurt over something that is so silly.'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation is clearly grounded in the evidence, consistent with it, and does not make unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d12",
+    "utterance_id": "meld_d12_u6",
+    "method": "dense_rag",
+    "gold_emotion": "sadness",
+    "predicted_emotion": "joy",
+    "explanation": "Ross expresses happiness for Chandler and the other person by acknowledging how happy they have been since getting together.",
+    "evidence_used": [
+      "Ross: 'I've never seen either of you one/millionth as happy as you’ve been since you’ve got together.'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"joy\",\n  \"explanation\": \"Ross expresses happiness for Chandler and the other person by acknowledging how happy they have been since getting together.\",\n  \"evidence_used\": [\"Ross: 'I've never seen either of you one/millionth as happy as you’ve been since you’ve got together.'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 0,
+    "judge_faithfulness": 0,
+    "judge_over_inference": 0,
+    "judge_rationale": "The explanation does not reference or align with the provided evidence, which does not support the predicted emotion of joy or the explanation given.",
+    "judge_error": null
+  }
+]

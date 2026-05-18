@@ -1,0 +1,370 @@
+{
+  "success_cases": [
+    {
+      "utterance_id": "meld_d2_u10",
+      "gold_emotion": "neutral",
+      "baseline_pred": "joy",
+      "baseline_expl": "Ross's repeated encouragement and the phrase 'You got it?' suggest a supportive and optimistic tone, indicating he is likely feeling joy about the other person's progress or potential success.",
+      "proposed_pred": "neutral",
+      "proposed_expl": "The target utterance 'You got it?' follows a neutral statement and indicates a check-in or confirmation rather than an emotional expression. This suggests that Ross is maintaining a neutral stance after expressing joy in the previous utterance.",
+      "evidence_used": [
+        "utt_8 expressed joy emotion",
+        "utt_9 expressed neutral emotion"
+      ]
+    },
+    {
+      "utterance_id": "meld_d7_u7",
+      "gold_emotion": "neutral",
+      "baseline_pred": "surprise",
+      "baseline_expl": "Ross's response indicates surprise as he expresses confusion about the term 'fish hooking' and seems to be caught off guard by the question, suggesting he did not expect it to be unfamiliar.",
+      "proposed_pred": "neutral",
+      "proposed_expl": "Ross's target utterance appears to be a continuation of the light-hearted conversation about unusual fighting techniques, indicating a neutral tone without strong emotional undertones. His use of 'Thanks man' suggests a casual acknowledgment rather than a display of strong feelings.",
+      "evidence_used": [
+        "Ross also spoke at utt_5.",
+        "utt_5 expressed neutral emotion."
+      ]
+    },
+    {
+      "utterance_id": "meld_d9_u10",
+      "gold_emotion": "neutral",
+      "baseline_pred": "surprise",
+      "baseline_expl": "Chandler's question about Rachel's room comes after a dramatic description of a disastrous situation, which suggests he is surprised by the severity of the situation and is checking in on Rachel's condition.",
+      "proposed_pred": "neutral",
+      "proposed_expl": "Chandler's question about Rachel's room appears to be a straightforward inquiry without any emotional charge, suggesting a neutral tone. The context provided does not indicate any heightened emotions from Chandler in response to the previous statements.",
+      "evidence_used": [
+        "Chandler's question is a simple inquiry.",
+        "The context does not show Chandler expressing strong emotions."
+      ]
+    },
+    {
+      "utterance_id": "meld_d9_u14",
+      "gold_emotion": "neutral",
+      "baseline_pred": "sadness",
+      "baseline_expl": "Rachel expresses a sense of loss and devastation over her belongings being ruined, indicating her emotional state is one of sadness. Her sarcastic response to Monica about the sweater further highlights her frustration and grief over the situation.",
+      "proposed_pred": "neutral",
+      "proposed_expl": "Fireman #1's utterance is factual and practical, inquiring about the living situation without expressing any strong emotions. The context suggests a serious situation, but the fireman's tone remains neutral as he addresses the need for immediate assistance.",
+      "evidence_used": [
+        "The target utterance was spoken by Fireman #1.",
+        "The speaker's emotion shifted between utt_11 and utt_13."
+      ]
+    },
+    {
+      "utterance_id": "meld_d11_u2",
+      "gold_emotion": "neutral",
+      "baseline_pred": "fear",
+      "baseline_expl": "Rachel expresses urgency and concern about Joey's ability to arrive on time, indicating a sense of anxiety about the situation. Her statement about needing to take action suggests she is worried about the consequences of Joey's absence.",
+      "proposed_pred": "neutral",
+      "proposed_expl": "Rachel's target utterance indicates a proactive approach to a stressful situation, suggesting a shift from her previous emotions of sadness and fear to a more neutral or determined state as she seeks a solution.",
+      "evidence_used": [
+        "utt_0 expressed sadness emotion",
+        "utt_1 expressed fear emotion"
+      ]
+    },
+    {
+      "utterance_id": "meld_d14_u8",
+      "gold_emotion": "neutral",
+      "baseline_pred": "surprise",
+      "baseline_expl": "Chandler's question 'What are you doing?' suggests he is caught off guard by the playful interaction between Joey and Phoebe, indicating a sense of surprise at their behavior.",
+      "proposed_pred": "neutral",
+      "proposed_expl": "Chandler's question 'What are you doing?' appears to be a straightforward inquiry without any emotional charge, suggesting a neutral tone. There are no indicators of strong feelings such as anger, joy, or surprise in his utterance.",
+      "evidence_used": [
+        "Chandler's question is a simple inquiry",
+        "No emotional context provided in the dialogue"
+      ]
+    },
+    {
+      "utterance_id": "meld_d15_u3",
+      "gold_emotion": "neutral",
+      "baseline_pred": "joy",
+      "baseline_expl": "Phoebe's enthusiastic responses and willingness to engage in a potentially dangerous scenario suggest a playful and light-hearted attitude, indicating joy. Her final 'Bye!' is likely a cheerful farewell after a fun exchange.",
+      "proposed_pred": "neutral",
+      "proposed_expl": "Phoebe's farewell 'Bye!' is a simple and common expression that does not convey strong emotions. The preceding dialogue suggests a light-hearted exchange rather than a serious or emotional context.",
+      "evidence_used": [
+        "Phoebe's enthusiastic responses earlier in the conversation",
+        "The playful nature of the dialogue with no indication of distress or strong feelings"
+      ]
+    },
+    {
+      "utterance_id": "meld_d17_u12",
+      "gold_emotion": "disgust",
+      "baseline_pred": "anger",
+      "baseline_expl": "Ross's comment about tipping more for a bug in his food suggests he is frustrated or angry about the situation being discussed, likely feeling that the value of the service or product is inadequate. His tone implies a strong reaction to what he perceives as unfairness or a lack of respect.",
+      "proposed_pred": "disgust",
+      "proposed_expl": "Ross's comment about tipping more for a bug in his food suggests a strong aversion to the situation being discussed, indicating feelings of disgust. His comparison implies that he finds the current topic or behavior unacceptable.",
+      "evidence_used": [
+        "Ross's comparison of tipping to a bug in his food",
+        "the context of the conversation where Monica expresses appallment"
+      ]
+    },
+    {
+      "utterance_id": "meld_d17_u23",
+      "gold_emotion": "neutral",
+      "baseline_pred": "joy",
+      "baseline_expl": "Rachel's suggestion to invite someone to brunch and the phrase 'this is fixable' indicate a positive and proactive attitude, suggesting she feels hopeful and optimistic about resolving the situation.",
+      "proposed_pred": "neutral",
+      "proposed_expl": "Rachel's statement about inviting someone to brunch and suggesting a plan appears pragmatic and solution-oriented, indicating a calm and composed demeanor rather than an emotional response.",
+      "evidence_used": [
+        "Rachel is focused on a solution ('this is fixable')",
+        "The tone of the suggestion ('I’ll invite him to brunch') is straightforward and lacks emotional intensity"
+      ]
+    },
+    {
+      "utterance_id": "meld_d22_u0",
+      "gold_emotion": "joy",
+      "baseline_pred": "neutral",
+      "baseline_expl": "The target utterance 'Hey!' is a simple greeting that does not convey strong emotions such as anger, joy, or sadness. It is typically used in a neutral context to acknowledge someone's presence.",
+      "proposed_pred": "joy",
+      "proposed_expl": "Chandler's greeting 'Hey!' typically conveys a friendly and positive sentiment, suggesting he is happy to see or interact with someone.",
+      "evidence_used": [
+        "The use of an informal greeting like 'Hey!' usually indicates a casual and pleasant interaction.",
+        "There is no indication of negative context or tension in the dialogue."
+      ]
+    }
+  ],
+  "failure_cases": [
+    {
+      "utterance_id": "meld_d0_u0",
+      "gold_emotion": "surprise",
+      "baseline_pred": "surprise",
+      "baseline_expl": "Mark's question about the coffee mugs having numbers on the bottom suggests he is taken aback or intrigued by this unusual detail, indicating a sense of surprise.",
+      "proposed_pred": "neutral",
+      "proposed_expl": "Mark's question about the coffee mugs appears to be a simple inquiry without any emotional weight or intensity, suggesting a neutral tone. There are no indicators of frustration, excitement, or any other strong emotion in the utterance.",
+      "evidence_used": [
+        "The target utterance is a straightforward question.",
+        "There is no use of emotionally charged language or tone."
+      ]
+    },
+    {
+      "utterance_id": "meld_d0_u1",
+      "gold_emotion": "anger",
+      "baseline_pred": "joy",
+      "baseline_expl": "Rachel's response indicates a light-hearted and humorous tone, suggesting that she finds the situation amusing rather than frustrating. The playful nature of her explanation about Monica's tracking system implies a sense of enjoyment in the quirkiness of the mugs.",
+      "proposed_pred": "joy",
+      "proposed_expl": "Rachel's response carries a light-hearted tone, indicating amusement at the situation with Monica's coffee mugs. The playful nature of her explanation suggests a sense of joy in sharing this quirky detail.",
+      "evidence_used": [
+        "Rachel's use of 'Oh' suggests a light-hearted acknowledgment.",
+        "The phrase 'she can be like, ‘Where’s number 27?!’' implies a humorous and playful context."
+      ]
+    },
+    {
+      "utterance_id": "meld_d0_u2",
+      "gold_emotion": "neutral",
+      "baseline_pred": "joy",
+      "baseline_expl": "Rachel's tone in the dialogue suggests a light-hearted and playful attitude, especially when explaining Monica's quirky system for tracking the mugs. The use of humor in her explanation indicates a positive emotional state.",
+      "proposed_pred": "anger",
+      "proposed_expl": "Rachel's target utterance follows a statement that expressed anger, indicating that she may be continuing in that emotional state. The context suggests a buildup of frustration regarding Monica's behavior with the coffee mugs.",
+      "evidence_used": [
+        "utt_1 expressed anger emotion",
+        "Rachel's response is directly related to the previous emotional context"
+      ]
+    },
+    {
+      "utterance_id": "meld_d1_u0",
+      "gold_emotion": "neutral",
+      "baseline_pred": "joy",
+      "baseline_expl": "Joey's encouragement suggests a supportive and positive attitude, indicating that he is expressing confidence in Lydia's abilities, which is often associated with feelings of joy.",
+      "proposed_pred": "joy",
+      "proposed_expl": "Joey's encouragement, 'Come on, Lydia, you can do it,' suggests a supportive and positive sentiment, indicating that he is expressing confidence in Lydia's abilities, which is typically associated with joy.",
+      "evidence_used": [
+        "Joey is encouraging Lydia",
+        "The phrase 'you can do it' conveys support and positivity"
+      ]
+    },
+    {
+      "utterance_id": "meld_d2_u1",
+      "gold_emotion": "neutral",
+      "baseline_pred": "neutral",
+      "baseline_expl": "Rachel's question about the elevator seems to be a straightforward inquiry without any emotional charge, indicating a neutral tone. There is no indication of frustration or excitement in her voice based on the context provided.",
+      "proposed_pred": "surprise",
+      "proposed_expl": "Rachel's question indicates that she is taken aback or confused about the absence of the elevator, suggesting an unexpected situation. The phrasing 'didn't you say' implies that she is recalling Ross's previous statement, which adds to her surprise.",
+      "evidence_used": [
+        "Rachel is questioning Ross about the elevator.",
+        "The use of 'didn't you say' suggests she expected something different based on Ross's prior statement."
+      ]
+    },
+    {
+      "utterance_id": "meld_d2_u2",
+      "gold_emotion": "sadness",
+      "baseline_pred": "neutral",
+      "baseline_expl": "Ross's response is factual and straightforward, indicating that he acknowledges his previous statement but clarifies that the elevator is not present. His tone does not convey strong emotions such as anger or frustration.",
+      "proposed_pred": "neutral",
+      "proposed_expl": "Ross's response indicates a straightforward acknowledgment of the situation without any emotional intensity, suggesting a neutral state. His use of 'Uhh' and 'Okay, here we go' implies a calm acceptance rather than frustration or excitement.",
+      "evidence_used": [
+        "Ross's response is straightforward and lacks emotional intensity.",
+        "The use of 'Uhh' and 'Okay, here we go' suggests calmness."
+      ]
+    },
+    {
+      "utterance_id": "meld_d2_u3",
+      "gold_emotion": "surprise",
+      "baseline_pred": "anger",
+      "baseline_expl": "Ross's repeated insistence on the direction 'left' suggests frustration, likely stemming from the earlier miscommunication about the elevator. His tone may indicate that he is feeling irritated with the situation and possibly with Rachel for questioning him.",
+      "proposed_pred": "anger",
+      "proposed_expl": "Ross's repeated command 'Left! Left!' suggests a sense of urgency and frustration, likely stemming from the earlier realization that the elevator is not functioning as he claimed, which could lead to feelings of anger about the situation.",
+      "evidence_used": [
+        "Ross expressed sadness in the previous utterance about the elevator situation.",
+        "The urgency in his command indicates rising frustration."
+      ]
+    },
+    {
+      "utterance_id": "meld_d2_u5",
+      "gold_emotion": "anger",
+      "baseline_pred": "anger",
+      "baseline_expl": "Ross's repeated instructions and Rachel's frustrated response indicate a rising tension in the conversation, suggesting that Ross may be feeling anger due to the lack of cooperation or understanding from Rachel.",
+      "proposed_pred": "neutral",
+      "proposed_expl": "Ross's target utterance appears to be a straightforward instruction without any emotional charge, suggesting a neutral tone. The context indicates a shift in emotions prior, but the instruction itself does not convey anger, joy, or any other strong emotion.",
+      "evidence_used": [
+        "The target utterance was spoken by Ross.",
+        "Ross also spoke at utt_2.",
+        "Ross also spoke at utt_3.",
+        "The speaker's emotion shifted between utt_2 and utt_3."
+      ]
+    },
+    {
+      "utterance_id": "meld_d2_u7",
+      "gold_emotion": "joy",
+      "baseline_pred": "joy",
+      "baseline_expl": "Ross's encouragement with 'You can do it!' suggests a supportive and positive attitude, indicating he is likely feeling joy in motivating Rachel. The context shows he is actively trying to help her succeed.",
+      "proposed_pred": "anger",
+      "proposed_expl": "Despite the target utterance 'You can do it!' sounding encouraging, it follows two previous utterances where Ross expressed anger. This suggests that his encouragement may be laced with frustration rather than genuine support.",
+      "evidence_used": [
+        "utt_5 expressed anger emotion",
+        "utt_6 expressed anger emotion"
+      ]
+    },
+    {
+      "utterance_id": "meld_d2_u9",
+      "gold_emotion": "neutral",
+      "baseline_pred": "joy",
+      "baseline_expl": "Ross's repeated encouragement, 'You can do it!', suggests a supportive and positive attitude, indicating he is likely feeling joy or excitement about the other person's potential success. The phrase 'Okay' can imply readiness or acceptance, which aligns with a positive emotional state.",
+      "proposed_pred": "joy",
+      "proposed_expl": "The target utterance 'Okay' follows a series of encouraging statements from Ross that expressed joy, indicating a positive and supportive atmosphere. This suggests that Ross is likely feeling joy as he continues to motivate the other person.",
+      "evidence_used": [
+        "utt_7 expressed joy emotion",
+        "utt_8 expressed joy emotion"
+      ]
+    }
+  ],
+  "improvement_cases": [
+    {
+      "utterance_id": "meld_d1_u1",
+      "gold_emotion": "joy",
+      "baseline_pred": "joy",
+      "baseline_expl": "Joey's encouragement in the dialogue suggests a supportive and positive attitude, indicating that he is excited and hopeful for Lydia's success. The use of the word 'Push!' further emphasizes his enthusiasm and motivation for her to succeed.",
+      "proposed_pred": "joy",
+      "proposed_expl": "Joey's encouragement in the previous utterance suggests a supportive and positive atmosphere, indicating that he is likely feeling joy as he motivates Lydia to succeed.",
+      "evidence_used": [
+        "Joey's encouragement in 'Come on, Lydia, you can do it.'",
+        "The context of motivating someone typically conveys a sense of joy or excitement."
+      ]
+    },
+    {
+      "utterance_id": "meld_d1_u2",
+      "gold_emotion": "joy",
+      "baseline_pred": "joy",
+      "baseline_expl": "Joey's encouragement and repeated urging for Lydia to push suggests a supportive and enthusiastic attitude, indicating he is likely feeling joy as he is invested in her success during a challenging moment.",
+      "proposed_pred": "joy",
+      "proposed_expl": "Joey's encouragement in the target utterance, 'Push 'em out, push 'em out, harder, harder,' reflects a supportive and enthusiastic tone, which aligns with the joy expressed in the preceding utterance. The shift from neutral to joy indicates an emotional uplift as he motivates Lydia.",
+      "evidence_used": [
+        "utt_0 expressed neutral emotion",
+        "utt_1 expressed joy emotion"
+      ]
+    },
+    {
+      "utterance_id": "meld_d1_u3",
+      "gold_emotion": "joy",
+      "baseline_pred": "joy",
+      "baseline_expl": "Joey's repeated encouragement and enthusiastic phrasing suggest he is excited and supportive, indicating a positive emotional state. The use of exclamatory phrases like 'way out!' further emphasizes his joy and encouragement.",
+      "proposed_pred": "joy",
+      "proposed_expl": "Joey's repeated encouragement and enthusiastic phrasing in the target utterance suggest a continuation of the joyful emotion expressed in the previous utterances. The context indicates that he is excited and supportive, which aligns with feelings of joy.",
+      "evidence_used": [
+        "utt_1 expressed joy emotion",
+        "utt_2 expressed joy emotion"
+      ]
+    },
+    {
+      "utterance_id": "meld_d1_u4",
+      "gold_emotion": "joy",
+      "baseline_pred": "joy",
+      "baseline_expl": "The target utterance expresses enthusiasm and excitement, as indicated by the upbeat tone and the rhythmic chant 'hey, hey, ho, ho.' This aligns with the previous statements where Joey encourages pushing with increasing intensity, suggesting a positive and energetic atmosphere.",
+      "proposed_pred": "joy",
+      "proposed_expl": "The target utterance follows a series of enthusiastic and encouraging statements from Joey, which express excitement and positivity. The previous utterances also conveyed joy, indicating that Joey is maintaining a joyful and spirited tone.",
+      "evidence_used": [
+        "utt_2 expressed joy emotion",
+        "utt_3 expressed joy emotion"
+      ]
+    },
+    {
+      "utterance_id": "meld_d1_u5",
+      "gold_emotion": "joy",
+      "baseline_pred": "joy",
+      "baseline_expl": "Joey's previous statements are enthusiastic and energetic, indicating a playful and positive atmosphere. The target utterance reflects a continuation of that excitement, suggesting he is engaged and enjoying the activity.",
+      "proposed_pred": "joy",
+      "proposed_expl": "The target utterance follows a series of joyful expressions from Joey, indicating a continuation of that positive emotional state. The upbeat and encouraging tone in the preceding utterances suggests that Joey is still engaged in a joyful moment.",
+      "evidence_used": [
+        "utt_3 expressed joy emotion",
+        "utt_4 expressed joy emotion"
+      ]
+    },
+    {
+      "utterance_id": "meld_d1_u6",
+      "gold_emotion": "joy",
+      "baseline_pred": "joy",
+      "baseline_expl": "The target utterance 'Push!' is delivered in a context filled with energetic and enthusiastic phrases, indicating a playful and spirited atmosphere. The repeated encouragements and exclamations suggest that Joey is excited and engaged in a fun activity.",
+      "proposed_pred": "joy",
+      "proposed_expl": "The target utterance 'Push!' follows a series of joyful expressions from Joey, indicating enthusiasm and excitement. The context suggests a playful and energetic atmosphere, reinforcing the emotion of joy.",
+      "evidence_used": [
+        "utt_4 expressed joy emotion",
+        "utt_5 expressed joy emotion"
+      ]
+    },
+    {
+      "utterance_id": "meld_d1_u7",
+      "gold_emotion": "joy",
+      "baseline_pred": "joy",
+      "baseline_expl": "The repeated encouragement and playful tone in Joey's dialogue, especially with phrases like 'let's get that ball and really move' and the rhythmic 'hey, hey, ho, ho,' indicate a sense of excitement and enthusiasm. The command 'Push!' further emphasizes a spirited and joyful engagement in the activity.",
+      "proposed_pred": "joy",
+      "proposed_expl": "The target utterance 'Push!' follows a series of joyful expressions from Joey, indicating a continuation of that positive emotional state. The context suggests enthusiasm and excitement, which aligns with the emotion of joy.",
+      "evidence_used": [
+        "utt_5 expressed joy emotion",
+        "utt_6 expressed joy emotion"
+      ]
+    },
+    {
+      "utterance_id": "meld_d2_u0",
+      "gold_emotion": "neutral",
+      "baseline_pred": "neutral",
+      "baseline_expl": "The target utterance 'Okay.' is a simple acknowledgment that does not convey strong feelings or emotional intensity. It suggests a calm acceptance or agreement without any indication of excitement or distress.",
+      "proposed_pred": "neutral",
+      "proposed_expl": "The utterance 'Okay' is a simple acknowledgment that does not convey strong feelings or emotional intensity. It suggests acceptance or agreement without any additional context indicating a specific emotional state.",
+      "evidence_used": [
+        "The target utterance was spoken by Ross.",
+        "The word 'Okay' is typically neutral in tone and meaning."
+      ]
+    },
+    {
+      "utterance_id": "meld_d2_u4",
+      "gold_emotion": "anger",
+      "baseline_pred": "anger",
+      "baseline_expl": "Rachel's response indicates frustration with Ross's directions, as she emphasizes that there is 'no more left' in a dismissive tone. This suggests she is annoyed by the situation and Ross's inability to provide accurate guidance.",
+      "proposed_pred": "anger",
+      "proposed_expl": "Rachel's target utterance indicates frustration with Ross's directions, as she emphasizes that there is 'no more left' in a dismissive tone. This suggests that she is annoyed by the situation and Ross's inability to provide clear guidance.",
+      "evidence_used": [
+        "The target utterance was spoken by Rachel.",
+        "utt_3 immediately precedes the target utterance."
+      ]
+    },
+    {
+      "utterance_id": "meld_d2_u6",
+      "gold_emotion": "anger",
+      "baseline_pred": "anger",
+      "baseline_expl": "Ross's repeated instructions and the urgency in his voice suggest frustration, especially as Rachel indicates that there is no more left to go. His command to lift it straight up over her head reflects a heightened emotional state, likely stemming from the perceived incompetence or misunderstanding in the situation.",
+      "proposed_pred": "anger",
+      "proposed_expl": "Ross's previous utterance expressed anger, indicating frustration with the situation, and the urgency in his command suggests he is still feeling that way. The context shows a buildup of tension as he tries to direct Rachel, which likely contributes to his emotional state.",
+      "evidence_used": [
+        "utt_5 expressed anger emotion",
+        "Ross's tone and urgency in directing Rachel"
+      ]
+    }
+  ]
+}

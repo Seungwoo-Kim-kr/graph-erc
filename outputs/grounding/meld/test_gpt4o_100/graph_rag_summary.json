@@ -1,0 +1,17 @@
+{
+  "grounding": {
+    "mean": 0.79,
+    "std": 0.852,
+    "n": 100
+  },
+  "faithfulness": {
+    "mean": 1.12,
+    "std": 0.983,
+    "n": 100
+  },
+  "over_inference": {
+    "mean": 1.02,
+    "std": 0.905,
+    "n": 100
+  }
+}

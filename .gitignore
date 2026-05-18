@@ -1,0 +1,36 @@
+# Secrets
+.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+*.egg
+dist/
+build/
+.eggs/
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Large data files (download separately — see README)
+data/raw/
+data/processed/
+data/audio_cache/
+data/graphs/
+
+# Prediction outputs (can be regenerated)
+outputs/predictions/
+
+# Logs
+logs/
+
+# IDE & OS
+.DS_Store
+.vscode/
+.idea/
+*.swp

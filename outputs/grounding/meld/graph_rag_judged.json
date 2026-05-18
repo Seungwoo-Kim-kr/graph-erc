@@ -1,0 +1,203 @@
+[
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d0",
+    "utterance_id": "meld_d0_u0",
+    "method": "graph_rag",
+    "gold_emotion": "sadness",
+    "predicted_emotion": "surprise",
+    "explanation": "Phoebe's exclamation 'Oh my God' and the repetition of 'he’s lost it' suggest she is reacting to something unexpected or shocking.",
+    "evidence_used": [
+      "The use of 'Oh my God' indicates a reaction to something surprising.",
+      "The phrase 'he’s totally lost it' implies an unexpected change in someone's behavior."
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"surprise\",\n  \"explanation\": \"Phoebe's exclamation 'Oh my God' and the repetition of 'he’s lost it' suggest she is reacting to something unexpected or shocking.\",\n  \"evidence_used\": [\"The use of 'Oh my God' indicates a reaction to something surprising.\", \"The phrase 'he’s totally lost it' implies an unexpected change in someone's behavior.\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation is clearly grounded in the retrieved evidence, is fully consistent with it, and does not make unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d0",
+    "utterance_id": "meld_d0_u1",
+    "method": "graph_rag",
+    "gold_emotion": "surprise",
+    "predicted_emotion": "surprise",
+    "explanation": "Monica's response 'What?' indicates she is surprised or taken aback by Phoebe's statement that someone has 'lost it.'",
+    "evidence_used": [
+      "The target utterance was spoken by Monica.",
+      "utt_0 immediately precedes the target utterance.",
+      "The target utterance responds to utt_0 (spoken by Phoebe)."
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"surprise\",\n  \"explanation\": \"Monica's response 'What?' indicates she is surprised or taken aback by Phoebe's statement that someone has 'lost it.'\",\n  \"evidence_used\": [\"The target utterance was spoken by Monica.\", \"utt_0 immediately precedes the target utterance.\", \"The target utterance responds to utt_0 (spoken by Phoebe).\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 0,
+    "judge_faithfulness": 0,
+    "judge_over_inference": 0,
+    "judge_rationale": "The explanation incorrectly attributes the utterance to Monica and Phoebe, which contradicts the evidence and makes unsupported assumptions about the dialogue context.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d1",
+    "utterance_id": "meld_d1_u0",
+    "method": "graph_rag",
+    "gold_emotion": "neutral",
+    "predicted_emotion": "anger",
+    "explanation": "Ross's suggestion to close their accounts and cut them off at the source indicates a desire to take decisive action against something perceived as negative, which is often motivated by anger.",
+    "evidence_used": [
+      "Ross suggests closing accounts and cutting them off at the source, indicating a strong reaction."
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"anger\",\n  \"explanation\": \"Ross's suggestion to close their accounts and cut them off at the source indicates a desire to take decisive action against something perceived as negative, which is often motivated by anger.\",\n  \"evidence_used\": [\"Ross suggests closing accounts and cutting them off at the source, indicating a strong reaction.\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 2,
+    "judge_faithfulness": 2,
+    "judge_over_inference": 2,
+    "judge_rationale": "The explanation is clearly grounded in the evidence, consistent with it, and does not make unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d1",
+    "utterance_id": "meld_d1_u1",
+    "method": "graph_rag",
+    "gold_emotion": "joy",
+    "predicted_emotion": "joy",
+    "explanation": "Chandler's exclamation 'You’re a genius!' suggests admiration and excitement about Ross's idea, indicating a positive emotional response.",
+    "evidence_used": [
+      "The target utterance was spoken by Chandler.",
+      "The target utterance responds to utt_0 (spoken by Ross)."
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"joy\",\n  \"explanation\": \"Chandler's exclamation 'You’re a genius!' suggests admiration and excitement about Ross's idea, indicating a positive emotional response.\",\n  \"evidence_used\": [\"The target utterance was spoken by Chandler.\", \"The target utterance responds to utt_0 (spoken by Ross).\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 0,
+    "judge_faithfulness": 0,
+    "judge_over_inference": 0,
+    "judge_rationale": "The explanation is unrelated to the dialogue context and retrieved evidence, which involve Joey and Lydia, not Chandler and Ross.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d1",
+    "utterance_id": "meld_d1_u2",
+    "method": "graph_rag",
+    "gold_emotion": "sadness",
+    "predicted_emotion": "sadness",
+    "explanation": "Joey's use of 'Aww, man' suggests disappointment about losing a shared experience with his friends.",
+    "evidence_used": [
+      "The target utterance was spoken by Joey.",
+      "The target utterance responds to utt_1 (spoken by Chandler)."
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"sadness\",\n  \"explanation\": \"Joey's use of 'Aww, man' suggests disappointment about losing a shared experience with his friends.\",\n  \"evidence_used\": [\"The target utterance was spoken by Joey.\", \"The target utterance responds to utt_1 (spoken by Chandler).\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 0,
+    "judge_faithfulness": 0,
+    "judge_over_inference": 0,
+    "judge_rationale": "The explanation references 'Aww, man,' which is not present in the dialogue or evidence, contradicting the evidence and making unsupported assumptions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d1",
+    "utterance_id": "meld_d1_u3",
+    "method": "graph_rag",
+    "gold_emotion": "neutral",
+    "predicted_emotion": "joy",
+    "explanation": "Chandler's response follows a joyful exchange and his previous utterance also expressed joy.",
+    "evidence_used": [
+      "Chandler also spoke at utt_1.",
+      "utt_1 expressed joy emotion.",
+      "The target utterance responds to utt_2 (spoken by Joey)."
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"joy\",\n  \"explanation\": \"Chandler's response follows a joyful exchange and his previous utterance also expressed joy.\",\n  \"evidence_used\": [\"Chandler also spoke at utt_1.\", \"utt_1 expressed joy emotion.\", \"The target utterance responds to utt_2 (spoken by Joey).\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 0,
+    "judge_faithfulness": 0,
+    "judge_over_inference": 0,
+    "judge_rationale": "The explanation incorrectly attributes the utterance to Chandler and does not reference any specific evidence about Chandler's involvement or emotion, contradicting the evidence that only mentions Joey.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d1",
+    "utterance_id": "meld_d1_u4",
+    "method": "graph_rag",
+    "gold_emotion": "neutral",
+    "predicted_emotion": "neutral",
+    "explanation": "Phoebe's simple greeting 'Hey' does not convey any strong emotion and serves as a neutral response to Chandler's preceding comment.",
+    "evidence_used": [
+      "The target utterance was spoken by Phoebe.",
+      "The target utterance responds to utt_3 (spoken by Chandler)."
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"neutral\",\n  \"explanation\": \"Phoebe's simple greeting 'Hey' does not convey any strong emotion and serves as a neutral response to Chandler's preceding comment.\",\n  \"evidence_used\": [\"The target utterance was spoken by Phoebe.\", \"The target utterance responds to utt_3 (spoken by Chandler).\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 0,
+    "judge_faithfulness": 0,
+    "judge_over_inference": 0,
+    "judge_rationale": "The explanation is not grounded in the provided evidence, contradicts it by referencing Phoebe and Chandler instead of Joey, and makes unsupported assumptions about the dialogue context.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d1",
+    "utterance_id": "meld_d1_u5",
+    "method": "graph_rag",
+    "gold_emotion": "joy",
+    "predicted_emotion": "neutral",
+    "explanation": "The target utterance 'Hey!' is a common, neutral greeting in response to Phoebe's 'Hey,' indicating no strong emotion.",
+    "evidence_used": [
+      "The target utterance was spoken by All.",
+      "The target utterance responds to utt_4 (spoken by Phoebe)."
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"neutral\",\n  \"explanation\": \"The target utterance 'Hey!' is a common, neutral greeting in response to Phoebe's 'Hey,' indicating no strong emotion.\",\n  \"evidence_used\": [\"The target utterance was spoken by All.\", \"The target utterance responds to utt_4 (spoken by Phoebe).\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 0,
+    "judge_faithfulness": 0,
+    "judge_over_inference": 0,
+    "judge_rationale": "The explanation incorrectly attributes the utterance 'Hey!' to a response to Phoebe, which is not supported by the evidence, and makes unsupported assumptions about the context and emotion.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d1",
+    "utterance_id": "meld_d1_u6",
+    "method": "graph_rag",
+    "gold_emotion": "neutral",
+    "predicted_emotion": "surprise",
+    "explanation": "Phoebe's statement 'I bit him' is unexpected and likely intended to shock or amuse, indicating surprise.",
+    "evidence_used": [
+      "Phoebe's unexpected action of biting a client",
+      "The context of a casual conversation where such an action is surprising"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"surprise\",\n  \"explanation\": \"Phoebe's statement 'I bit him' is unexpected and likely intended to shock or amuse, indicating surprise.\",\n  \"evidence_used\": [\"Phoebe's unexpected action of biting a client\", \"The context of a casual conversation where such an action is surprising\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 0,
+    "judge_faithfulness": 0,
+    "judge_over_inference": 0,
+    "judge_rationale": "The explanation does not reference the provided evidence or context, and it introduces unsupported assumptions about Phoebe's actions and intentions.",
+    "judge_error": null
+  },
+  {
+    "dataset": "meld",
+    "dialogue_id": "meld_d1",
+    "utterance_id": "meld_d1_u7",
+    "method": "graph_rag",
+    "gold_emotion": "surprise",
+    "predicted_emotion": "surprise",
+    "explanation": "Rachel's response 'Where?!' indicates a reaction of surprise to Phoebe's unexpected statement about biting a client.",
+    "evidence_used": [
+      "Phoebe's unexpected statement about biting a client",
+      "Rachel's immediate and inquisitive response 'Where?!'"
+    ],
+    "raw_response": "```json\n{\n  \"predicted_emotion\": \"surprise\",\n  \"explanation\": \"Rachel's response 'Where?!' indicates a reaction of surprise to Phoebe's unexpected statement about biting a client.\",\n  \"evidence_used\": [\"Phoebe's unexpected statement about biting a client\", \"Rachel's immediate and inquisitive response 'Where?!'\"]\n}\n```",
+    "error": null,
+    "judge_grounding": 0,
+    "judge_faithfulness": 0,
+    "judge_over_inference": 0,
+    "judge_rationale": "The explanation is not grounded in the provided dialogue context or evidence, contradicts the evidence by referencing characters and events not present, and makes unsupported assumptions about the dialogue.",
+    "judge_error": null
+  }
+]

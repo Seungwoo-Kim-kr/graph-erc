@@ -147,19 +147,11 @@ cp .env.example .env
 
 ### 3. Download datasets
 
-**MELD**
 ```bash
-mkdir -p data/raw/meld
-# Download train/dev/test CSVs from https://github.com/declare-lab/MELD
-# Place: data/raw/meld/train_sent_emo.csv, dev_sent_emo.csv, test_sent_emo.csv
+bash scripts/download_data.sh
 ```
 
-**EmoryNLP**
-```bash
-mkdir -p data/raw/emorynlp
-# Download from https://github.com/emorynlp/emotion-detection
-# Place: data/raw/emorynlp/train.json, dev.json, test.json
-```
+This fetches MELD and EmoryNLP splits from their official GitHub repos into `data/raw/`. See [`data/README.md`](data/README.md) for the full expected directory layout.
 
 ---
 

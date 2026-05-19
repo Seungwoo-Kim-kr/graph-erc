@@ -4,6 +4,7 @@ Does NOT import llm_runner or audio_encoder to avoid hang on model loading.
 
 Usage:
     python run_faithfulness.py --dataset meld --split test
+    python run_faithfulness.py --dataset meld --split test --prompt-mode baseline
 """
 
 import argparse
@@ -35,34 +36,40 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument("--dataset",     default="meld")
     p.add_argument("--split",       default="test")
+    p.add_argument("--prompt-mode", default="constrained", choices=["baseline", "constrained"],
+                   help="Which prediction set to evaluate (must match run_experiment --prompt-mode)")
     p.add_argument("--method",      default="all")
     p.add_argument("--max-samples", default=500, type=int,
                    help="Max predictions per method to evaluate (default: 500)")
     args = p.parse_args()
+
+    mode_suffix = f"_{args.prompt_mode}" if args.prompt_mode == "baseline" else ""
 
     # Load instances
     dlg_path = Path(CFG.data_dir) / "processed" / args.dataset / f"{args.split}_dialogues.json"
     dialogues = load_dialogues(dlg_path)
     instances = build_instances(dialogues, args.dataset)
     instances = filter_valid(instances, args.dataset)
-    print(f"Instances loaded: {len(instances)}")
-    print(f"Evaluating up to {args.max_samples} samples per method")
+    print(f"Instances loaded : {len(instances)}")
+    print(f"Prompt mode      : {args.prompt_mode}")
+    print(f"Max samples      : {args.max_samples}")
 
-    pred_dir     = Path(CFG.output_dir) / "predictions" / args.dataset / args.split
-    grounding_dir = Path(CFG.output_dir) / "grounding"  / args.dataset / args.split
+    split_dir     = f"{args.split}{mode_suffix}"
+    pred_dir      = Path(CFG.output_dir) / "predictions" / args.dataset / split_dir
+    grounding_dir = Path(CFG.output_dir) / "grounding"   / args.dataset / split_dir
     grounding_dir.mkdir(parents=True, exist_ok=True)
 
     methods = METHODS if args.method == "all" else [args.method]
 
     for method in methods:
-        pred_path   = pred_dir     / f"{method}.json"
+        pred_path   = pred_dir      / f"{method}.json"
         judged_path = grounding_dir / f"{method}_judged.json"
 
         if judged_path.exists():
             print(f"[SKIP] {method}: already evaluated")
             continue
         if not pred_path.exists():
-            print(f"[MISSING] {method}: no prediction file")
+            print(f"[MISSING] {method}: no prediction file at {pred_path}")
             continue
 
         with open(pred_path) as f:
@@ -77,7 +84,8 @@ def main():
         with open(summary_path, "w") as f:
             json.dump(summary, f, indent=2)
 
-        print(f"{method}: {summary}")
+        faith = (summary.get("faithfulness_score") or {}).get("mean", 0)
+        print(f"  {method}: faithfulness_score = {faith:.4f}")
 
     print("\nALL DONE")
 

@@ -98,7 +98,14 @@ Despite growing interest in RAG for dialogue, prior work has
 predominantly focused on accuracy metrics, leaving the faithfulness of
 model reasoning under-explored. This paper addresses this gap by
 jointly evaluating predictive performance and evidence faithfulness
-across six context-construction strategies.
+across six context-construction strategies. Three research questions
+guide the study: (RQ1) Does retrieval-augmented context construction
+improve the faithfulness of LLM-based ERC compared with no-retrieval
+and full-context baselines? (RQ2) Does graph-structured evidence
+improve prediction quality over flat retrieval while maintaining
+competitive faithfulness? (RQ3) Which graph components contribute most
+to the improvement, and are their contributions consistent across
+prediction and faithfulness metrics?
 
 \noindent\textbf{Contributions.} This paper makes the following contributions:
 \begin{itemize}
@@ -322,8 +329,8 @@ Utterances in $C_\tau$ are encoded by a sentence transformer
 cosine similarity to the target embedding are retrieved.
 
 \paragraph{Text-only RAG.}
-The context window utterances (the $k$ most recent utterances) are
-provided as plain text without retrieval scoring or graph structure.
+The three most recent utterances in $C_\tau$ are provided as plain
+text without retrieval scoring or graph structure.
 This baseline controls for the effect of structure versus content.
 
 \paragraph{Graph-augmented RAG.}
@@ -449,10 +456,14 @@ all evaluated instances.
 
 Table~\ref{tab:overall-performance} reports classification performance
 on the MELD test set. Graph RAG achieves the highest macro F1 (0.491)
-among all methods, outperforming Text-only RAG by 0.011 and BM25 RAG
-by 0.038. LLM-only achieves the highest accuracy (0.618) but, as shown
-in Section~\ref{sec:faith-results}, this does not correspond to
-faithful reasoning.
+among retrieval-augmented methods, outperforming Text-only RAG by 0.011
+and BM25 RAG by 0.038. Full-context LLM achieves a comparable macro F1
+(0.491) by providing the complete dialogue history, though at the cost
+of near-zero faithfulness as shown in Section~\ref{sec:faith-results}.
+LLM-only achieves the highest accuracy (0.618) overall but this does
+not correspond to faithful reasoning. Text-only RAG records the best
+worst-class F1 (0.333) among all methods, indicating that recency-based
+context selection helps minority classes more than semantic retrieval.
 
 \begin{table}
 \centering
@@ -464,10 +475,10 @@ Best result per column is \textbf{bold}.}
 Method & Accuracy & Macro F1 & Weighted F1 & Worst-class F1 \\
 \midrule
 LLM-only          & \textbf{0.618} & 0.485 & \textbf{0.621} & 0.292 \\
-Full-context LLM  & 0.574          & 0.491 & 0.586          & 0.328 \\
+Full-context LLM  & 0.574          & \textbf{0.491} & 0.586 & 0.328 \\
 BM25 RAG          & 0.526          & 0.453 & 0.539          & 0.298 \\
 Dense RAG         & 0.529          & 0.454 & 0.541          & 0.292 \\
-Text-only RAG     & 0.538          & 0.480 & 0.548          & 0.333 \\
+Text-only RAG     & 0.538          & 0.480 & 0.548          & \textbf{0.333} \\
 Graph RAG         & 0.570          & \textbf{0.491} & 0.580 & 0.320 \\
 \bottomrule
 \end{tabular}
@@ -505,23 +516,32 @@ Graph RAG        & 0.475 & \textbf{0.400} & 0.320 & \textbf{0.563} & 0.655 & 0.4
 \subsection{Faithfulness Analysis}
 \label{sec:faith-results}
 
-Table~\ref{tab:faithfulness} reports faithfulness metrics.
-The most striking finding is the near-total absence of faithfulness in
-non-retrieval methods: LLM-only achieves a mean faithfulness score of
-only 0.014, with 98.4\% of claims rated unsupported. Full-context LLM
-improves marginally to 0.033, still with 96.3\% unsupported claims.
-This reveals that even when the full dialogue is provided, the LLM
-predominantly relies on its internal parametric knowledge rather than
-the supplied context.
+Table~\ref{tab:faithfulness} reports faithfulness metrics, providing
+a direct answer to RQ1. The most striking finding is the near-total
+absence of faithfulness in non-retrieval methods: LLM-only achieves a
+mean faithfulness score of only 0.014, with 98.4\% of claims rated
+unsupported. Full-context LLM improves marginally to 0.033, still with
+96.3\% unsupported claims. This reveals that even when the full
+dialogue is provided, the LLM predominantly relies on its internal
+parametric knowledge rather than the supplied context. All retrieval
+methods raise faithfulness by more than an order of magnitude (from
+below 0.04 to above 0.21), confirming that explicit evidence retrieval
+is necessary for grounded reasoning in ERC.
 
 Among retrieval methods, BM25 RAG achieves the highest faithfulness
 (0.269), followed by Dense RAG (0.256), Graph RAG (0.222), and
-Text-only RAG (0.213). The ordering reflects the precision of retrieval:
-BM25's lexical matching tends to retrieve utterances that share
-vocabulary with the target, making them more directly citable. Graph RAG
-outperforms Text-only RAG in faithfulness (+0.009), suggesting that
-structured relational evidence provides slightly more citable content
-than unselected context.
+Text-only RAG (0.213). The ordering reflects the nature of each
+retrieval strategy: BM25 selects utterances that share surface-level
+vocabulary with the target, making them directly quotable in the
+explanation. In contrast, graph-based evidence prioritises
+relationally informative utterances (e.g., same-speaker history) that
+are semantically relevant but may not share explicit wording with the
+target, resulting in lower literal cite-ability despite higher
+predictive value. This reveals an important distinction between two
+dimensions of retrieval quality: \emph{citability} (measured by
+faithfulness) and \emph{informativeness} (measured by macro F1). Graph
+RAG achieves the better trade-off for prediction, while BM25 achieves
+higher faithfulness at the cost of lower predictive accuracy.
 
 \begin{table}
 \centering
@@ -556,8 +576,8 @@ accounts for approximately 35\% and \textit{joyful} for approximately
 with differences smaller than the measurement noise. LLM-only achieves
 the highest accuracy (0.977) precisely because it overwhelmingly predicts
 \textit{neutral}, illustrating the deceptiveness of accuracy as a metric
-under severe imbalance. Faithfulness scores for llm\_only (0.044) and
-full\_context\_llm (0.061) mirror the MELD pattern: explanations for
+under severe imbalance. Faithfulness scores for LLM-only (0.044) and
+Full-context LLM (0.061) mirror the MELD pattern: explanations for
 non-retrieval methods are almost entirely unsupported by evidence.
 These results confirm that the class-imbalance problem in EmoryNLP
 prevents meaningful comparison of retrieval strategies under the current
@@ -577,9 +597,9 @@ Method & Accuracy & Macro F1 & Weighted F1 & Faithfulness \\
 \midrule
 LLM-only          & \textbf{0.977} & \textbf{0.124} & \textbf{0.988} & 0.044 \\
 Full-context LLM  & 0.919          & 0.120          & 0.958          & 0.061 \\
-BM25 RAG          & 0.751          & 0.107          & 0.858          & --- \\
-Dense RAG         & 0.723          & 0.105          & 0.839          & --- \\
-Text-only RAG     & 0.746          & 0.107          & 0.854          & --- \\
+BM25 RAG          & 0.751          & 0.107          & 0.858          & 0.274 \\
+Dense RAG         & 0.723          & 0.105          & 0.839          & 0.223 \\
+Text-only RAG     & 0.746          & 0.107          & 0.854          & 0.206 \\
 Graph RAG         & 0.728          & 0.105          & 0.843          & --- \\
 \bottomrule
 \end{tabular}
@@ -588,16 +608,21 @@ Graph RAG         & 0.728          & 0.105          & 0.843          & --- \\
 \subsection{Ablation Study}
 \label{sec:ablation}
 
-Table~\ref{tab:ablation} reports the ablation study on graph components.
-Removing same-speaker history causes the largest degradation in both
-accuracy ($-$0.076) and macro F1 ($-$0.053), confirming that
-within-speaker emotional continuity is the most informative relational
-signal. In contrast, removing audio features slightly \emph{improves}
-accuracy (+0.004), suggesting that audio-derived features introduce
-noise in the text-only inference pipeline used here. Removing
-emotion-shift links causes negligible performance change, indicating
-that emotion-shift transitions contribute less than speaker identity to
-the graph evidence.
+Table~\ref{tab:ablation} reports the ablation study on graph components,
+addressing RQ3. Removing same-speaker history causes the largest
+degradation in both accuracy (0.076) and macro F1 (0.053), confirming
+that within-speaker emotional continuity is the most informative
+relational signal. In contrast, removing audio features slightly
+\emph{improves} both accuracy (+0.004) and macro F1 (+0.004),
+indicating that the heuristic audio-based edge detection introduces
+noise rather than useful signal in the current text-only inference
+pipeline. Removing emotion-shift links causes negligible change
+(macro F1 drop of 0.003), suggesting that detected emotional transitions
+add minimal information beyond what same-speaker and adjacency links
+already capture. Faithfulness follows a similar pattern: removing
+same-speaker history causes the largest faithfulness drop (0.041),
+while removing audio features slightly increases faithfulness (+0.013),
+consistent with the prediction results.
 
 \begin{table}
 \centering
@@ -659,7 +684,7 @@ constrained zero-shot prompting paradigm fails to overcome the prior
 imbalance: every method effectively predicts only \textit{neutral},
 achieving macro F1 near $1/8 = 0.125$ (the random baseline for eight
 classes if one class dominates). This is \emph{not} a failure of graph
-augmentation specifically — all methods, including LLM-only and
+augmentation specifically. All methods, including LLM-only and
 full-context, exhibit identical behaviour. The result points to a
 methodological prerequisite: class-imbalanced ERC datasets require
 label-balanced sampling or class-weighted prompting before retrieval

@@ -1,7 +1,15 @@
 \documentclass[runningheads]{llncs}
-
+%
 \usepackage[T1]{fontenc}
+% T1 fonts will be used to generate the final print and online PDFs,
+% so please use T1 fonts in your manuscript whenever possible.
+% Other font encodings may result in incorrect characters.
+%
 \usepackage{graphicx}
+% Used for displaying a sample figure. If possible, figure files should
+% be included in EPS format.
+%
+% Additional packages for tables and math
 \usepackage{booktabs}
 \usepackage{multirow}
 \usepackage{amsmath}
@@ -93,7 +101,7 @@ jointly evaluating predictive performance and evidence faithfulness
 across six context-construction strategies.
 
 \noindent\textbf{Contributions.} This paper makes the following contributions:
-\begin{enumerate}
+\begin{itemize}
     \item We present a comparative evaluation of six LLM-based ERC
     methods spanning no-retrieval, flat retrieval, and graph-augmented
     retrieval baselines on the MELD and EmoryNLP datasets.
@@ -111,7 +119,7 @@ across six context-construction strategies.
     \item We conduct an ablation study on graph components,
     finding that same-speaker history is the most critical structural
     element, contributing a $-$0.053 macro F1 drop when removed.
-\end{enumerate}
+\end{itemize}
 
 % ─────────────────────────────────────────────────────────────────────────────
 \section{Related Work}
@@ -119,60 +127,161 @@ across six context-construction strategies.
 
 \subsection{Emotion Recognition in Conversation}
 
-ERC has been extensively studied using recurrent~\cite{hazarika2018conversational}
-and graph-based neural architectures~\cite{ghosal2019dialoguegcn}.
-DialogueGCN~\cite{ghosal2019dialoguegcn} models speaker-specific and
-inter-speaker dependencies via graph convolutional networks.
-Subsequent work has incorporated commonsense knowledge graphs and
-multi-modal signals to improve minority-class prediction.
-More recently, pre-trained language models fine-tuned on dialogue data
-have established strong baselines~\cite{ghosal2020cosmic}.
+Emotion recognition in conversation has been studied through a range of
+neural architectures that progressively incorporate richer contextual
+signals. Early recurrent approaches, such as the Conversational Memory
+Network~\cite{hazarika2018conversational}, used memory-augmented networks
+to track individual speaker states across dialogue turns.
+DialogueRNN~\cite{majumder2019dialoguernn} extended this with attentive
+gating that models the emotional influence of one speaker on another.
+Graph-based methods then introduced relational inductive biases:
+DialogueGCN~\cite{ghosal2019dialoguegcn} encodes speaker-level and
+temporal dependencies through graph convolution, while
+COSMIC~\cite{ghosal2020cosmic} integrates commonsense knowledge graphs
+to supply implicit causal and emotional background knowledge.
+DAG-ERC~\cite{shen2021dag} further addresses long-range context through
+a directed acyclic graph that combines the strengths of recurrent and
+graph-based representations. More recent work, such as
+SKIER~\cite{li2023skier}, jointly models discourse-structure graphs and
+commonsense knowledge subgraphs, establishing strong supervised baselines
+on benchmarks including MELD and IEMOCAP.
+
+Despite these advances, supervised ERC models are tightly coupled to
+their training distributions and require large amounts of emotion-annotated
+dialogue data. They also do not produce natural-language explanations,
+making it difficult to audit whether a prediction is grounded in specific
+conversational evidence. Furthermore, minority emotion classes remain
+severely underperforming in all existing systems, indicating that the
+problem is not yet solved by architectural innovation alone. Our work
+departs from the supervised paradigm entirely and instead evaluates
+whether an LLM prompted with structured graph evidence can reason
+faithfully about emotion from first principles.
 
 \subsection{LLMs for Social Dialogue Understanding}
 
-The advent of instruction-tuned LLMs has motivated a shift from
-fine-tuning to prompting-based ERC. Zhao et al.~\cite{zhao2023chatgpt} evaluate
-ChatGPT on several ERC benchmarks and find competitive zero-shot
-performance. InstructERC~\cite{wang2023instructerc} further
-demonstrates that instruction-tuned LLMs can match or exceed
-fine-tuned baselines when provided with appropriate dialogue context.
-However, these studies focus exclusively on accuracy and do not examine
-whether predictions are grounded in the supplied evidence.
+The advent of instruction-tuned large language models has opened a new
+direction for ERC that bypasses task-specific fine-tuning.
+Wei et al.~\cite{wei2022flan} demonstrated that instruction fine-tuning
+generalises across diverse NLP tasks in a zero-shot manner, providing the
+methodological foundation for prompting-based ERC.
+Zhao et al.~\cite{zhao2023chatgpt} then evaluated ChatGPT on sentiment
+reasoning benchmarks and showed competitive zero-shot performance relative
+to fine-tuned models. Tu et al.~\cite{tu2023chatgpt} further investigated
+how multiple forms of knowledge elicited from ChatGPT, including
+commonsense, causal, and contextual signals, can serve as auxiliary
+supervision for ERC. InstructERC~\cite{wang2023instructerc} reformulates
+ERC as a generative task with a retrieval-augmented template module and
+trains a LLaMA backbone with emotion-alignment objectives, matching
+or exceeding supervised baselines on several benchmarks. Liu et
+al.~\cite{liu2024emollms} extend this line of work with a family of
+open-source instruction-following LLMs specifically fine-tuned for
+affective analysis, outperforming GPT-4 on several sentiment and emotion
+classification benchmarks.
+
+A consistent limitation across all these studies is their exclusive focus
+on classification accuracy. None of them examine whether the model's
+predictions or generated explanations are actually grounded in the
+conversational evidence provided in the prompt. Consequently, high
+accuracy scores may reflect the model's parametric knowledge about typical
+emotional expressions rather than genuine reasoning over the supplied
+dialogue. This gap motivates our faithfulness-oriented evaluation
+framework, which treats grounding in retrieved evidence as a first-class
+evaluation criterion alongside predictive accuracy.
 
 \subsection{Retrieval-Augmented Generation}
 
-RAG~\cite{lewis2020rag} augments LLM inputs with passages retrieved
-from an external corpus. For dialogue tasks, retrieval can be applied
-within the conversation window to select contextually relevant
-utterances. BM25~\cite{robertson2009bm25} is a standard lexical
-retrieval baseline, while dense passage retrieval (DPR)~\cite{karpukhin2020dpr}
-uses learned encoders for semantic matching.
-Gao et al.~\cite{gao2023survey} provide a comprehensive survey of RAG approaches
-and highlight the importance of retrieval quality for downstream
-generation fidelity.
+Retrieval-augmented generation was introduced by Lewis et
+al.~\cite{lewis2020rag} as a general framework for grounding LLM outputs
+in externally retrieved evidence. At inference time, a retriever selects
+relevant passages from a corpus, and these are concatenated to the input
+before generation. Karpukhin et al.~\cite{karpukhin2020dpr} showed that
+dense passage retrieval using bi-encoder architectures substantially
+outperforms BM25~\cite{robertson2009bm25} on open-domain question
+answering. Reimers and Gurevych~\cite{reimers2019sbert} further improved
+semantic retrieval by training siamese BERT networks with contrastive
+objectives, enabling efficient cosine-similarity search over large
+sentence corpora. More recent systems, such as Self-RAG~\cite{asai2024selfrag},
+train the generator to adaptively decide when retrieval is necessary and
+to self-critique the relevance and factuality of retrieved passages using
+special reflection tokens. Gao et al.~\cite{gao2023survey} provide a
+comprehensive taxonomy of RAG architectures and highlight retrieval quality
+as the primary bottleneck for downstream generation fidelity.
+
+Despite this progress, RAG has been developed almost exclusively for
+open-domain question answering and knowledge-intensive generation tasks.
+Its application to dialogue emotion recognition raises new challenges:
+the retrieval corpus is the conversation window itself rather than an
+external knowledge base, the relevant evidence is often implicit and
+relationally distributed across turns, and the gold standard for
+relevance is emotional rather than factual. Existing RAG systems
+also provide no mechanism for verifying whether the generator actually
+uses the retrieved evidence in its reasoning. Our work adapts and
+systematically compares multiple retrieval strategies in this
+under-explored dialogue setting.
 
 \subsection{Graph-Augmented Retrieval for Dialogue}
 
-Graph representations of dialogue context have been explored for
-capturing inter-utterance and inter-speaker dependencies beyond
-sequential order. Relation-aware graph attention networks have been
-applied to ERC to model the speaker dynamics that influence emotional
-expression. In this work, we adopt a graph construction that encodes
-same-speaker history, emotion-shift transitions, and contextual
-adjacency to provide structured evidence for LLM prompting.
+Graph-based methods have been applied to dialogue to capture relational
+structures that sequential models miss. DialogueGCN~\cite{ghosal2019dialoguegcn}
+constructs heterogeneous graphs with speaker-specific and temporal edge
+types and applies relational graph convolution for ERC.
+The Knowledge-Enriched Transformer~\cite{zhong2019ket} augments
+transformer self-attention with a context-aware affective graph over
+ConceptNet, dynamically injecting commonsense knowledge at each
+utterance representation. COSMIC~\cite{ghosal2020cosmic} integrates five
+types of commonsense relations from ATOMIC into a flow model that
+propagates knowledge through the dialogue graph.
+DAG-ERC~\cite{shen2021dag} addresses long-range dependency by encoding
+utterance relationships as a directed acyclic graph, explicitly
+distinguishing forward and backward contextual influences.
+SKIER~\cite{li2023skier} combines symbolic discourse-structure knowledge
+with a commonsense knowledge graph subgraph retrieved for each utterance,
+achieving state-of-the-art results on MELD, IEMOCAP, and EmoryNLP.
+
+The above methods all operate in the supervised learning paradigm, where
+graph structures are trained end-to-end together with an emotion
+classifier. As a result, the graph serves as an implicit inductive bias
+rather than an explicit, inspectable source of evidence. In contrast,
+our approach serialises the dialogue graph into natural language and
+provides it directly to an LLM as structured evidence. This design allows
+the contribution of each graph component to be isolated and measured
+through ablation, and enables faithfulness evaluation by checking whether
+the LLM's explanation cites the relational information from the graph.
 
 \subsection{Faithfulness and Evidence-Grounded Evaluation}
 
-Faithfulness evaluation originated in summarisation research, where
-Maynez et al.~\cite{maynez2020faithfulness} showed that abstractive models frequently
-hallucinate facts not present in the source.
-For RAG systems, Es et al.~\cite{es2023ragas} propose RAGAS, a reference-free
-evaluation suite that measures faithfulness by checking whether generated
-statements are entailed by the retrieved context. Our faithfulness
-evaluation follows a similar claim-verification paradigm but is adapted
-to the conversational emotion recognition setting, where each atomic
-claim in the model's explanation is verified against the retrieved
-dialogue evidence.
+Faithfulness evaluation in natural language generation was first
+systematically studied in the context of abstractive summarisation.
+Maynez et al.~\cite{maynez2020faithfulness} established that a large
+fraction of abstractive summaries contain facts not entailed by the
+source document, and proposed intrinsic versus extrinsic hallucination
+as a taxonomy. The FEVER benchmark~\cite{thorne2018fever} operationalised
+factual verification at scale by constructing 185,000 claims against
+Wikipedia and requiring systems to retrieve evidence and classify each
+claim as SUPPORTED, REFUTED, or NOT ENOUGH INFO. Min et
+al.~\cite{min2023factscore} introduced FActScore, which decomposes
+long-form LLM generations into atomic facts and verifies each against a
+retrieval-backed knowledge source, achieving near-human agreement on
+biographical generation. Liu et al.~\cite{liu2023geval} propose G-EVAL,
+a GPT-4-based evaluation framework that uses chain-of-thought prompting
+to assess NLG dimensions including consistency and faithfulness, achieving
+substantially higher correlation with human judgments than prior
+reference-based metrics. For RAG systems specifically, Es et
+al.~\cite{es2023ragas} propose RAGAS, a reference-free suite that
+measures faithfulness by checking whether generated statements are
+logically entailed by the retrieved context.
+
+Despite this progress, all existing faithfulness evaluation frameworks
+target summarisation, open-domain question answering, or general-purpose
+generation tasks. None have been adapted to conversational emotion
+recognition, where the evidence consists of emotionally salient dialogue
+turns rather than factual passages, and where the grounding claim is
+about the emotional state of a speaker rather than a verifiable fact.
+Moreover, no prior work on LLM-based ERC has examined whether
+model explanations are grounded in the supplied context. Our claim-level
+faithfulness evaluation framework bridges this gap by adapting the
+atomic-claim decomposition and verification paradigm to the conversational
+emotion recognition setting.
 
 % ─────────────────────────────────────────────────────────────────────────────
 \section{Methodology}
@@ -345,7 +454,7 @@ by 0.038. LLM-only achieves the highest accuracy (0.618) but, as shown
 in Section~\ref{sec:faith-results}, this does not correspond to
 faithful reasoning.
 
-\begin{table}[t]
+\begin{table}
 \centering
 \caption{Classification performance on MELD test set (500 instances).
 Best result per column is \textbf{bold}.}
@@ -375,7 +484,7 @@ of graph-structured evidence. Minority classes such as \textit{fear}
 and \textit{disgust} remain difficult for all methods, with F1 scores
 below 0.40 across the board.
 
-\begin{table}[t]
+\begin{table}
 \centering
 \caption{Per-class F1 on MELD test set. Best per class is \textbf{bold}.}
 \label{tab:perclass}
@@ -414,7 +523,7 @@ outperforms Text-only RAG in faithfulness (+0.009), suggesting that
 structured relational evidence provides slightly more citable content
 than unselected context.
 
-\begin{table}[t]
+\begin{table}
 \centering
 \caption{Faithfulness evaluation on MELD test set (500 instances).
 Best result per column is \textbf{bold}.}
@@ -456,7 +565,7 @@ zero-shot prompting setup and underline the importance of addressing
 imbalance (e.g., via label-balanced sampling or class-weighted loss)
 in future work.
 
-\begin{table}[t]
+\begin{table}
 \centering
 \caption{Classification performance on EmoryNLP test set (500 instances).
 All methods collapse to predicting \textit{neutral}; macro F1 is near
@@ -490,7 +599,7 @@ emotion-shift links causes negligible performance change, indicating
 that emotion-shift transitions contribute less than speaker identity to
 the graph evidence.
 
-\begin{table}[t]
+\begin{table}
 \centering
 \caption{Ablation results on MELD test set. $\Delta$ macro F1 is
 relative to Graph RAG (full).}

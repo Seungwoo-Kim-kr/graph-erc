@@ -39,7 +39,7 @@ parametric knowledge. This paper presents a systematic evaluation of
 six context-construction strategies for LLM-based ERC: LLM-only,
 full-context, BM25 retrieval-augmented generation (RAG), dense RAG,
 text-only RAG, and graph-augmented RAG. Beyond standard classification
-metrics, we introduce a claim-level faithfulness evaluation that measures
+metrics, a claim-level faithfulness evaluation is introduced that measures
 whether model-generated explanations are supported by the retrieved
 evidence. Experiments on MELD and EmoryNLP reveal complementary insights.
 On MELD, LLM-only inference achieves the highest accuracy (0.618) but
@@ -102,23 +102,23 @@ across six context-construction strategies.
 
 \noindent\textbf{Contributions.} This paper makes the following contributions:
 \begin{itemize}
-    \item We present a comparative evaluation of six LLM-based ERC
-    methods spanning no-retrieval, flat retrieval, and graph-augmented
-    retrieval baselines on the MELD and EmoryNLP datasets.
+    \item A comparative evaluation of six LLM-based ERC methods is presented,
+    spanning no-retrieval, flat retrieval, and graph-augmented retrieval
+    baselines on the MELD and EmoryNLP datasets.
 
-    \item We introduce a claim-level faithfulness evaluation framework
+    \item A claim-level faithfulness evaluation framework is introduced,
     in which model explanations are decomposed into atomic claims and
     each claim is verified against the retrieved evidence by an
     LLM-as-judge, yielding a continuous faithfulness score.
 
-    \item We demonstrate a systematic faithfulness gap: LLM-only and
-    full-context methods achieve near-zero faithfulness ($<$0.04),
+    \item A systematic faithfulness gap is demonstrated: LLM-only and
+    full-context methods achieve near-zero faithfulness (below 0.04),
     while retrieval-augmented methods raise faithfulness by an order of
-    magnitude ($>$0.21), regardless of classification accuracy.
+    magnitude (above 0.21), regardless of classification accuracy.
 
-    \item We conduct an ablation study on graph components,
-    finding that same-speaker history is the most critical structural
-    element, contributing a $-$0.053 macro F1 drop when removed.
+    \item An ablation study on graph components identifies same-speaker
+    history as the most critical structural element, with its removal
+    causing a 0.053 drop in macro F1.
 \end{itemize}
 
 % ─────────────────────────────────────────────────────────────────────────────
@@ -152,7 +152,7 @@ dialogue data. They also do not produce natural-language explanations,
 making it difficult to audit whether a prediction is grounded in specific
 conversational evidence. Furthermore, minority emotion classes remain
 severely underperforming in all existing systems, indicating that the
-problem is not yet solved by architectural innovation alone. Our work
+problem is not yet solved by architectural innovation alone. This paper
 departs from the supervised paradigm entirely and instead evaluates
 whether an LLM prompted with structured graph evidence can reason
 faithfully about emotion from first principles.
@@ -184,8 +184,8 @@ predictions or generated explanations are actually grounded in the
 conversational evidence provided in the prompt. Consequently, high
 accuracy scores may reflect the model's parametric knowledge about typical
 emotional expressions rather than genuine reasoning over the supplied
-dialogue. This gap motivates our faithfulness-oriented evaluation
-framework, which treats grounding in retrieved evidence as a first-class
+dialogue. This gap motivates the faithfulness-oriented evaluation
+framework proposed in this paper, which treats grounding in retrieved evidence as a first-class
 evaluation criterion alongside predictive accuracy.
 
 \subsection{Retrieval-Augmented Generation}
@@ -215,7 +215,7 @@ external knowledge base, the relevant evidence is often implicit and
 relationally distributed across turns, and the gold standard for
 relevance is emotional rather than factual. Existing RAG systems
 also provide no mechanism for verifying whether the generator actually
-uses the retrieved evidence in its reasoning. Our work adapts and
+uses the retrieved evidence in its reasoning. This paper adapts and
 systematically compares multiple retrieval strategies in this
 under-explored dialogue setting.
 
@@ -242,7 +242,7 @@ The above methods all operate in the supervised learning paradigm, where
 graph structures are trained end-to-end together with an emotion
 classifier. As a result, the graph serves as an implicit inductive bias
 rather than an explicit, inspectable source of evidence. In contrast,
-our approach serialises the dialogue graph into natural language and
+the proposed approach serialises the dialogue graph into natural language and
 provides it directly to an LLM as structured evidence. This design allows
 the contribution of each graph component to be isolated and measured
 through ablation, and enables faithfulness evaluation by checking whether
@@ -278,8 +278,8 @@ recognition, where the evidence consists of emotionally salient dialogue
 turns rather than factual passages, and where the grounding claim is
 about the emotional state of a speaker rather than a verifiable fact.
 Moreover, no prior work on LLM-based ERC has examined whether
-model explanations are grounded in the supplied context. Our claim-level
-faithfulness evaluation framework bridges this gap by adapting the
+model explanations are grounded in the supplied context. The claim-level
+faithfulness evaluation framework proposed here bridges this gap by adapting the
 atomic-claim decomposition and verification paradigm to the conversational
 emotion recognition setting.
 
@@ -298,7 +298,7 @@ explanation $e_\tau$ grounded in the available evidence.
 
 \subsection{Context-Construction Methods}
 
-We compare six methods that differ in how they construct the evidence
+Six methods are compared that differ in how they construct the evidence
 provided to the LLM:
 
 \paragraph{LLM-only.}
@@ -365,8 +365,8 @@ explicit rule set:
 \label{sec:faithfulness}
 
 Standard accuracy metrics cannot measure whether a prediction is
-supported by the provided evidence. We introduce a two-step
-claim-level faithfulness evaluation:
+supported by the provided evidence. A two-step
+claim-level faithfulness evaluation is adopted:
 
 \paragraph{Step 1 — Claim decomposition.}
 Given a model explanation $e_\tau$, an LLM judge decomposes it into a
@@ -431,12 +431,12 @@ a natural-language template.
 
 \subsection{Evaluation Metrics}
 
-\paragraph{Classification metrics.} We report accuracy, macro-averaged
+\paragraph{Classification metrics.} The evaluation reports accuracy, macro-averaged
 F1 (macro F1), weighted F1, worst-class F1, and per-class F1 for each
 method. Macro F1 is the primary metric because it treats all emotion
 classes equally regardless of frequency.
 
-\paragraph{Faithfulness metrics.} We report the mean faithfulness
+\paragraph{Faithfulness metrics.} The evaluation also reports the mean faithfulness
 score, supported ratio (fraction of fully supported claims), and
 unsupported ratio (fraction of unsupported claims) averaged across
 all evaluated instances.
@@ -623,7 +623,7 @@ Text-only RAG           & 0.538 & 0.480 & $-$0.011 & 0.213 \\
 \label{sec:discussion}
 
 \paragraph{The faithfulness--accuracy trade-off.}
-Our results reveal a clear trade-off between accuracy and faithfulness.
+The results reveal a clear trade-off between accuracy and faithfulness.
 LLM-only achieves the highest accuracy (0.618) because it can draw on
 extensive parametric knowledge about how social emotions manifest in
 television dialogue, a genre well-represented in LLM training corpora.
@@ -688,7 +688,7 @@ in social dialogue. A key contribution is the introduction of a
 claim-level faithfulness evaluation framework that measures whether
 model explanations are supported by retrieved evidence.
 
-Our experiments on MELD demonstrate that non-retrieval LLM methods,
+The experiments on MELD demonstrate that non-retrieval LLM methods,
 despite achieving high accuracy, produce explanations that are almost
 entirely unsupported by the conversational evidence (98.4\% unsupported
 claims). Graph-augmented RAG achieves the best macro F1 among retrieval

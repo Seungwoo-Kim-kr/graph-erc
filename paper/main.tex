@@ -47,8 +47,8 @@ evidence. Experiments on MELD and EmoryNLP reveal consistent findings
 across both benchmarks. On MELD, LLM-only inference achieves the
 highest accuracy (0.618) but near-zero faithfulness (0.014), suggesting
 that generated explanations are rarely grounded in the supplied evidence;
-graph-augmented RAG achieves the best macro F1 among retrieval methods
-(0.491) while maintaining competitive faithfulness (0.222). On EmoryNLP,
+graph-augmented RAG achieves the highest macro F1 across all methods
+(0.500) while maintaining competitive faithfulness (0.222). On EmoryNLP,
 graph-augmented RAG again leads all methods in macro F1 (0.471) and
 accuracy (0.500), and the faithfulness ordering is consistent with MELD.
 Ablation analysis on MELD identifies same-speaker history as the most
@@ -386,8 +386,10 @@ inspectable by the LLM and by the faithfulness evaluator.
 \State Initialise graph $G_\tau = (V, E)$ with $V = \{u_t : u_t \in C_\tau\}$
 \For{each pair $(u_i, u_j) \in C_\tau \times C_\tau$, $i < j$}
     \If{$s_i = s_j$} \textbf{add} same-speaker edge $(u_i, u_j)$ \EndIf
-    \If{adjacent($u_i,u_j$)} \textbf{add} sequential edge $(u_i, u_j)$ \EndIf
-    \If{polarity-shift($u_i, u_j$)} \textbf{add} polarity-shift edge $(u_i, u_j)$ \EndIf
+\EndFor
+\For{each consecutive pair $(u_i, u_{i+1})$ in $C_\tau$}
+    \State \textbf{add} sequential edge $(u_i, u_{i+1})$
+    \If{polarity-shift($u_i, u_{i+1}$)} \textbf{add} polarity-shift edge $(u_i, u_{i+1})$ \EndIf
 \EndFor
 \State Rank nodes $V$ by degree $\deg_{G_\tau}(v)$ in descending order
 \State Select top-$k$ nodes $V^* \subseteq V$
@@ -511,9 +513,11 @@ instances), macro F1 is the primary evaluation metric.
 All experiments use \texttt{gpt-4o-mini} as the inference model with
 temperature 0 and a maximum of 512 output tokens, ensuring deterministic
 outputs across runs. The same model is used as the faithfulness judge.
-All experiments use 500 instances uniformly sampled at random (seed 42)
-from the test split to control API cost while maintaining statistical
-coverage.
+Classification experiments are performed on the full test split of each
+dataset. Faithfulness evaluation, which requires two separate LLM API
+calls per instance (claim decomposition and verification), is performed
+on 500 instances uniformly sampled at random (seed 42) from each test
+split to control API cost.
 
 \subsection{Retrieval Settings}
 
@@ -547,36 +551,29 @@ responses only.
 
 \subsection{MELD Classification Performance}
 
-The central finding on MELD is that Graph RAG achieves the highest macro F1
-among retrieval-augmented methods while maintaining the best balance between
-prediction quality and faithfulness.
-Table~\ref{tab:overall-performance} reports full classification performance.
-Graph RAG achieves the highest macro F1 among retrieval methods (0.491),
-outperforming Text-only RAG (0.480) by 0.011 and BM25 RAG (0.453) by 0.038.
-Bootstrap confidence intervals (5{,}000 resamples, seed~42) computed over
-the full test set reveal that all pairwise margins among retrieval methods
-on MELD fall within sampling uncertainty — all retrieval-method CIs overlap —
-so the ranking among retrieval methods should be interpreted with caution.
-Full-context LLM achieves a comparable macro F1 (0.491) by providing the
-complete dialogue history, but at the cost of near-zero faithfulness (0.033),
-as shown in Section~\ref{sec:faith-results}.
-When prediction quality and faithfulness are considered jointly, Graph
-RAG achieves the highest harmonic mean of normalised macro F1 and
-faithfulness ($H = 0.67$; see Section~\ref{sec:discussion} for the
-full derivation), making it the most balanced choice when both
-classification accuracy and explainability are required.
-Table~\ref{tab:bootstrap-ci} reports bootstrap CIs for macro F1
-across both datasets.
-LLM-only achieves the highest accuracy (0.618) and macro F1 0.485 overall,
-likely because the Friends TV corpus underlying MELD is well-represented in the
-model's pre-training data, enabling parametric recall without contextual
-grounding. Text-only RAG records the best worst-class F1 (0.333) among
-all methods, indicating that recency-based context selection helps
-minority classes more than semantic retrieval.
+Table~\ref{tab:overall-performance} reports classification performance on
+the full MELD test set. Graph RAG achieves the highest macro F1 (0.500)
+and accuracy (0.591) across all six methods, including the non-retrieval
+baselines. Full-context LLM is the second highest on macro F1 (0.491).
+Bootstrap confidence intervals (5{,}000 resamples, seed~42) for all methods
+are reported in Table~\ref{tab:bootstrap-ci}; the CIs of Graph RAG
+[0.472,\,0.525] and Full-context LLM [0.463,\,0.517] overlap, so this
+0.009 margin should be interpreted with caution. Among retrieval methods,
+Graph RAG (0.500) outperforms BM25 RAG (0.453) by 0.047 and Text-only
+RAG (0.462) by 0.038. When prediction quality and faithfulness are
+considered jointly, Graph RAG lies on the Pareto frontier: no other
+method simultaneously achieves comparable macro F1 and faithfulness
+(see Section~\ref{sec:discussion}). LLM-only achieves the highest
+accuracy (0.618), possibly because the model can rely on broad parametric
+knowledge about conversational emotion patterns rather than on explicitly
+supplied evidence; however, this study does not directly test
+pre-training exposure. Text-only RAG records the best worst-class F1
+(0.330), indicating that recency-based context selection benefits
+minority classes.
 
 \begin{table}
 \centering
-\caption{Classification performance on MELD test set (500 instances).
+\caption{Classification performance on full MELD test set (2{,}610 utterances).
 Best result per column is \textbf{bold}.}
 \label{tab:overall-performance}
 \begin{tabular}{lcccc}
@@ -584,11 +581,11 @@ Best result per column is \textbf{bold}.}
 Method & Accuracy & Macro F1 & Weighted F1 & Worst-class F1 \\
 \midrule
 LLM-only          & \textbf{0.618} & 0.485 & \textbf{0.621} & 0.292 \\
-Full-context LLM  & 0.574          & \textbf{0.491} & 0.586 & 0.328 \\
+Full-context LLM  & 0.574          & 0.491 & 0.586          & 0.328 \\
 BM25 RAG          & 0.526          & 0.453 & 0.539          & 0.298 \\
 Dense RAG         & 0.529          & 0.454 & 0.541          & 0.292 \\
-Text-only RAG     & 0.538          & 0.480 & 0.548          & \textbf{0.333} \\
-Graph RAG         & 0.570          & \textbf{0.491} & 0.580 & 0.320 \\
+Text-only RAG     & 0.530          & 0.462 & 0.542          & \textbf{0.330} \\
+Graph RAG         & \textbf{0.591} & \textbf{0.500} & \textbf{0.602} & 0.308 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -658,7 +655,7 @@ the cost of lower predictive accuracy.
 
 \begin{table}
 \centering
-\caption{Faithfulness evaluation on MELD test set (500 instances).
+\caption{Faithfulness evaluation on MELD (500-instance sample, seed 42).
 Best result per column is \textbf{bold}.}
 \label{tab:faithfulness}
 \begin{tabular}{lccc}
@@ -681,9 +678,13 @@ Graph RAG         & 0.222          & 0.164          & 0.720 \\
 The EmoryNLP evaluation tests whether the MELD findings generalise across
 annotation schemes and class distributions. Table~\ref{tab:emorynlp-performance}
 reports classification and faithfulness performance; the sampled test instances
-cover five emotion classes — \textit{joy} (35.8\%), \textit{neutral}
-(34.6\%), \textit{fear} (11.0\%), \textit{anger} (10.0\%), and
-\textit{sadness} (8.6\%) — reflecting moderate class imbalance.
+cover five emotion classes using EmoryNLP's original label scheme —
+\textit{joyful} (35.8\%), \textit{neutral} (34.6\%), \textit{scared}
+(11.0\%), \textit{mad} (10.0\%), and \textit{sad} (8.6\%) — reflecting
+moderate class imbalance. For evaluation, these labels are mapped to a
+common five-class scheme consistent with the MELD label space
+(\textit{joyful}$\to$\textit{joy}, \textit{mad}$\to$\textit{anger},
+\textit{scared}$\to$\textit{fear}, \textit{sad}$\to$\textit{sadness}).
 
 The results are consistent with MELD and further support the main
 findings. Graph RAG achieves the highest macro F1 (0.471~[0.413--0.523]) and accuracy
@@ -715,9 +716,8 @@ phenomenon.
 
 \begin{table}
 \centering
-\caption{Classification and faithfulness performance on EmoryNLP test
-set (500 instances, five emotion classes). Best result per column is
-\textbf{bold}.}
+\caption{Classification (full test set) and faithfulness (500-instance
+sample, seed 42) on EmoryNLP. Best result per column is \textbf{bold}.}
 \label{tab:emorynlp-performance}
 \begin{tabular}{lcccc}
 \toprule
@@ -742,7 +742,7 @@ degradation in both accuracy (0.076) and macro F1 (0.053), confirming
 that within-speaker emotional continuity is the most informative
 relational signal. In contrast, removing the polarity-edge heuristic --- a rule-based sentiment-polarity classifier applied to utterance text that assigns edge weights based on affective polarity cues --- slightly
 \emph{improves} both accuracy (+0.004) and macro F1 (+0.004),
-indicating that this heuristic introduces noise rather than useful signal. Removing emotion-shift links causes negligible change
+indicating that this heuristic introduces noise rather than useful signal. Removing polarity-shift links causes negligible change
 (macro F1 drop of 0.003), suggesting that detected emotional transitions
 add minimal information beyond what same-speaker and adjacency links
 already capture. Faithfulness follows a similar pattern: removing
@@ -756,8 +756,10 @@ rather than from relational diversity per se.
 
 \begin{table}
 \centering
-\caption{Ablation results on MELD test set. $\Delta$ macro F1 is
-relative to Graph RAG (full).}
+\caption{Ablation results on MELD (500-instance evaluation subset, seed 42).
+All variants are evaluated on the same subset for consistent $\Delta$ computation.
+Note: the Graph RAG (full) baseline here (macro F1 0.491) is the 500-instance
+subset value; the full test-set value is 0.500 (Table~\ref{tab:overall-performance}).}
 \label{tab:ablation}
 \begin{tabular}{lcccc}
 \toprule
@@ -765,7 +767,7 @@ Variant & Accuracy & Macro F1 & $\Delta$ Macro F1 & Faithfulness \\
 \midrule
 Graph RAG (full)        & 0.570 & \textbf{0.491} & --- & 0.222 \\
 $-$Same-speaker history & 0.494 & 0.438 & $-$0.053 & 0.181 \\
-$-$Emotion-shift links  & 0.564 & 0.488 & $-$0.003 & 0.234 \\
+$-$Polarity-shift links & 0.564 & 0.488 & $-$0.003 & 0.234 \\
 $-$Polarity-edge heuristic  & \textbf{0.574} & 0.495 & +0.004 & 0.235 \\
 \midrule
 Text-only RAG           & 0.538 & 0.480 & $-$0.011 & 0.213 \\
@@ -776,22 +778,22 @@ Text-only RAG           & 0.538 & 0.480 & $-$0.011 & 0.213 \\
 \begin{table}[t]
 \centering
 \caption{95\% bootstrap confidence intervals for macro F1 (5{,}000 resamples,
-seed~42, computed on the full test set). On MELD all retrieval-method CIs
-overlap; on EmoryNLP, Graph RAG's CI does not overlap with LLM-only's,
+seed~42, full test set). Point estimates follow Tables~\ref{tab:overall-performance}
+and~\ref{tab:emorynlp-performance}. On MELD, Graph RAG's CI [0.472,\,0.525]
+overlaps with Full-context LLM's [0.463,\,0.517]; on EmoryNLP, Graph RAG's
+CI [0.413,\,0.523] does not overlap with LLM-only's [0.272,\,0.375],
 confirming a statistically robust retrieval advantage.}
 \label{tab:bootstrap-ci}
-\begin{tabular}{lcccc}
+\begin{tabular}{lcc}
 \toprule
- & \multicolumn{2}{c}{MELD} & \multicolumn{2}{c}{EmoryNLP} \\
-\cmidrule(lr){2-3} \cmidrule(lr){4-5}
-Method & Macro F1 & 95\% CI & Macro F1 & 95\% CI \\
+Method & MELD 95\% CI & EmoryNLP 95\% CI \\
 \midrule
-LLM-only          & 0.485 & [0.457,\,0.512] & 0.326 & [0.272,\,0.375] \\
-Full-context LLM  & 0.491 & [0.463,\,0.517] & 0.348 & [0.293,\,0.401] \\
-BM25 RAG          & 0.453 & [0.427,\,0.477] & 0.425 & [0.372,\,0.476] \\
-Dense RAG         & 0.454 & [0.428,\,0.479] & 0.418 & [0.363,\,0.468] \\
-Text-only RAG     & 0.462 & [0.434,\,0.487] & 0.439 & [0.383,\,0.490] \\
-Graph RAG         & 0.500 & [0.472,\,0.525] & 0.471 & [0.413,\,0.523] \\
+LLM-only          & [0.457,\,0.512] & [0.272,\,0.375] \\
+Full-context LLM  & [0.463,\,0.517] & [0.293,\,0.401] \\
+BM25 RAG          & [0.427,\,0.477] & [0.372,\,0.476] \\
+Dense RAG         & [0.428,\,0.479] & [0.363,\,0.468] \\
+Text-only RAG     & [0.434,\,0.487] & [0.383,\,0.490] \\
+Graph RAG         & [0.472,\,0.525] & [0.413,\,0.523] \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -802,9 +804,10 @@ Graph RAG         & 0.500 & [0.472,\,0.525] & 0.471 & [0.413,\,0.523] \\
 
 \paragraph{The faithfulness--accuracy trade-off (RQ1).}
 The results reveal a clear trade-off between accuracy and faithfulness.
-LLM-only achieves the highest accuracy (0.618) because it can draw on
-extensive parametric knowledge about how social emotions manifest in
-television dialogue, a genre well-represented in LLM training corpora.
+LLM-only achieves the highest accuracy (0.618), possibly because the
+model can rely on broad parametric knowledge about conversational emotion
+patterns rather than on explicitly supplied evidence; however, this
+study does not directly test memorisation or pre-training exposure.
 However, its 98.4\% unsupported claim rate indicates that this accuracy
 is not grounded in the conversational evidence. Retrieval-augmented
 methods constrain the model to reason from specific utterances,
@@ -812,27 +815,25 @@ slightly reducing accuracy but raising faithfulness by an order of
 magnitude.
 
 \paragraph{Graph RAG as the balanced choice (RQ2).}
-To formalise the claim that Graph RAG provides the best balance between
-prediction quality and faithfulness, the harmonic mean $H$ of normalised
-macro F1 and faithfulness is computed for each method. Normalising macro
-F1 to $[0,1]$ by dividing by the maximum observed value (0.491) and
-faithfulness similarly (by 0.269), Graph RAG achieves $H = 0.67$,
-exceeding BM25 RAG ($H = 0.60$), Text-only RAG ($H = 0.64$), and
-Full-context LLM ($H = 0.11$). Graph RAG is the only method that is
-not dominated by any other on either metric simultaneously: Full-context
-LLM matches its macro F1 (0.491) but collapses to faithfulness 0.033;
-BM25 RAG achieves the highest faithfulness (0.269) but lags in macro F1
-(0.453). Bootstrap confidence intervals further clarify which comparisons are
-statistically distinguishable: on MELD, the CIs of all retrieval methods
-overlap, so the ranking among them requires caution; on EmoryNLP, the
-CI of Graph RAG ([0.413--0.523]) does not overlap with that of LLM-only
-([0.271--0.374]), confirming that the retrieval advantage over the
-no-retrieval baseline is robust, while the margin over Text-only RAG
-([0.383--0.490]) remains within bootstrap uncertainty.
-Retrieval does introduce a precision--recall trade-off: when
-the retrieved context misses the most relevant emotional cue, the model
-may be misled by irrelevant evidence, which partly explains why BM25 and
-Dense RAG underperform text-only methods in macro F1.
+When prediction quality and faithfulness are considered jointly, Graph
+RAG lies on the Pareto frontier of this trade-off space: no other
+evaluated method simultaneously achieves comparable macro F1 and
+faithfulness. Full-context LLM comes closest on macro F1 (0.491 vs
+Graph RAG's 0.500) but collapses to faithfulness 0.033, making it
+unsuitable when evidence grounding is required. BM25 RAG achieves the
+highest faithfulness (0.269) but lags in macro F1 (0.453 vs 0.500).
+Graph RAG is thus the only method that avoids being dominated on either
+dimension simultaneously. Bootstrap confidence intervals qualify which
+comparisons are statistically distinguishable: on MELD, the CIs of
+Graph RAG [0.472,\,0.525] and Full-context LLM [0.463,\,0.517] overlap,
+so the 0.009 macro F1 gap requires caution; on EmoryNLP, the CI of Graph
+RAG ([0.413,\,0.523]) does not overlap with that of LLM-only
+([0.272,\,0.375]), confirming that the retrieval advantage over the
+no-retrieval baseline is robust. Retrieval does introduce a
+precision--recall trade-off: when the retrieved context misses the most
+relevant emotional cue, the model may be misled by irrelevant evidence,
+which partly explains why BM25 and Dense RAG underperform text-only
+methods in macro F1.
 
 \paragraph{Same-speaker history as the dominant signal (RQ3).}
 The ablation study identifies same-speaker history as the most
@@ -867,12 +868,12 @@ self-evaluation bias; future work should validate the faithfulness metric
 against human annotations on a held-out sample. Second, all methods use
 the same evidence-constrained prompt, which may structurally disadvantage
 methods with less citable evidence. Third, the graph construction relies
-on heuristic edge detection (same-speaker links, rule-based emotion-shift
+on heuristic edge detection (same-speaker links, rule-based polarity-shift
 detection) that has not been independently validated. Fourth, experiments
-are limited to 500 instances per dataset with a single random seed;
-statistical significance of small macro F1 differences (e.g., 0.011
-between Graph RAG and Text-only RAG on MELD) should be interpreted with
-caution. Finally, the polarity-edge heuristic in the ablation study uses a rule-based sentiment-polarity classifier on text; future work should replace this with genuine multimodal audio features to evaluate whether acoustic cues provide complementary signal.
+use a single random seed for the 500-instance faithfulness sample;
+statistical significance of small macro F1 differences on MELD
+(e.g., 0.038 between Graph RAG and BM25 RAG, CIs partially overlapping)
+should be interpreted with reference to Table~\ref{tab:bootstrap-ci}. Finally, the polarity-edge heuristic in the ablation study uses a rule-based sentiment-polarity classifier on text; future work should replace this with genuine multimodal audio features to evaluate whether acoustic cues provide complementary signal.
 
 % ─────────────────────────────────────────────────────────────────────────────
 \section{Conclusion}
@@ -892,11 +893,11 @@ accuracy metrics.
 The experiments on MELD demonstrate that non-retrieval LLM methods,
 despite achieving high accuracy, produce explanations that are almost
 entirely unsupported by the conversational evidence (98.4\% unsupported
-claims). Graph-augmented RAG achieves the best balance between prediction
-quality and faithfulness among all evaluated methods — the only
-approach that simultaneously achieves macro F1 above 0.49 and
-faithfulness above 0.22 — with same-speaker history identified as the
-most critical structural component. On EmoryNLP, Graph RAG again achieves the highest macro F1 (0.471) and
+claims). Graph-augmented RAG achieves the strongest trade-off between prediction
+quality and faithfulness, lying on the Pareto frontier of this space:
+it attains the highest macro F1 (0.500) while maintaining competitive
+faithfulness (0.222), a combination no other method matches — with
+same-speaker history identified as the most critical structural component. On EmoryNLP, Graph RAG again achieves the highest macro F1 (0.471) and
 accuracy (0.500), and the faithfulness ordering across methods is
 consistent with MELD. The cross-dataset consistency of both classification
 and faithfulness findings strengthens confidence in the main conclusions.

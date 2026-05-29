@@ -130,11 +130,11 @@ prediction and faithfulness metrics?
     structural signal in graph-augmented retrieval, whose removal causes
     a 0.053 drop in macro F1—larger than any other graph component.
 
-    \item \textbf{Class-imbalance failure mode.}
-    Analysis on EmoryNLP reveals that zero-shot prompting collapses under
-    severe class imbalance regardless of retrieval strategy, establishing
-    class-balanced evaluation as a prerequisite for meaningful comparison
-    on skewed dialogue datasets.
+    \item \textbf{Cross-dataset generalisation evidence.}
+    Evaluation on both MELD and EmoryNLP shows that graph-augmented RAG
+    consistently achieves the highest macro F1, and the faithfulness
+    ordering across methods is stable across datasets, strengthening the
+    reliability of the main findings.
 \end{itemize}
 
 % ─────────────────────────────────────────────────────────────────────────────

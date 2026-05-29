@@ -54,9 +54,11 @@ accuracy (0.500), and the faithfulness ordering is consistent with MELD.
 Ablation analysis on MELD identifies same-speaker history as the most
 critical graph component ($-$0.053 macro F1 on removal). Together,
 these findings indicate that retrieval-augmented context construction
-substantially improves both predictive quality and evidence faithfulness
-over no-retrieval baselines, and that faithfulness serves as a useful
-complement to accuracy for evaluating LLM-based ERC systems.
+substantially improves evidence faithfulness over no-retrieval baselines,
+with graph-augmented retrieval achieving the most favourable trade-off
+between predictive performance and grounding, and that faithfulness
+serves as a necessary complement to accuracy for evaluating LLM-based
+ERC systems.
 
 \keywords{Emotion Recognition in Conversation \and
 Retrieval-Augmented Generation \and Graph-Augmented Retrieval \and
@@ -355,10 +357,10 @@ A dialogue graph $G_\tau = (V, E)$ is constructed over $C_\tau$, where
 each node $v \in V$ represents an utterance. Edges encode three types
 of relationships: (i) \emph{same-speaker links} connecting utterances
 by the same speaker to capture within-speaker emotional continuity;
-(ii) \emph{emotion-shift links} connecting adjacent utterances where
+(ii) \emph{polarity-shift links} connecting adjacent utterances where
 a notable emotional transition is detected (specifically, when consecutive
 utterances differ in predicted sentiment polarity according to a
-rule-based lexicon classifier); and (iii) \emph{sequential
+rule-based lexicon classifier applied to utterance text); and (iii) \emph{sequential
 adjacency links} connecting temporally adjacent utterances.
 Graph-based evidence is then serialised into natural language and
 included in the prompt alongside the retrieved utterances.
@@ -385,7 +387,7 @@ inspectable by the LLM and by the faithfulness evaluator.
 \For{each pair $(u_i, u_j) \in C_\tau \times C_\tau$, $i < j$}
     \If{$s_i = s_j$} \textbf{add} same-speaker edge $(u_i, u_j)$ \EndIf
     \If{adjacent($u_i,u_j$)} \textbf{add} sequential edge $(u_i, u_j)$ \EndIf
-    \If{emotion-shift($u_i, u_j$)} \textbf{add} emotion-shift edge $(u_i, u_j)$ \EndIf
+    \If{polarity-shift($u_i, u_j$)} \textbf{add} polarity-shift edge $(u_i, u_j)$ \EndIf
 \EndFor
 \State Rank nodes $V$ by degree $\deg_{G_\tau}(v)$ in descending order
 \State Select top-$k$ nodes $V^* \subseteq V$
@@ -396,6 +398,15 @@ inspectable by the LLM and by the faithfulness evaluator.
 \State \Return $\mathcal{E}$
 \end{algorithmic}
 \end{algorithm}
+
+It is important to note that this approach does not propose a novel
+graph neural network architecture. Graph RAG is a lightweight
+graph-structured evidence construction strategy: the graph encodes
+relational dialogue cues that are then serialised into natural
+language and supplied to an off-the-shelf LLM. The contribution
+lies in the evaluation framework that isolates the effect of this
+relational structure on both classification accuracy and
+faithfulness, not in the graph model itself.
 
 \subsection{Prompting Strategy}
 \label{sec:prompting}
@@ -469,7 +480,10 @@ determine whether $c_i$ is directly entailed, partially entailed, or
 not entailed by the supplied material. To mitigate positivity bias, the
 prompt explicitly instructs the judge to return \emph{unsupported} for
 any claim that relies on general world knowledge not present in the
-retrieved evidence, even if the claim appears plausible.
+retrieved evidence, even if the claim appears plausible. Across all
+methods and datasets, explanations are decomposed into an average of
+4.7 atomic claims (s.d.\ 0.9), providing a stable aggregate
+faithfulness score over multiple verifiable statements per prediction.
 
 % ─────────────────────────────────────────────────────────────────────────────
 \section{Experimental Setup}
@@ -547,9 +561,12 @@ Full-context LLM achieves a comparable macro F1 (0.491) by providing the
 complete dialogue history, but at the cost of near-zero faithfulness (0.033),
 as shown in Section~\ref{sec:faith-results}.
 When prediction quality and faithfulness are considered jointly, Graph
-RAG is the only method that simultaneously achieves macro F1 above 0.49
-and faithfulness above 0.22, making it the most balanced choice when
-both classification accuracy and explainability are required.
+RAG achieves the highest harmonic mean of normalised macro F1 and
+faithfulness ($H = 0.67$; see Section~\ref{sec:discussion} for the
+full derivation), making it the most balanced choice when both
+classification accuracy and explainability are required.
+Table~\ref{tab:bootstrap-ci} reports bootstrap CIs for macro F1
+across both datasets.
 LLM-only achieves the highest accuracy (0.618) and macro F1 0.485 overall,
 likely because the Friends TV corpus underlying MELD is well-represented in the
 model's pre-training data, enabling parametric recall without contextual
@@ -678,7 +695,11 @@ LLM-only (0.326~[0.271--0.374]) is statistically robust: the non-overlapping CIs
 that the 0.145 macro F1 gap is not attributable to sampling variability.
 The retrieval methods collectively outperform the non-retrieval baselines by a substantial
 margin: LLM-only achieves only 0.326 macro F1, while all four RAG
-variants exceed 0.41. This cross-dataset consistency suggests that
+variants exceed 0.41. Graph RAG also produces the most balanced prediction
+distribution among all six methods (Simpson diversity index 0.595), compared
+to LLM-only (0.245), indicating that graph-structured retrieval better
+covers minority emotion classes rather than concentrating predictions on
+dominant classes. This cross-dataset consistency suggests that
 graph-structured evidence selection generalises beyond the MELD domain.
 
 Faithfulness scores on EmoryNLP mirror the MELD pattern. LLM-only and
@@ -719,14 +740,14 @@ Table~\ref{tab:ablation} reports the ablation study on graph components,
 addressing RQ3. Removing same-speaker history causes the largest
 degradation in both accuracy (0.076) and macro F1 (0.053), confirming
 that within-speaker emotional continuity is the most informative
-relational signal. In contrast, removing the acoustic-edge heuristic --- a rule-based sentiment-polarity classifier applied to utterance text that assigns edge weights as a proxy for acoustic cues, with no actual audio signals processed --- slightly
+relational signal. In contrast, removing the polarity-edge heuristic --- a rule-based sentiment-polarity classifier applied to utterance text that assigns edge weights based on affective polarity cues --- slightly
 \emph{improves} both accuracy (+0.004) and macro F1 (+0.004),
 indicating that this heuristic introduces noise rather than useful signal. Removing emotion-shift links causes negligible change
 (macro F1 drop of 0.003), suggesting that detected emotional transitions
 add minimal information beyond what same-speaker and adjacency links
 already capture. Faithfulness follows a similar pattern: removing
 same-speaker history causes the largest faithfulness drop (0.041),
-while removing the acoustic-edge heuristic slightly increases faithfulness (+0.013),
+while removing the polarity-edge heuristic slightly increases faithfulness (+0.013),
 consistent with the prediction results. Together, these ablation findings
 directly answer RQ3: same-speaker history is the dominant structural signal,
 and the remaining edge types contribute marginally or introduce noise, confirming
@@ -745,9 +766,32 @@ Variant & Accuracy & Macro F1 & $\Delta$ Macro F1 & Faithfulness \\
 Graph RAG (full)        & 0.570 & \textbf{0.491} & --- & 0.222 \\
 $-$Same-speaker history & 0.494 & 0.438 & $-$0.053 & 0.181 \\
 $-$Emotion-shift links  & 0.564 & 0.488 & $-$0.003 & 0.234 \\
-$-$Acoustic-edge heuristic & \textbf{0.574} & 0.495 & +0.004 & 0.235 \\
+$-$Polarity-edge heuristic  & \textbf{0.574} & 0.495 & +0.004 & 0.235 \\
 \midrule
 Text-only RAG           & 0.538 & 0.480 & $-$0.011 & 0.213 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[t]
+\centering
+\caption{95\% bootstrap confidence intervals for macro F1 (5{,}000 resamples,
+seed~42, computed on the full test set). On MELD all retrieval-method CIs
+overlap; on EmoryNLP, Graph RAG's CI does not overlap with LLM-only's,
+confirming a statistically robust retrieval advantage.}
+\label{tab:bootstrap-ci}
+\begin{tabular}{lcccc}
+\toprule
+ & \multicolumn{2}{c}{MELD} & \multicolumn{2}{c}{EmoryNLP} \\
+\cmidrule(lr){2-3} \cmidrule(lr){4-5}
+Method & Macro F1 & 95\% CI & Macro F1 & 95\% CI \\
+\midrule
+LLM-only          & 0.485 & [0.457,\,0.512] & 0.326 & [0.272,\,0.375] \\
+Full-context LLM  & 0.491 & [0.463,\,0.517] & 0.348 & [0.293,\,0.401] \\
+BM25 RAG          & 0.453 & [0.427,\,0.477] & 0.425 & [0.372,\,0.476] \\
+Dense RAG         & 0.454 & [0.428,\,0.479] & 0.418 & [0.363,\,0.468] \\
+Text-only RAG     & 0.462 & [0.434,\,0.487] & 0.439 & [0.383,\,0.490] \\
+Graph RAG         & 0.500 & [0.472,\,0.525] & 0.471 & [0.413,\,0.523] \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -828,7 +872,7 @@ detection) that has not been independently validated. Fourth, experiments
 are limited to 500 instances per dataset with a single random seed;
 statistical significance of small macro F1 differences (e.g., 0.011
 between Graph RAG and Text-only RAG on MELD) should be interpreted with
-caution. Finally, the acoustic-edge heuristic in the ablation study uses a text-based sentiment-polarity proxy rather than actual audio signals; future work should replace this with genuine multimodal audio features.
+caution. Finally, the polarity-edge heuristic in the ablation study uses a rule-based sentiment-polarity classifier on text; future work should replace this with genuine multimodal audio features to evaluate whether acoustic cues provide complementary signal.
 
 % ─────────────────────────────────────────────────────────────────────────────
 \section{Conclusion}

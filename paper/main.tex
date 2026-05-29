@@ -14,6 +14,8 @@
 \usepackage{multirow}
 \usepackage{amsmath}
 \usepackage{url}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning}
 
 \begin{document}
 
@@ -294,6 +296,82 @@ emotion recognition setting.
 \section{Methodology}
 \label{sec:method}
 
+Figure~\ref{fig:pipeline} provides an overview of the evaluation pipeline.
+Six context-construction strategies supply different forms of evidence to
+the same LLM; the predicted label is assessed by classification metrics
+and the generated explanation by a separate faithfulness framework.
+
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}[
+  >=Stealth, thick,
+  font=\small,
+  inp/.style={draw, rounded corners=3pt, fill=gray!15,
+    text width=9.5cm, minimum height=0.65cm, align=center},
+  cbox/.style={draw, rounded corners=3pt, fill=blue!8,
+    text width=9.5cm, inner sep=7pt, align=left},
+  llm/.style={draw, rounded corners=3pt, fill=orange!12,
+    text width=9.5cm, minimum height=0.65cm, align=center},
+  out/.style={draw, rounded corners=3pt, fill=green!9,
+    text width=4.0cm, minimum height=0.65cm, align=center,
+    font=\footnotesize},
+  fstep/.style={draw, rounded corners=3pt, fill=violet!8,
+    text width=4.5cm, minimum height=0.65cm, align=center,
+    font=\footnotesize},
+]
+% Input
+\node[inp] (inp)
+  {Dialogue $D = \{u_1,\ldots,u_T\}$,\quad Target utterance $u_\tau$};
+% Context Construction
+\node[cbox, below=0.5cm of inp] (ctx) {%
+  \renewcommand{\arraystretch}{1.2}%
+  \textbf{Context Construction (six strategies)}\\[3pt]
+  \begin{tabular}{@{}ll@{}}
+  LLM-only      & no contextual evidence \\
+  Full-context  & complete context $C_\tau$ \\
+  BM25 RAG      & top-$k$ lexically similar utterances from $C_\tau$ \\
+  Dense RAG     & top-$k$ semantically similar utterances from $C_\tau$ \\
+  Text-only RAG & three most recent utterances \\
+  Graph RAG     & serialised dialogue graph $G_\tau$ \\
+  \end{tabular}};
+\draw[->] (inp) -- (ctx);
+% LLM
+\node[llm, below=0.5cm of ctx] (llm)
+  {Evidence-constrained prompt $\longrightarrow$
+   \texttt{gpt-4o-mini} (temperature\,=\,0)};
+\draw[->] (ctx) -- (llm);
+% Outputs
+\node[out, below left=0.65cm and 0.5cm of llm] (label)
+  {Emotion label $\hat{y}_\tau$\\[2pt]
+   {\scriptsize Accuracy, Macro F1,}\\
+   {\scriptsize Weighted F1, Worst-class F1}};
+\node[out, below right=0.65cm and 0.5cm of llm] (expl)
+  {Explanation $e_\tau$\\[2pt]
+   {\scriptsize + evidence cited}};
+\draw[->] (llm) -- (label);
+\draw[->] (llm) -- (expl);
+% Faithfulness pipeline
+\node[fstep, below=0.5cm of expl] (decomp)
+  {\textbf{Step 1}\enspace Claim decomposition\\
+   $\{c_1, c_2, \ldots, c_n\}$};
+\node[fstep, below=0.4cm of decomp] (verify)
+  {\textbf{Step 2}\enspace Claim verification\\
+   supported\,/\,partial\,/\,unsupported};
+\node[fstep, below=0.4cm of verify] (fscore)
+  {Faithfulness score\\
+   $\tfrac{1}{n}\!\sum_{i=1}^{n}\mathrm{score}(c_i)$};
+\draw[->] (expl) -- (decomp);
+\draw[->] (decomp) -- (verify);
+\draw[->] (verify) -- (fscore);
+\end{tikzpicture}
+\caption{System pipeline. Six context-construction strategies supply
+different forms of evidence to the LLM. The predicted emotion label
+is evaluated by standard classification metrics (bottom-left); the
+generated explanation is independently assessed by the two-step
+claim-level faithfulness framework (bottom-right).}
+\label{fig:pipeline}
+\end{figure}
+
 \subsection{Problem Formulation}
 
 Let $D = \{u_1, u_2, \ldots, u_T\}$ denote a dialogue, where each
@@ -346,6 +424,17 @@ adjacency links} connecting temporally adjacent utterances.
 Graph-based evidence is then serialised into natural language and
 included in the prompt alongside the retrieved utterances.
 
+\paragraph{Graph serialisation.}
+Each selected utterance node is serialised as a labelled record
+specifying its speaker, turn index, text, and relationship type to
+the target (e.g.,
+\texttt{[same-speaker, turn~3] Speaker~A: ``I hate this!''}).
+Nodes are ranked by edge degree in $G_\tau$, and the top-$k$
+highest-degree nodes are included to bound the prompt length while
+prioritising the most relationally connected utterances. This
+serialisation makes the graph's relational structure directly
+inspectable by the LLM and by the faithfulness evaluator.
+
 \subsection{Prompting Strategy}
 \label{sec:prompting}
 
@@ -369,6 +458,17 @@ explicit rule set:
     \item The \texttt{evidence\_used} field must list the exact phrases
     relied upon.
 \end{enumerate}
+
+The three-block structure deliberately separates \texttt{[Dialogue
+Context]} (the broader conversational history) from \texttt{[Retrieved
+Evidence]} (the specifically selected utterances), making the grounding
+requirement operational: any claim in the explanation must be traceable
+to the retrieved evidence rather than to arbitrary content in the broader
+context. This separation is what enables the claim-level faithfulness
+evaluation to attribute specific model claims to specific evidence items.
+For the LLM-only baseline, \texttt{[Retrieved Evidence]} is explicitly
+marked as empty, ensuring the model is aware that no external evidence
+has been provided.
 
 \subsection{Claim-Level Faithfulness Evaluation}
 \label{sec:faithfulness}
@@ -397,6 +497,16 @@ extracted claims:
 Both decomposition and verification are performed by \texttt{gpt-4o-mini}
 with temperature 0 for reproducibility. The supported ratio and
 unsupported ratio are also reported as secondary faithfulness metrics.
+
+The decomposition prompt instructs the judge to extract each distinct
+factual or inferential claim from $e_\tau$ as a self-contained sentence.
+The verification prompt presents the judge with a single claim $c_i$,
+the retrieved evidence, and the dialogue context, and asks it to
+determine whether $c_i$ is directly entailed, partially entailed, or
+not entailed by the supplied material. To mitigate positivity bias, the
+prompt explicitly instructs the judge to return \emph{unsupported} for
+any claim that relies on general world knowledge not present in the
+retrieved evidence, even if the claim appears plausible.
 
 % ─────────────────────────────────────────────────────────────────────────────
 \section{Experimental Setup}
@@ -758,6 +868,13 @@ settings. Future work should investigate learned graph construction
 strategies, label-balanced prompting for imbalanced datasets,
 cross-dataset generalisation, and the relationship between faithfulness
 and human-perceived explanation quality.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section*{Acknowledgements}
+Generative AI tools were used for language editing assistance during the
+preparation of this manuscript, in accordance with the conference's AI
+usage policy. The experimental design, methodology, analysis, and all
+scientific conclusions are solely the responsibility of the author.
 
 % ─────────────────────────────────────────────────────────────────────────────
 \bibliographystyle{splncs04}

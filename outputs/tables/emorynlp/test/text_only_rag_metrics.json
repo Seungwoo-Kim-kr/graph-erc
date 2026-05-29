@@ -1,0 +1,163 @@
+{
+  "accuracy": 0.7457,
+  "macro_f1": 0.1068,
+  "weighted_f1": 0.8543,
+  "worst_class_f1": 0.0,
+  "per_class_f1": {
+    "mad": 0.0,
+    "joyful": 0.0,
+    "peaceful": 0.0,
+    "neutral": 0.8543,
+    "sad": 0.0,
+    "scared": 0.0,
+    "powerful": 0.0,
+    "surprised": 0.0
+  },
+  "classification_report": {
+    "mad": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 0.0
+    },
+    "joyful": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 0.0
+    },
+    "peaceful": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 0.0
+    },
+    "neutral": {
+      "precision": 1.0,
+      "recall": 0.7456647398843931,
+      "f1-score": 0.8543046357615894,
+      "support": 173.0
+    },
+    "sad": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 0.0
+    },
+    "scared": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 0.0
+    },
+    "powerful": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 0.0
+    },
+    "surprised": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 0.0
+    },
+    "accuracy": 0.7456647398843931,
+    "macro avg": {
+      "precision": 0.125,
+      "recall": 0.09320809248554913,
+      "f1-score": 0.10678807947019868,
+      "support": 173.0
+    },
+    "weighted avg": {
+      "precision": 1.0,
+      "recall": 0.7456647398843931,
+      "f1-score": 0.8543046357615894,
+      "support": 173.0
+    }
+  },
+  "confusion_matrix": [
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      8,
+      14,
+      1,
+      129,
+      2,
+      0,
+      0,
+      19
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  ],
+  "n_valid": 173,
+  "n_total": 500
+}

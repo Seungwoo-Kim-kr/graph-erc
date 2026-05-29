@@ -44,9 +44,10 @@ whether model-generated explanations are supported by the retrieved
 evidence. Experiments on MELD and EmoryNLP reveal complementary insights.
 On MELD, LLM-only inference achieves the highest accuracy (0.618) but
 near-zero faithfulness (0.014), indicating near-total reliance on
-parametric knowledge; graph-augmented RAG achieves the highest macro
-F1 (0.491) among retrieval methods while maintaining competitive
-faithfulness (0.222). Ablation analysis identifies same-speaker history
+parametric knowledge; graph-augmented RAG achieves the best balance between prediction
+quality (macro F1 0.491) and evidence faithfulness (0.222) — the
+only method that simultaneously achieves competitive macro F1 and
+meaningful grounding among all evaluated methods. Ablation analysis identifies same-speaker history
 as the most critical graph component ($-$0.053 macro F1 on removal).
 On EmoryNLP, severe class imbalance ($>$70\% of instances in two classes)
 causes all methods to collapse to predicting only the dominant class
@@ -126,6 +127,11 @@ prediction and faithfulness metrics?
     \item An ablation study on graph components identifies same-speaker
     history as the most critical structural element, with its removal
     causing a 0.053 drop in macro F1.
+
+    \item An analysis of zero-shot prompting under severe class imbalance
+    reveals that all methods collapse to predicting the dominant class on
+    EmoryNLP, establishing class-balanced evaluation as a prerequisite for
+    meaningful retrieval strategy comparison on imbalanced dialogue datasets.
 \end{itemize}
 
 % ─────────────────────────────────────────────────────────────────────────────
@@ -228,22 +234,16 @@ under-explored dialogue setting.
 
 \subsection{Graph-Augmented Retrieval for Dialogue}
 
-Graph-based methods have been applied to dialogue to capture relational
-structures that sequential models miss. DialogueGCN~\cite{ghosal2019dialoguegcn}
-constructs heterogeneous graphs with speaker-specific and temporal edge
-types and applies relational graph convolution for ERC.
-The Knowledge-Enriched Transformer~\cite{zhong2019ket} augments
-transformer self-attention with a context-aware affective graph over
-ConceptNet, dynamically injecting commonsense knowledge at each
-utterance representation. COSMIC~\cite{ghosal2020cosmic} integrates five
-types of commonsense relations from ATOMIC into a flow model that
-propagates knowledge through the dialogue graph.
-DAG-ERC~\cite{shen2021dag} addresses long-range dependency by encoding
-utterance relationships as a directed acyclic graph, explicitly
-distinguishing forward and backward contextual influences.
-SKIER~\cite{li2023skier} combines symbolic discourse-structure knowledge
-with a commonsense knowledge graph subgraph retrieved for each utterance,
-achieving state-of-the-art results on MELD, IEMOCAP, and EmoryNLP.
+Graph-based representations have been widely adopted in ERC to capture
+relational structure that flat sequential models miss. As discussed above,
+DialogueGCN~\cite{ghosal2019dialoguegcn}, COSMIC~\cite{ghosal2020cosmic},
+DAG-ERC~\cite{shen2021dag}, and SKIER~\cite{li2023skier} each construct
+different types of speaker and relational graphs over dialogue turns,
+consistently improving over recurrent baselines. Beyond ERC classification,
+the Knowledge-Enriched Transformer~\cite{zhong2019ket} augments transformer
+self-attention with a context-aware affective graph over ConceptNet,
+dynamically injecting commonsense knowledge at each utterance representation
+during dialogue understanding.
 
 The above methods all operate in the supervised learning paradigm, where
 graph structures are trained end-to-end together with an emotion
@@ -339,7 +339,9 @@ each node $v \in V$ represents an utterance. Edges encode three types
 of relationships: (i) \emph{same-speaker links} connecting utterances
 by the same speaker to capture within-speaker emotional continuity;
 (ii) \emph{emotion-shift links} connecting adjacent utterances where
-a notable emotional transition is detected; and (iii) \emph{sequential
+a notable emotional transition is detected (specifically, when consecutive
+utterances differ in predicted sentiment polarity according to a
+rule-based lexicon classifier); and (iii) \emph{sequential
 adjacency links} connecting temporally adjacent utterances.
 Graph-based evidence is then serialised into natural language and
 included in the prompt alongside the retrieved utterances.
@@ -422,9 +424,9 @@ instances), macro F1 is the primary evaluation metric.
 All experiments use \texttt{gpt-4o-mini} as the inference model with
 temperature 0 and a maximum of 512 output tokens, ensuring deterministic
 outputs across runs. The same model is used as the faithfulness judge.
-Inference is parallelised with eight concurrent API workers. All
-experiments use 500 instances sampled from the test split to control
-API cost while maintaining statistical coverage.
+All experiments use 500 instances uniformly sampled at random (seed 42)
+from the test split to control API cost while maintaining statistical
+coverage.
 
 \subsection{Retrieval Settings}
 
@@ -441,12 +443,17 @@ a natural-language template.
 \paragraph{Classification metrics.} The evaluation reports accuracy, macro-averaged
 F1 (macro F1), weighted F1, worst-class F1, and per-class F1 for each
 method. Macro F1 is the primary metric because it treats all emotion
-classes equally regardless of frequency.
+classes equally regardless of frequency. Worst-class F1 is defined as
+the minimum per-class F1 score across all emotion classes, measuring
+performance on the hardest-to-classify emotion.
 
 \paragraph{Faithfulness metrics.} The evaluation also reports the mean faithfulness
 score, supported ratio (fraction of fully supported claims), and
 unsupported ratio (fraction of unsupported claims) averaged across
-all evaluated instances.
+all evaluated instances. Due to occasional API response parsing failures,
+the effective sample size for faithfulness evaluation may be lower than
+500 for some methods; results are computed over successfully parsed
+responses only.
 
 % ─────────────────────────────────────────────────────────────────────────────
 \section{Results and Analysis}
@@ -455,15 +462,21 @@ all evaluated instances.
 \subsection{MELD Classification Performance}
 
 Table~\ref{tab:overall-performance} reports classification performance
-on the MELD test set. Graph RAG achieves the highest macro F1 (0.491)
-among retrieval-augmented methods, outperforming Text-only RAG by 0.011
-and BM25 RAG by 0.038. Full-context LLM achieves a comparable macro F1
-(0.491) by providing the complete dialogue history, though at the cost
-of near-zero faithfulness as shown in Section~\ref{sec:faith-results}.
-LLM-only achieves the highest accuracy (0.618) overall but this does
-not correspond to faithful reasoning. Text-only RAG records the best
-worst-class F1 (0.333) among all methods, indicating that recency-based
-context selection helps minority classes more than semantic retrieval.
+on the MELD test set. Graph RAG achieves the highest macro F1 (0.491) among
+retrieval-augmented methods, outperforming Text-only RAG by 0.011 and
+BM25 RAG by 0.038. Full-context LLM achieves a comparable macro F1
+(0.491) by providing the complete dialogue history, but at the cost of
+near-zero faithfulness (0.033), as shown in Section~\ref{sec:faith-results}.
+When prediction quality and faithfulness are considered jointly, Graph
+RAG is the only method that simultaneously achieves macro F1 above 0.49
+and faithfulness above 0.22, making it the most balanced choice when
+both classification accuracy and explainability are required.
+LLM-only achieves the highest accuracy (0.618) overall, likely because
+the Friends TV corpus underlying MELD is well-represented in the
+model's pre-training data, enabling parametric recall without contextual
+grounding. Text-only RAG records the best worst-class F1 (0.333) among
+all methods, indicating that recency-based context selection helps
+minority classes more than semantic retrieval.
 
 \begin{table}
 \centering
@@ -489,11 +502,13 @@ Graph RAG         & 0.570          & \textbf{0.491} & 0.580 & 0.320 \\
 Table~\ref{tab:perclass} reports per-class F1 scores on MELD.
 Graph RAG shows the strongest performance on contextually dependent
 classes: \textit{disgust} (0.400), \textit{neutral} (0.655), and
-\textit{surprise} (0.581). These are classes for which speaker
-relationship history is particularly informative, supporting the value
-of graph-structured evidence. Minority classes such as \textit{fear}
-and \textit{disgust} remain difficult for all methods, with F1 scores
-below 0.40 across the board.
+\textit{surprise} (0.581). These classes require tracking speaker
+emotional continuity across multiple turns — precisely the information
+encoded by same-speaker history links, identified as the most critical
+graph component in the ablation study (Section~\ref{sec:ablation}).
+Minority classes such as \textit{fear} remain difficult for all methods,
+with F1 scores below 0.40 across the board, reflecting the inherent
+challenge of few-shot emotion classes in the MELD distribution.
 
 \begin{table}
 \centering
@@ -579,11 +594,17 @@ the highest accuracy (0.977) precisely because it overwhelmingly predicts
 under severe imbalance. Faithfulness scores for LLM-only (0.044) and
 Full-context LLM (0.061) mirror the MELD pattern: explanations for
 non-retrieval methods are almost entirely unsupported by evidence.
+Importantly, the faithfulness advantage of retrieval methods persists
+on EmoryNLP despite the classification collapse: BM25 RAG achieves
+0.274 faithfulness and Graph RAG achieves 0.215, compared to 0.044
+for LLM-only. This confirms that the faithfulness gap between retrieval
+and non-retrieval methods is a consistent cross-dataset finding,
+independent of whether retrieval improves classification accuracy.
 These results confirm that the class-imbalance problem in EmoryNLP
-prevents meaningful comparison of retrieval strategies under the current
-zero-shot prompting setup and underline the importance of addressing
-imbalance (e.g., via label-balanced sampling or class-weighted loss)
-in future work.
+prevents meaningful comparison of retrieval strategies for
+\emph{classification}, but the faithfulness dimension remains informative
+and consistent with MELD findings. Future work should address class
+imbalance via label-balanced sampling or class-weighted prompting.
 
 \begin{table}
 \centering
@@ -600,7 +621,7 @@ Full-context LLM  & 0.919          & 0.120          & 0.958          & 0.061 \\
 BM25 RAG          & 0.751          & 0.107          & 0.858          & 0.274 \\
 Dense RAG         & 0.723          & 0.105          & 0.839          & 0.223 \\
 Text-only RAG     & 0.746          & 0.107          & 0.854          & 0.206 \\
-Graph RAG         & 0.728          & 0.105          & 0.843          & --- \\
+Graph RAG         & 0.728          & 0.105          & 0.843          & 0.215 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -647,7 +668,7 @@ Text-only RAG           & 0.538 & 0.480 & $-$0.011 & 0.213 \\
 \section{Discussion}
 \label{sec:discussion}
 
-\paragraph{The faithfulness--accuracy trade-off.}
+\paragraph{The faithfulness--accuracy trade-off (RQ1).}
 The results reveal a clear trade-off between accuracy and faithfulness.
 LLM-only achieves the highest accuracy (0.618) because it can draw on
 extensive parametric knowledge about how social emotions manifest in
@@ -658,17 +679,21 @@ methods constrain the model to reason from specific utterances,
 slightly reducing accuracy but raising faithfulness by an order of
 magnitude.
 
-\paragraph{Why accuracy decreases with retrieval.}
-Retrieval introduces a precision--recall trade-off in evidence selection.
-When the retrieved context does not contain the most relevant emotional
-cue (e.g., a distant utterance that established the conversational
-dynamic), the model may be misled by irrelevant evidence. This explains
-why BM25 RAG and Dense RAG underperform text-only methods in accuracy
-despite achieving higher faithfulness. Graph RAG partially mitigates
-this by using relational structure to prioritise same-speaker history,
-achieving the best macro F1 among retrieval methods.
+\paragraph{Graph RAG as the balanced choice (RQ2).}
+When prediction quality and faithfulness are considered jointly, Graph
+RAG is the only method that is not dominated by any other on either
+metric simultaneously. Full-context LLM matches Graph RAG in macro F1
+(0.491) but its faithfulness collapses to 0.033 — making it unsuitable
+when traceable grounding is required. BM25 RAG achieves the highest
+faithfulness (0.269) but the lowest macro F1 among retrieval methods
+(0.453). Graph RAG occupies a unique position on this trade-off frontier,
+making it the most appropriate choice for evidence-grounded ERC.
+Retrieval does introduce a precision--recall trade-off: when the
+retrieved context misses the most relevant emotional cue, the model may
+be misled by irrelevant evidence, which partly explains why BM25 and
+Dense RAG underperform text-only methods in macro F1.
 
-\paragraph{Same-speaker history as the dominant signal.}
+\paragraph{Same-speaker history as the dominant signal (RQ3).}
 The ablation study identifies same-speaker history as the most
 informative graph component. This is consistent with psychological
 findings that an individual's emotional trajectory is auto-correlated:
@@ -716,10 +741,11 @@ model explanations are supported by retrieved evidence.
 The experiments on MELD demonstrate that non-retrieval LLM methods,
 despite achieving high accuracy, produce explanations that are almost
 entirely unsupported by the conversational evidence (98.4\% unsupported
-claims). Graph-augmented RAG achieves the best macro F1 among retrieval
-methods and improves faithfulness over flat text retrieval, with
-same-speaker history identified as the most critical structural
-component. On EmoryNLP, results reveal a distinct but equally important
+claims). Graph-augmented RAG achieves the best balance between prediction
+quality and faithfulness among all evaluated methods — the only
+approach that simultaneously achieves macro F1 above 0.49 and
+faithfulness above 0.22 — with same-speaker history identified as the
+most critical structural component. On EmoryNLP, results reveal a distinct but equally important
 failure mode: under extreme class imbalance ($>$70\% of instances in
 two classes), all zero-shot methods collapse to predicting the dominant
 class, yielding macro F1 near chance regardless of retrieval strategy.

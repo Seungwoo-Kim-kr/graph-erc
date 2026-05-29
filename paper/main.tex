@@ -309,31 +309,28 @@ and the generated explanation by a separate faithfulness framework.
   inp/.style={draw, rounded corners=3pt, fill=gray!15,
     text width=9.5cm, minimum height=0.65cm, align=center},
   cbox/.style={draw, rounded corners=3pt, fill=blue!8,
-    text width=9.5cm, inner sep=7pt, align=left},
+    text width=9.5cm, inner sep=8pt, align=left},
   llm/.style={draw, rounded corners=3pt, fill=orange!12,
     text width=9.5cm, minimum height=0.65cm, align=center},
-  out/.style={draw, rounded corners=3pt, fill=green!9,
+  out/.style={draw, rounded corners=3pt, fill=green!10,
     text width=4.0cm, minimum height=0.65cm, align=center,
     font=\footnotesize},
-  fstep/.style={draw, rounded corners=3pt, fill=violet!8,
+  fstep/.style={draw, rounded corners=3pt, fill=purple!8,
     text width=4.5cm, minimum height=0.65cm, align=center,
     font=\footnotesize},
 ]
 % Input
 \node[inp] (inp)
   {Dialogue $D = \{u_1,\ldots,u_T\}$,\quad Target utterance $u_\tau$};
-% Context Construction
-\node[cbox, below=0.5cm of inp] (ctx) {%
-  \renewcommand{\arraystretch}{1.2}%
-  \textbf{Context Construction (six strategies)}\\[3pt]
-  \begin{tabular}{@{}ll@{}}
-  LLM-only      & no contextual evidence \\
-  Full-context  & complete context $C_\tau$ \\
-  BM25 RAG      & top-$k$ lexically similar utterances from $C_\tau$ \\
-  Dense RAG     & top-$k$ semantically similar utterances from $C_\tau$ \\
-  Text-only RAG & three most recent utterances \\
-  Graph RAG     & serialised dialogue graph $G_\tau$ \\
-  \end{tabular}};
+% Context Construction (plain text lines — avoids tabular-in-node issues)
+\node[cbox, below=0.5cm of inp] (ctx)
+  {\textbf{Context Construction} (six strategies)\\[4pt]
+   \textit{LLM-only:}\enspace no contextual evidence\\[1pt]
+   \textit{Full-context:}\enspace complete context $C_\tau$\\[1pt]
+   \textit{BM25 RAG:}\enspace top-$k$ lexically similar utterances from $C_\tau$\\[1pt]
+   \textit{Dense RAG:}\enspace top-$k$ semantically similar utterances from $C_\tau$\\[1pt]
+   \textit{Text-only RAG:}\enspace three most recent utterances\\[1pt]
+   \textit{Graph RAG:}\enspace serialised dialogue graph $G_\tau$};
 \draw[->] (inp) -- (ctx);
 % LLM
 \node[llm, below=0.5cm of ctx] (llm)

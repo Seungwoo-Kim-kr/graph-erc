@@ -14,8 +14,6 @@
 \usepackage{multirow}
 \usepackage{amsmath}
 \usepackage{url}
-\usepackage{tikz}
-\usetikzlibrary{positioning}
 
 \begin{document}
 
@@ -112,28 +110,33 @@ prediction and faithfulness metrics?
 
 \noindent\textbf{Contributions.} This paper makes the following contributions:
 \begin{itemize}
-    \item A comparative evaluation of six LLM-based ERC methods is presented,
+    \item \textbf{Systematic context-construction benchmark.}
+    A comparative evaluation of six LLM-based ERC strategies is presented,
     spanning no-retrieval, flat retrieval, and graph-augmented retrieval
-    baselines on the MELD and EmoryNLP datasets.
+    across the MELD and EmoryNLP benchmarks under a unified experimental protocol.
 
-    \item A claim-level faithfulness evaluation framework is introduced,
-    in which model explanations are decomposed into atomic claims and
-    each claim is verified against the retrieved evidence by an
-    LLM-as-judge, yielding a continuous faithfulness score.
+    \item \textbf{Claim-level faithfulness evaluation framework.}
+    A novel two-step faithfulness evaluation pipeline is introduced in which
+    model explanations are decomposed into atomic claims and each claim is
+    independently verified against the retrieved evidence by an LLM-as-judge,
+    yielding a continuous faithfulness score alongside standard accuracy metrics.
 
-    \item A systematic faithfulness gap is demonstrated: LLM-only and
-    full-context methods achieve near-zero faithfulness (below 0.04),
-    while retrieval-augmented methods raise faithfulness by an order of
-    magnitude (above 0.21), regardless of classification accuracy.
+    \item \textbf{Evidence of a systematic faithfulness gap.}
+    Experiments reveal that LLM-only and full-context methods achieve
+    near-zero faithfulness (below 0.04), whereas all retrieval-augmented
+    methods raise faithfulness by an order of magnitude (above 0.21),
+    independent of classification accuracy.
 
-    \item An ablation study on graph components identifies same-speaker
-    history as the most critical structural element, with its removal
-    causing a 0.053 drop in macro F1.
+    \item \textbf{Graph component ablation.}
+    An ablation study identifies same-speaker history as the dominant
+    structural signal in graph-augmented retrieval, whose removal causes
+    a 0.053 drop in macro F1—larger than any other graph component.
 
-    \item An analysis of zero-shot prompting under severe class imbalance
-    reveals that all methods collapse to predicting the dominant class on
-    EmoryNLP, establishing class-balanced evaluation as a prerequisite for
-    meaningful retrieval strategy comparison on imbalanced dialogue datasets.
+    \item \textbf{Class-imbalance failure mode.}
+    Analysis on EmoryNLP reveals that zero-shot prompting collapses under
+    severe class imbalance regardless of retrieval strategy, establishing
+    class-balanced evaluation as a prerequisite for meaningful comparison
+    on skewed dialogue datasets.
 \end{itemize}
 
 % ─────────────────────────────────────────────────────────────────────────────
@@ -303,69 +306,13 @@ and the generated explanation by a separate faithfulness framework.
 
 \begin{figure}[t]
 \centering
-\begin{tikzpicture}[
-  ->, >=latex,
-  font=\small,
-  node distance=0.45cm,
-  ibox/.style={draw, fill=gray!15, rounded corners=2pt,
-               text width=9cm, align=center, inner sep=5pt},
-  cbox/.style={draw, fill=blue!10, rounded corners=2pt,
-               text width=9cm, align=left, inner sep=7pt},
-  lbox/.style={draw, fill=orange!15, rounded corners=2pt,
-               text width=9cm, align=center, inner sep=5pt},
-  obox/.style={draw, fill=green!12, rounded corners=2pt,
-               text width=3.8cm, align=center, inner sep=4pt,
-               font=\footnotesize},
-  fbox/.style={draw, fill=gray!10, rounded corners=2pt,
-               text width=4.2cm, align=center, inner sep=4pt,
-               font=\footnotesize},
-]
-% Input
-\node[ibox] (inp)
-  {Dialogue $D = \{u_1,\ldots,u_T\}$,\enspace Target utterance $u_\tau$};
-% Context Construction
-\node[cbox, below=of inp] (ctx)
-  {\textbf{Context Construction} (six strategies)\\[4pt]
-   \textit{LLM-only:} no contextual evidence\\[2pt]
-   \textit{Full-context:} complete context $C_\tau$\\[2pt]
-   \textit{BM25 RAG:} top-$k$ lexically similar utterances from $C_\tau$\\[2pt]
-   \textit{Dense RAG:} top-$k$ semantically similar utterances from $C_\tau$\\[2pt]
-   \textit{Text-only RAG:} three most recent utterances\\[2pt]
-   \textit{Graph RAG:} serialised dialogue graph $G_\tau$};
-\draw (inp) -- (ctx);
-% LLM Inference
-\node[lbox, below=of ctx] (llm)
-  {Evidence-constrained prompt $\to$ \texttt{gpt-4o-mini} (temperature = 0)};
-\draw (ctx) -- (llm);
-% Outputs
-\node[obox, below left=0.6cm and 0.2cm of llm] (label)
-  {Emotion label $\hat{y}_\tau$\\[3pt]
-   {\tiny Accuracy, Macro F1,}\\
-   {\tiny Weighted F1, Worst-class F1}};
-\node[obox, below right=0.6cm and 0.2cm of llm] (expl)
-  {Explanation $e_\tau$\\[3pt]
-   {\tiny + evidence cited}};
-\draw (llm) -- (label);
-\draw (llm) -- (expl);
-% Faithfulness Evaluation
-\node[fbox, below=0.6cm of expl] (decomp)
-  {\textbf{Step 1} Claim decomposition\\[3pt]
-   $\{c_1, c_2, \ldots, c_n\}$};
-\node[fbox, below=of decomp] (verify)
-  {\textbf{Step 2} Claim verification\\[3pt]
-   supported / partial / unsupported};
-\node[fbox, below=of verify] (fscore)
-  {Faithfulness score\\[3pt]
-   $\frac{1}{n}\sum_{i}\mathrm{score}(c_i)$};
-\draw (expl)   -- (decomp);
-\draw (decomp) -- (verify);
-\draw (verify) -- (fscore);
-\end{tikzpicture}
+\includegraphics[width=\textwidth]{pipeline_fig.pdf}
 \caption{System pipeline. Six context-construction strategies supply
-different forms of evidence to the LLM. The predicted emotion label
-is evaluated by standard classification metrics (bottom-left); the
-generated explanation is independently assessed by the two-step
-claim-level faithfulness framework (bottom-right).}
+different forms of evidence to the LLM (centre). The predicted emotion
+label is evaluated by standard classification metrics (bottom-left);
+the generated explanation is independently assessed by the two-step
+claim-level faithfulness framework (bottom-right). Graph RAG is
+highlighted in green to indicate the graph-augmented strategy.}
 \label{fig:pipeline}
 \end{figure}
 
@@ -377,6 +324,31 @@ Given a target utterance $u_\tau$ and its conversational context
 $C_\tau = \{u_t : t < \tau\}$, the task is to predict the emotion
 label $y_\tau \in \mathcal{Y}$ and produce a natural language
 explanation $e_\tau$ grounded in the available evidence.
+
+Table~\ref{tab:notation} summarises the key symbols used throughout
+the paper.
+
+\begin{table}[h]
+\centering
+\caption{Key notation used in this paper.}
+\label{tab:notation}
+\begin{tabular}{ll}
+\toprule
+Symbol & Definition \\
+\midrule
+$D = \{u_1,\ldots,u_T\}$ & Dialogue consisting of $T$ utterances \\
+$u_t = (s_t, x_t)$        & Utterance $t$: speaker $s_t$, text $x_t$ \\
+$u_\tau$                   & Target utterance to be classified \\
+$C_\tau$                   & Preceding context $\{u_t : t < \tau\}$ \\
+$y_\tau \in \mathcal{Y}$   & Ground-truth emotion label \\
+$\hat{y}_\tau$             & Predicted emotion label \\
+$e_\tau$                   & Model-generated explanation \\
+$G_\tau = (V, E)$          & Dialogue graph over $C_\tau$ \\
+$k$                        & Number of retrieved utterances \\
+$\mathcal{F}(e_\tau)$      & Faithfulness score of explanation $e_\tau$ \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \subsection{Context-Construction Methods}
 

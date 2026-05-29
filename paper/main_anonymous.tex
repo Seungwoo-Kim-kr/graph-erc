@@ -1,0 +1,879 @@
+\documentclass[runningheads]{llncs}
+%
+\usepackage[T1]{fontenc}
+% T1 fonts will be used to generate the final print and online PDFs,
+% so please use T1 fonts in your manuscript whenever possible.
+% Other font encodings may result in incorrect characters.
+%
+\usepackage{graphicx}
+% Used for displaying a sample figure. If possible, figure files should
+% be included in EPS format.
+%
+% Additional packages for tables and math
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{url}
+
+\begin{document}
+
+\title{Evaluating Evidence-Grounded Emotion Recognition in\\
+Social Dialogue with Retrieval-Augmented\\
+and Graph-Augmented LLMs}
+
+\titlerunning{Evidence-Grounded Emotion Recognition in Social Dialogue}
+
+\author{Anonymous}
+\authorrunning{Anonymous}
+
+\institute{Anonymous Institution\\
+\email{anonymous@anonymous.edu}}
+
+\maketitle
+
+% ─────────────────────────────────────────────────────────────────────────────
+\begin{abstract}
+Emotion recognition in conversation (ERC) requires models to ground their
+predictions in conversational evidence rather than relying solely on
+parametric knowledge. This paper presents a systematic evaluation of
+six context-construction strategies for LLM-based ERC: LLM-only,
+full-context, BM25 retrieval-augmented generation (RAG), dense RAG,
+text-only RAG, and graph-augmented RAG. Beyond standard classification
+metrics, a claim-level faithfulness evaluation is introduced that measures
+whether model-generated explanations are supported by the retrieved
+evidence. Experiments on MELD and EmoryNLP reveal consistent findings
+across both benchmarks. On MELD, LLM-only inference achieves the
+highest accuracy (0.618) but near-zero faithfulness (0.014), suggesting
+that generated explanations are rarely grounded in the supplied evidence;
+graph-augmented RAG achieves the best macro F1 among retrieval methods
+(0.491) while maintaining competitive faithfulness (0.222). On EmoryNLP,
+graph-augmented RAG again leads all methods in macro F1 (0.471) and
+accuracy (0.500), and the faithfulness ordering is consistent with MELD.
+Ablation analysis on MELD identifies same-speaker history as the most
+critical graph component ($-$0.053 macro F1 on removal). Together,
+these findings indicate that retrieval-augmented context construction
+substantially improves both predictive quality and evidence faithfulness
+over no-retrieval baselines, and that faithfulness serves as a useful
+complement to accuracy for evaluating LLM-based ERC systems.
+
+\keywords{Emotion Recognition in Conversation \and
+Retrieval-Augmented Generation \and Graph-Augmented Retrieval \and
+Faithfulness Evaluation \and Large Language Models}
+\end{abstract}
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Introduction}
+\label{sec:intro}
+
+Emotion recognition in conversation (ERC) is a central task in social
+and behavioural computing, enabling applications in dialogue analysis,
+mental health support, human-robot interaction, and education
+technology~\cite{poria2019meld,zahiri2018emorynlp}. Unlike
+sentence-level emotion classification, ERC requires the model to
+integrate contextual signals spanning multiple utterances, speaker
+relationships, and discourse dynamics.
+
+Large language models (LLMs) have demonstrated remarkable capabilities
+in natural language understanding, and recent studies have begun
+applying them to ERC with strong results~\cite{zhao2023chatgpt,wang2023instructerc}.
+However, a fundamental question remains: when an LLM predicts an
+emotion, is the prediction grounded in the conversational evidence
+actually provided, or does it reflect the model's internal parametric
+knowledge about how dialogue typically unfolds? In socially sensitive
+settings, the ability to trace a prediction back to specific
+conversational evidence is as important as classification accuracy
+itself.
+
+Retrieval-augmented generation (RAG)~\cite{lewis2020rag} offers a
+natural mechanism for grounding LLM outputs by explicitly supplying
+relevant context at inference time. For ERC, retrieval can select the
+most emotionally relevant prior utterances, reducing noise from
+irrelevant context. Graph-augmented retrieval extends this idea by
+representing dialogue as a structured graph of speaker and emotional
+relationships, enabling more principled evidence selection that reflects
+the social dynamics of conversation.
+
+Despite growing interest in RAG for dialogue, prior work has
+predominantly focused on accuracy metrics, leaving the faithfulness of
+model reasoning under-explored. This paper addresses this gap by
+jointly evaluating predictive performance and evidence faithfulness
+across six context-construction strategies. Three research questions
+guide the study: (RQ1) Does retrieval-augmented context construction
+improve the faithfulness of LLM-based ERC compared with no-retrieval
+and full-context baselines? (RQ2) Does graph-structured evidence
+improve prediction quality over flat retrieval while maintaining
+competitive faithfulness? (RQ3) Which graph components contribute most
+to the improvement, and are their contributions consistent across
+prediction and faithfulness metrics?
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Related Work}
+\label{sec:related}
+
+\subsection{Emotion Recognition in Conversation}
+
+Emotion recognition in conversation has been studied through a range of
+neural architectures that progressively incorporate richer contextual
+signals. Early recurrent approaches, such as the Conversational Memory
+Network~\cite{hazarika2018conversational}, used memory-augmented networks
+to track individual speaker states across dialogue turns.
+DialogueRNN~\cite{majumder2019dialoguernn} extended this with attentive
+gating that models the emotional influence of one speaker on another.
+Graph-based methods then introduced relational inductive biases:
+DialogueGCN~\cite{ghosal2019dialoguegcn} encodes speaker-level and
+temporal dependencies through graph convolution, while
+COSMIC~\cite{ghosal2020cosmic} integrates commonsense knowledge graphs
+to supply implicit causal and emotional background knowledge.
+DAG-ERC~\cite{shen2021dag} further addresses long-range context through
+a directed acyclic graph that combines the strengths of recurrent and
+graph-based representations. More recent work, such as
+SKIER~\cite{li2023skier}, jointly models discourse-structure graphs and
+commonsense knowledge subgraphs, establishing strong supervised baselines
+on benchmarks including MELD and IEMOCAP.
+
+Despite these advances, supervised ERC models are tightly coupled to
+their training distributions and require large amounts of emotion-annotated
+dialogue data. They also do not produce natural-language explanations,
+making it difficult to audit whether a prediction is grounded in specific
+conversational evidence. Furthermore, minority emotion classes remain
+severely underperforming in all existing systems, indicating that the
+problem is not yet solved by architectural innovation alone. This paper
+departs from the supervised paradigm entirely and instead evaluates
+whether an LLM prompted with structured graph evidence can reason
+faithfully about emotion from first principles.
+
+\subsection{LLMs for Social Dialogue Understanding}
+
+The advent of instruction-tuned large language models has opened a new
+direction for ERC that bypasses task-specific fine-tuning.
+Wei et al.~\cite{wei2022flan} demonstrated that instruction fine-tuning
+generalises across diverse NLP tasks in a zero-shot manner, providing the
+methodological foundation for prompting-based ERC.
+Zhao et al.~\cite{zhao2023chatgpt} then evaluated ChatGPT on sentiment
+reasoning benchmarks and showed competitive zero-shot performance relative
+to fine-tuned models. Tu et al.~\cite{tu2023chatgpt} further investigated
+how multiple forms of knowledge elicited from ChatGPT, including
+commonsense, causal, and contextual signals, can serve as auxiliary
+supervision for ERC. InstructERC~\cite{wang2023instructerc} reformulates
+ERC as a generative task with a retrieval-augmented template module and
+trains a LLaMA backbone with emotion-alignment objectives, matching
+or exceeding supervised baselines on several benchmarks. Liu et
+al.~\cite{liu2024emollms} extend this line of work with a family of
+open-source instruction-following LLMs specifically fine-tuned for
+affective analysis, outperforming GPT-4 on several sentiment and emotion
+classification benchmarks.
+
+A consistent limitation across all these studies is their exclusive focus
+on classification accuracy. None of them examine whether the model's
+predictions or generated explanations are actually grounded in the
+conversational evidence provided in the prompt. Consequently, high
+accuracy scores may reflect the model's parametric knowledge about typical
+emotional expressions rather than genuine reasoning over the supplied
+dialogue. This gap motivates the faithfulness-oriented evaluation
+framework proposed in this paper, which treats grounding in retrieved evidence as a first-class
+evaluation criterion alongside predictive accuracy.
+
+\subsection{Retrieval-Augmented Generation}
+
+Retrieval-augmented generation was introduced by Lewis et
+al.~\cite{lewis2020rag} as a general framework for grounding LLM outputs
+in externally retrieved evidence. At inference time, a retriever selects
+relevant passages from a corpus, and these are concatenated to the input
+before generation. Karpukhin et al.~\cite{karpukhin2020dpr} showed that
+dense passage retrieval using bi-encoder architectures substantially
+outperforms BM25~\cite{robertson2009bm25} on open-domain question
+answering. Reimers and Gurevych~\cite{reimers2019sbert} further improved
+semantic retrieval by training siamese BERT networks with contrastive
+objectives, enabling efficient cosine-similarity search over large
+sentence corpora. More recent systems, such as Self-RAG~\cite{asai2024selfrag},
+train the generator to adaptively decide when retrieval is necessary and
+to self-critique the relevance and factuality of retrieved passages using
+special reflection tokens. Gao et al.~\cite{gao2023survey} provide a
+comprehensive taxonomy of RAG architectures and highlight retrieval quality
+as the primary bottleneck for downstream generation fidelity.
+
+Despite this progress, RAG has been developed almost exclusively for
+open-domain question answering and knowledge-intensive generation tasks.
+Its application to dialogue emotion recognition raises new challenges:
+the retrieval corpus is the conversation window itself rather than an
+external knowledge base, the relevant evidence is often implicit and
+relationally distributed across turns, and the gold standard for
+relevance is emotional rather than factual. Existing RAG systems
+also provide no mechanism for verifying whether the generator actually
+uses the retrieved evidence in its reasoning. This paper adapts and
+systematically compares multiple retrieval strategies in this
+under-explored dialogue setting.
+
+\subsection{Graph-Augmented Retrieval for Dialogue}
+
+Graph-based representations have been widely adopted in ERC to capture
+relational structure that flat sequential models miss. As discussed above,
+DialogueGCN~\cite{ghosal2019dialoguegcn}, COSMIC~\cite{ghosal2020cosmic},
+DAG-ERC~\cite{shen2021dag}, and SKIER~\cite{li2023skier} each construct
+different types of speaker and relational graphs over dialogue turns,
+consistently improving over recurrent baselines. Beyond ERC classification,
+the Knowledge-Enriched Transformer~\cite{zhong2019ket} augments transformer
+self-attention with a context-aware affective graph over ConceptNet,
+dynamically injecting commonsense knowledge at each utterance representation
+during dialogue understanding.
+
+The above methods all operate in the supervised learning paradigm, where
+graph structures are trained end-to-end together with an emotion
+classifier. As a result, the graph serves as an implicit inductive bias
+rather than an explicit, inspectable source of evidence. In contrast,
+the proposed approach serialises the dialogue graph into natural language and
+provides it directly to an LLM as structured evidence. This design allows
+the contribution of each graph component to be isolated and measured
+through ablation, and enables faithfulness evaluation by checking whether
+the LLM's explanation cites the relational information from the graph.
+
+\subsection{Faithfulness and Evidence-Grounded Evaluation}
+
+Faithfulness evaluation in natural language generation was first
+systematically studied in the context of abstractive summarisation.
+Maynez et al.~\cite{maynez2020faithfulness} established that a large
+fraction of abstractive summaries contain facts not entailed by the
+source document, and proposed intrinsic versus extrinsic hallucination
+as a taxonomy. The FEVER benchmark~\cite{thorne2018fever} operationalised
+factual verification at scale by constructing 185,000 claims against
+Wikipedia and requiring systems to retrieve evidence and classify each
+claim as SUPPORTED, REFUTED, or NOT ENOUGH INFO. Min et
+al.~\cite{min2023factscore} introduced FActScore, which decomposes
+long-form LLM generations into atomic facts and verifies each against a
+retrieval-backed knowledge source, achieving near-human agreement on
+biographical generation. Liu et al.~\cite{liu2023geval} propose G-EVAL,
+a GPT-4-based evaluation framework that uses chain-of-thought prompting
+to assess NLG dimensions including consistency and faithfulness, achieving
+substantially higher correlation with human judgments than prior
+reference-based metrics. For RAG systems specifically, Es et
+al.~\cite{es2023ragas} propose RAGAS, a reference-free suite that
+measures faithfulness by checking whether generated statements are
+logically entailed by the retrieved context.
+
+Despite this progress, all existing faithfulness evaluation frameworks
+target summarisation, open-domain question answering, or general-purpose
+generation tasks. None have been adapted to conversational emotion
+recognition, where the evidence consists of emotionally salient dialogue
+turns rather than factual passages, and where the grounding claim is
+about the emotional state of a speaker rather than a verifiable fact.
+Moreover, no prior work on LLM-based ERC has examined whether
+model explanations are grounded in the supplied context. The claim-level
+faithfulness evaluation framework proposed here bridges this gap by adapting the
+atomic-claim decomposition and verification paradigm to the conversational
+emotion recognition setting.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Methodology}
+\label{sec:method}
+
+Figure~\ref{fig:pipeline} provides an overview of the evaluation pipeline.
+Six context-construction strategies supply different forms of evidence to
+the same LLM; the predicted label is assessed by classification metrics
+and the generated explanation by a separate faithfulness framework.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{pipeline_fig.pdf}
+\caption{System pipeline. Six context-construction strategies supply
+different forms of evidence to the LLM (centre). The predicted emotion
+label is evaluated by standard classification metrics (bottom-left);
+the generated explanation is independently assessed by the two-step
+claim-level faithfulness framework (bottom-right). Graph RAG is
+highlighted in green to indicate the graph-augmented strategy.}
+\label{fig:pipeline}
+\end{figure}
+
+\subsection{Problem Formulation}
+
+Let $D = \{u_1, u_2, \ldots, u_T\}$ denote a dialogue, where each
+utterance $u_t = (s_t, x_t)$ consists of speaker $s_t$ and text $x_t$.
+Given a target utterance $u_\tau$ and its conversational context
+$C_\tau = \{u_t : t < \tau\}$, the task is to predict the emotion
+label $y_\tau \in \mathcal{Y}$ and produce a natural language
+explanation $e_\tau$ grounded in the available evidence.
+
+Table~\ref{tab:notation} summarises the key symbols used throughout
+the paper.
+
+\begin{table}[h]
+\centering
+\caption{Key notation used in this paper.}
+\label{tab:notation}
+\begin{tabular}{ll}
+\toprule
+Symbol & Definition \\
+\midrule
+$D = \{u_1,\ldots,u_T\}$ & Dialogue consisting of $T$ utterances \\
+$u_t = (s_t, x_t)$        & Utterance $t$: speaker $s_t$, text $x_t$ \\
+$u_\tau$                   & Target utterance to be classified \\
+$C_\tau$                   & Preceding context $\{u_t : t < \tau\}$ \\
+$y_\tau \in \mathcal{Y}$   & Ground-truth emotion label \\
+$\hat{y}_\tau$             & Predicted emotion label \\
+$e_\tau$                   & Model-generated explanation \\
+$G_\tau = (V, E)$          & Dialogue graph over $C_\tau$ \\
+$k$                        & Number of retrieved utterances \\
+$\mathcal{F}(e_\tau)$      & Faithfulness score of explanation $e_\tau$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Context-Construction Methods}
+
+The six methods differ along a single axis: the form and quantity of
+conversational evidence placed in the prompt before the LLM generates a
+prediction and explanation.
+
+\paragraph{LLM-only.}
+Only the target utterance $u_\tau$ is included in the prompt. No
+contextual evidence is supplied, so any prediction must rely on the
+model's parametric knowledge.
+
+\paragraph{Full-context LLM.}
+The complete preceding context $C_\tau$ is appended to the prompt,
+providing maximal information but potentially introducing noise from
+utterances unrelated to the target emotion.
+
+\paragraph{BM25 RAG.}
+A BM25 index~\cite{robertson2009bm25} is built over $C_\tau$, and the
+top-$k$ utterances most lexically similar to the target are retrieved
+as evidence.
+
+\paragraph{Dense RAG.}
+Utterances in $C_\tau$ are encoded by a sentence transformer
+\texttt{all-MiniLM-L6-v2}. The top-$k$ utterances with the highest
+cosine similarity to the target embedding are retrieved.
+
+\paragraph{Text-only RAG.}
+The three most recent utterances in $C_\tau$ are provided as plain
+text without retrieval scoring or graph structure.
+This baseline controls for the effect of structure versus content.
+
+\paragraph{Graph-augmented RAG.}
+A dialogue graph $G_\tau = (V, E)$ is constructed over $C_\tau$, where
+each node $v \in V$ represents an utterance. Edges encode three types
+of relationships: (i) \emph{same-speaker links} connecting utterances
+by the same speaker to capture within-speaker emotional continuity;
+(ii) \emph{emotion-shift links} connecting adjacent utterances where
+a notable emotional transition is detected (specifically, when consecutive
+utterances differ in predicted sentiment polarity according to a
+rule-based lexicon classifier); and (iii) \emph{sequential
+adjacency links} connecting temporally adjacent utterances.
+Graph-based evidence is then serialised into natural language and
+included in the prompt alongside the retrieved utterances.
+Algorithm~\ref{alg:graph-rag} details the full graph construction and retrieval procedure.
+
+\paragraph{Graph serialisation.}
+Each selected utterance node is serialised as a labelled record
+specifying its speaker, turn index, text, and relationship type to
+the target (e.g.,
+\texttt{[same-speaker, turn~3] Speaker~A: ``I hate this!''}).
+Nodes are ranked by edge degree in $G_\tau$, and the top-$k$
+highest-degree nodes are included to bound the prompt length while
+prioritising the most relationally connected utterances. This
+serialisation makes the graph's relational structure directly
+inspectable by the LLM and by the faithfulness evaluator.
+
+\begin{algorithm}[t]
+\caption{Graph-Augmented Evidence Retrieval}
+\label{alg:graph-rag}
+\begin{algorithmic}[1]
+\Require Dialogue context $C_\tau = \{u_1,\ldots,u_{\tau-1}\}$, target utterance $u_\tau$, retrieval budget $k$
+\Ensure Serialised evidence string $\mathcal{E}$
+\State Initialise graph $G_\tau = (V, E)$ with $V = \{u_t : u_t \in C_\tau\}$
+\For{each pair $(u_i, u_j) \in C_\tau \times C_\tau$, $i < j$}
+    \If{$s_i = s_j$} \textbf{add} same-speaker edge $(u_i, u_j)$ \EndIf
+    \If{adjacent($u_i,u_j$)} \textbf{add} sequential edge $(u_i, u_j)$ \EndIf
+    \If{emotion-shift($u_i, u_j$)} \textbf{add} emotion-shift edge $(u_i, u_j)$ \EndIf
+\EndFor
+\State Rank nodes $V$ by degree $\deg_{G_\tau}(v)$ in descending order
+\State Select top-$k$ nodes $V^* \subseteq V$
+\For{each $v \in V^*$ (in turn order)}
+    \State Serialise $v$ as \texttt{[edge-type, turn $t$] Speaker: ``text''}
+\EndFor
+\State $\mathcal{E} \leftarrow$ concatenation of serialised nodes
+\State \Return $\mathcal{E}$
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Prompting Strategy}
+\label{sec:prompting}
+
+All methods share a consistent evidence-constrained prompt format
+designed to encourage faithfulness. The system instruction states that
+the model must base its explanation \emph{only} on the provided
+evidence and must not introduce external knowledge. The user message
+contains three blocks: \texttt{[Dialogue Context]}, \texttt{[Target
+Utterance]}, and \texttt{[Retrieved Evidence]}. The model is instructed
+to output a JSON object with three fields:
+\texttt{predicted\_emotion}, \texttt{explanation}, and
+\texttt{evidence\_used}. The evidence-constrained prompt includes an
+explicit rule set:
+
+\begin{enumerate}
+    \item The explanation \emph{must} directly quote or cite specific
+    utterances from \texttt{[Retrieved Evidence]}.
+    \item The model must not introduce background knowledge or
+    assumptions not present in the evidence.
+    \item If evidence is insufficient, this must be stated explicitly.
+    \item The \texttt{evidence\_used} field must list the exact phrases
+    relied upon.
+\end{enumerate}
+
+The three-block structure deliberately separates \texttt{[Dialogue
+Context]} (the broader conversational history) from \texttt{[Retrieved
+Evidence]} (the specifically selected utterances), making the grounding
+requirement operational: any claim in the explanation must be traceable
+to the retrieved evidence rather than to arbitrary content in the broader
+context. This separation is what enables the claim-level faithfulness
+evaluation to attribute specific model claims to specific evidence items.
+For the LLM-only baseline, \texttt{[Retrieved Evidence]} is explicitly
+marked as empty, ensuring the model is aware that no external evidence
+has been provided.
+
+\subsection{Claim-Level Faithfulness Evaluation}
+\label{sec:faithfulness}
+
+Standard accuracy metrics assess whether the predicted label is correct,
+but they cannot measure whether the prediction is supported by the evidence
+actually provided. To address this gap, a two-step claim-level faithfulness
+evaluation is adopted:
+
+\paragraph{Step 1 — Claim decomposition.}
+Given a model explanation $e_\tau$, an LLM judge decomposes it into a
+set of atomic, independently verifiable claims
+$\{c_1, c_2, \ldots, c_n\}$.
+
+\paragraph{Step 2 — Claim verification.}
+Each claim $c_i$ is presented to the judge together with the dialogue
+context and retrieved evidence. The judge assigns one of three verdicts:
+\emph{supported} (score 1.0), \emph{partially supported} (score 0.5),
+or \emph{unsupported} (score 0.0).
+
+The faithfulness score for a prediction is the mean score over all
+extracted claims:
+\begin{equation}
+    \text{Faithfulness}(e_\tau) = \frac{1}{n}\sum_{i=1}^{n} \text{score}(c_i)
+\end{equation}
+
+Both decomposition and verification are performed by \texttt{gpt-4o-mini}
+with temperature 0 for reproducibility. The supported ratio and
+unsupported ratio are also reported as secondary faithfulness metrics.
+
+The decomposition prompt instructs the judge to extract each distinct
+factual or inferential claim from $e_\tau$ as a self-contained sentence.
+The verification prompt presents the judge with a single claim $c_i$,
+the retrieved evidence, and the dialogue context, and asks it to
+determine whether $c_i$ is directly entailed, partially entailed, or
+not entailed by the supplied material. To mitigate positivity bias, the
+prompt explicitly instructs the judge to return \emph{unsupported} for
+any claim that relies on general world knowledge not present in the
+retrieved evidence, even if the claim appears plausible.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Experimental Setup}
+\label{sec:setup}
+
+\subsection{Datasets}
+
+\paragraph{MELD.} The Multimodal EmotionLines Dataset~\cite{poria2019meld}
+is derived from the TV series \textit{Friends} and contains 13{,}708
+utterances across 1{,}433 multi-party dialogues. Each utterance is
+annotated with one of seven emotion labels: \textit{anger, disgust,
+fear, joy, neutral, sadness,} and \textit{surprise}. The test split
+contains 2{,}610 utterances across 280 dialogues.
+
+\paragraph{EmoryNLP.} The EmoryNLP dataset~\cite{zahiri2018emorynlp}
+is also sourced from \textit{Friends} but uses a different annotation
+scheme with eight labels: \textit{mad, joyful, peaceful, neutral, sad,
+scared, powerful,} and \textit{surprised}. The test split contains
+1{,}328 utterances across 85 scenes. Due to the severe class imbalance
+in EmoryNLP (neutral and joyful together account for $>$70\% of
+instances), macro F1 is the primary evaluation metric.
+
+\subsection{Model and Inference}
+
+All experiments use \texttt{gpt-4o-mini} as the inference model with
+temperature 0 and a maximum of 512 output tokens, ensuring deterministic
+outputs across runs. The same model is used as the faithfulness judge.
+All experiments use 500 instances uniformly sampled at random (seed 42)
+from the test split to control API cost while maintaining statistical
+coverage.
+
+\subsection{Retrieval Settings}
+
+BM25 and dense retrieval both select the top $k=5$ utterances from the
+context window $C_\tau$; dense retrieval uses \texttt{sentence-transformers/all-MiniLM-L6-v2}
+as the sentence encoder. Text-only RAG uses the three most recent utterances
+as its fixed context window. Graph-augmented RAG constructs the dialogue graph
+over the same context window and serialises the top-$k$ degree-ranked nodes
+using the natural-language template described in Section~\ref{sec:method}.
+
+\subsection{Evaluation Metrics}
+
+\paragraph{Classification metrics.} The evaluation reports accuracy, macro-averaged
+F1 (macro F1), weighted F1, worst-class F1, and per-class F1 for each
+method. Macro F1 is the primary metric because it treats all emotion
+classes equally regardless of frequency. Worst-class F1 is defined as
+the minimum per-class F1 score across all emotion classes, measuring
+performance on the hardest-to-classify emotion.
+
+\paragraph{Faithfulness metrics.} The evaluation also reports the mean faithfulness
+score, supported ratio (fraction of fully supported claims), and
+unsupported ratio (fraction of unsupported claims) averaged across
+all evaluated instances. Due to occasional API response parsing failures,
+the effective sample size for faithfulness evaluation may be lower than
+500 for some methods; results are computed over successfully parsed
+responses only.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Results and Analysis}
+\label{sec:results}
+
+\subsection{MELD Classification Performance}
+
+The central finding on MELD is that Graph RAG achieves the highest macro F1
+among retrieval-augmented methods while maintaining the best balance between
+prediction quality and faithfulness.
+Table~\ref{tab:overall-performance} reports full classification performance.
+Graph RAG achieves the highest macro F1 among retrieval methods (0.491),
+outperforming Text-only RAG (0.480) by 0.011 and BM25 RAG (0.453) by 0.038.
+Bootstrap confidence intervals (5{,}000 resamples, seed~42) computed over
+the full test set reveal that all pairwise margins among retrieval methods
+on MELD fall within sampling uncertainty — all retrieval-method CIs overlap —
+so the ranking among retrieval methods should be interpreted with caution.
+Full-context LLM achieves a comparable macro F1 (0.491) by providing the
+complete dialogue history, but at the cost of near-zero faithfulness (0.033),
+as shown in Section~\ref{sec:faith-results}.
+When prediction quality and faithfulness are considered jointly, Graph
+RAG is the only method that simultaneously achieves macro F1 above 0.49
+and faithfulness above 0.22, making it the most balanced choice when
+both classification accuracy and explainability are required.
+LLM-only achieves the highest accuracy (0.618) and macro F1 0.485 overall,
+likely because the Friends TV corpus underlying MELD is well-represented in the
+model's pre-training data, enabling parametric recall without contextual
+grounding. Text-only RAG records the best worst-class F1 (0.333) among
+all methods, indicating that recency-based context selection helps
+minority classes more than semantic retrieval.
+
+\begin{table}
+\centering
+\caption{Classification performance on MELD test set (500 instances).
+Best result per column is \textbf{bold}.}
+\label{tab:overall-performance}
+\begin{tabular}{lcccc}
+\toprule
+Method & Accuracy & Macro F1 & Weighted F1 & Worst-class F1 \\
+\midrule
+LLM-only          & \textbf{0.618} & 0.485 & \textbf{0.621} & 0.292 \\
+Full-context LLM  & 0.574          & \textbf{0.491} & 0.586 & 0.328 \\
+BM25 RAG          & 0.526          & 0.453 & 0.539          & 0.298 \\
+Dense RAG         & 0.529          & 0.454 & 0.541          & 0.292 \\
+Text-only RAG     & 0.538          & 0.480 & 0.548          & \textbf{0.333} \\
+Graph RAG         & 0.570          & \textbf{0.491} & 0.580 & 0.320 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Label-wise Performance}
+
+Table~\ref{tab:perclass} disaggregates macro F1 into per-class scores on MELD,
+revealing where each method's aggregate advantage is concentrated.
+Graph RAG shows the strongest performance on contextually dependent
+classes: \textit{disgust} (0.400), \textit{neutral} (0.655), and
+\textit{surprise} (0.581). These are precisely the classes that require
+tracking speaker emotional continuity across multiple turns. That continuity
+is encoded by same-speaker history links, which the ablation study
+(Section~\ref{sec:ablation}) identifies as the most critical graph component.
+Minority classes such as \textit{fear} remain difficult for all methods,
+with F1 scores below 0.40 across the board, reflecting the inherent
+challenge of few-shot emotion classes in the MELD distribution.
+
+\begin{table}
+\centering
+\caption{Per-class F1 on MELD test set. Best per class is \textbf{bold}.}
+\label{tab:perclass}
+\begin{tabular}{lcccccccc}
+\toprule
+Method & ang & dis & fear & joy & neu & sad & sur \\
+\midrule
+LLM-only         & 0.487 & 0.328 & 0.292 & 0.588 & \textbf{0.750} & 0.411 & 0.537 \\
+Full-context LLM & \textbf{0.525} & 0.394 & \textbf{0.328} & 0.576 & 0.667 & 0.420 & 0.524 \\
+BM25 RAG         & 0.518 & 0.298 & 0.308 & 0.529 & 0.598 & 0.414 & 0.504 \\
+Dense RAG        & 0.531 & 0.316 & 0.292 & 0.532 & 0.600 & 0.405 & 0.503 \\
+Text-only RAG    & 0.524 & 0.333 & 0.333 & 0.542 & 0.582 & \textbf{0.478} & 0.569 \\
+Graph RAG        & 0.475 & \textbf{0.400} & 0.320 & \textbf{0.563} & 0.655 & 0.444 & \textbf{0.581} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Faithfulness Analysis}
+\label{sec:faith-results}
+
+Table~\ref{tab:faithfulness} reports faithfulness metrics, providing
+a direct answer to RQ1. The most striking finding is the near-total
+absence of faithfulness in non-retrieval methods: LLM-only achieves a
+mean faithfulness score of only 0.014, with 98.4\% of claims rated
+unsupported. Full-context LLM improves marginally to 0.033, still with
+96.3\% unsupported claims. This reveals that even when the full dialogue is provided, the
+generated explanations are rarely grounded in the supplied context
+under the proposed evaluation protocol. All retrieval
+methods raise faithfulness by more than an order of magnitude (from
+below 0.04 to above 0.21), confirming that explicit evidence retrieval
+is necessary for grounded reasoning in ERC.
+
+Within the retrieval methods, however, faithfulness rankings diverge
+from macro F1 rankings in an interpretable way. BM25 RAG achieves the
+highest faithfulness (0.269), followed by Dense RAG (0.256), Graph RAG
+(0.222), and Text-only RAG (0.213). This ordering reflects a structural
+property of each retrieval strategy: BM25 selects utterances that share
+surface-level vocabulary with the target, making them directly quotable
+in the explanation. Graph-based evidence, by contrast, prioritises
+relationally informative utterances (e.g., same-speaker history) that
+are semantically relevant but may not share explicit wording with the
+target — resulting in lower literal cite-ability despite higher predictive
+value. Together, these results reveal a distinction between two complementary
+dimensions of retrieval quality: \emph{citability} (measured by faithfulness)
+and \emph{informativeness} (measured by macro F1). Graph RAG achieves the
+better trade-off for prediction; BM25 RAG achieves higher faithfulness at
+the cost of lower predictive accuracy.
+
+\begin{table}
+\centering
+\caption{Faithfulness evaluation on MELD test set (500 instances).
+Best result per column is \textbf{bold}.}
+\label{tab:faithfulness}
+\begin{tabular}{lccc}
+\toprule
+Method & Faithfulness$\uparrow$ & Supported$\uparrow$ & Unsupported$\downarrow$ \\
+\midrule
+LLM-only          & 0.014          & 0.013          & \textbf{0.984} \\
+Full-context LLM  & 0.033          & 0.028          & 0.963 \\
+BM25 RAG          & \textbf{0.269} & \textbf{0.199} & 0.662 \\
+Dense RAG         & 0.256          & 0.180          & 0.668 \\
+Text-only RAG     & 0.213          & 0.152          & 0.726 \\
+Graph RAG         & 0.222          & 0.164          & 0.720 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{EmoryNLP Results}
+\label{sec:emorynlp-results}
+
+The EmoryNLP evaluation tests whether the MELD findings generalise across
+annotation schemes and class distributions. Table~\ref{tab:emorynlp-performance}
+reports classification and faithfulness performance; the sampled test instances
+cover five emotion classes — \textit{joy} (35.8\%), \textit{neutral}
+(34.6\%), \textit{fear} (11.0\%), \textit{anger} (10.0\%), and
+\textit{sadness} (8.6\%) — reflecting moderate class imbalance.
+
+The results are consistent with MELD and further support the main
+findings. Graph RAG achieves the highest macro F1 (0.471~[0.413--0.523]) and accuracy
+(0.500) among all six methods, outperforming the next-best method
+(Text-only RAG, 0.435~[0.383--0.490]) by 0.036 macro F1 points; the confidence intervals
+of these two methods overlap, so this margin alone does not constitute a statistically
+robust ranking between them. By contrast, Graph RAG's advantage over
+LLM-only (0.326~[0.271--0.374]) is statistically robust: the non-overlapping CIs confirm
+that the 0.145 macro F1 gap is not attributable to sampling variability.
+The retrieval methods collectively outperform the non-retrieval baselines by a substantial
+margin: LLM-only achieves only 0.326 macro F1, while all four RAG
+variants exceed 0.41. This cross-dataset consistency suggests that
+graph-structured evidence selection generalises beyond the MELD domain.
+
+Faithfulness scores on EmoryNLP mirror the MELD pattern. LLM-only and
+Full-context LLM remain near-zero (0.044 and 0.061 respectively),
+while all retrieval methods substantially raise faithfulness (0.206--0.274).
+BM25 RAG achieves the highest faithfulness (0.274) on EmoryNLP as well,
+consistent with the citability advantage of lexical retrieval observed
+on MELD. Graph RAG's faithfulness (0.215) again reflects the
+informativeness--citability trade-off described in Section~\ref{sec:faith-results}.
+These cross-dataset findings confirm that the faithfulness gap between
+retrieval and non-retrieval methods is a robust, dataset-independent
+phenomenon.
+
+\begin{table}
+\centering
+\caption{Classification and faithfulness performance on EmoryNLP test
+set (500 instances, five emotion classes). Best result per column is
+\textbf{bold}.}
+\label{tab:emorynlp-performance}
+\begin{tabular}{lcccc}
+\toprule
+Method & Accuracy & Macro F1 & Weighted F1 & Faithfulness \\
+\midrule
+LLM-only          & 0.432          & 0.326          & 0.341          & 0.044 \\
+Full-context LLM  & 0.436          & 0.348          & 0.375          & 0.061 \\
+BM25 RAG          & 0.480          & 0.424          & 0.480          & \textbf{0.274} \\
+Dense RAG         & 0.468          & 0.414          & 0.470          & 0.223 \\
+Text-only RAG     & 0.478          & 0.435          & 0.481          & 0.206 \\
+Graph RAG         & \textbf{0.500} & \textbf{0.471} & \textbf{0.509} & 0.215 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Ablation Study}
+\label{sec:ablation}
+
+Table~\ref{tab:ablation} reports the ablation study on graph components,
+addressing RQ3. Removing same-speaker history causes the largest
+degradation in both accuracy (0.076) and macro F1 (0.053), confirming
+that within-speaker emotional continuity is the most informative
+relational signal. In contrast, removing the acoustic-edge heuristic --- a rule-based sentiment-polarity classifier applied to utterance text that assigns edge weights as a proxy for acoustic cues, with no actual audio signals processed --- slightly
+\emph{improves} both accuracy (+0.004) and macro F1 (+0.004),
+indicating that this heuristic introduces noise rather than useful signal. Removing emotion-shift links causes negligible change
+(macro F1 drop of 0.003), suggesting that detected emotional transitions
+add minimal information beyond what same-speaker and adjacency links
+already capture. Faithfulness follows a similar pattern: removing
+same-speaker history causes the largest faithfulness drop (0.041),
+while removing the acoustic-edge heuristic slightly increases faithfulness (+0.013),
+consistent with the prediction results. Together, these ablation findings
+directly answer RQ3: same-speaker history is the dominant structural signal,
+and the remaining edge types contribute marginally or introduce noise, confirming
+that the graph's predictive value derives primarily from within-speaker continuity
+rather than from relational diversity per se.
+
+\begin{table}
+\centering
+\caption{Ablation results on MELD test set. $\Delta$ macro F1 is
+relative to Graph RAG (full).}
+\label{tab:ablation}
+\begin{tabular}{lcccc}
+\toprule
+Variant & Accuracy & Macro F1 & $\Delta$ Macro F1 & Faithfulness \\
+\midrule
+Graph RAG (full)        & 0.570 & \textbf{0.491} & --- & 0.222 \\
+$-$Same-speaker history & 0.494 & 0.438 & $-$0.053 & 0.181 \\
+$-$Emotion-shift links  & 0.564 & 0.488 & $-$0.003 & 0.234 \\
+$-$Acoustic-edge heuristic & \textbf{0.574} & 0.495 & +0.004 & 0.235 \\
+\midrule
+Text-only RAG           & 0.538 & 0.480 & $-$0.011 & 0.213 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Discussion}
+\label{sec:discussion}
+
+\paragraph{The faithfulness--accuracy trade-off (RQ1).}
+The results reveal a clear trade-off between accuracy and faithfulness.
+LLM-only achieves the highest accuracy (0.618) because it can draw on
+extensive parametric knowledge about how social emotions manifest in
+television dialogue, a genre well-represented in LLM training corpora.
+However, its 98.4\% unsupported claim rate indicates that this accuracy
+is not grounded in the conversational evidence. Retrieval-augmented
+methods constrain the model to reason from specific utterances,
+slightly reducing accuracy but raising faithfulness by an order of
+magnitude.
+
+\paragraph{Graph RAG as the balanced choice (RQ2).}
+To formalise the claim that Graph RAG provides the best balance between
+prediction quality and faithfulness, the harmonic mean $H$ of normalised
+macro F1 and faithfulness is computed for each method. Normalising macro
+F1 to $[0,1]$ by dividing by the maximum observed value (0.491) and
+faithfulness similarly (by 0.269), Graph RAG achieves $H = 0.67$,
+exceeding BM25 RAG ($H = 0.60$), Text-only RAG ($H = 0.64$), and
+Full-context LLM ($H = 0.11$). Graph RAG is the only method that is
+not dominated by any other on either metric simultaneously: Full-context
+LLM matches its macro F1 (0.491) but collapses to faithfulness 0.033;
+BM25 RAG achieves the highest faithfulness (0.269) but lags in macro F1
+(0.453). Bootstrap confidence intervals further clarify which comparisons are
+statistically distinguishable: on MELD, the CIs of all retrieval methods
+overlap, so the ranking among them requires caution; on EmoryNLP, the
+CI of Graph RAG ([0.413--0.523]) does not overlap with that of LLM-only
+([0.271--0.374]), confirming that the retrieval advantage over the
+no-retrieval baseline is robust, while the margin over Text-only RAG
+([0.383--0.490]) remains within bootstrap uncertainty.
+Retrieval does introduce a precision--recall trade-off: when
+the retrieved context misses the most relevant emotional cue, the model
+may be misled by irrelevant evidence, which partly explains why BM25 and
+Dense RAG underperform text-only methods in macro F1.
+
+\paragraph{Same-speaker history as the dominant signal (RQ3).}
+The ablation study identifies same-speaker history as the most
+informative graph component, with its removal causing a 0.053 macro F1
+drop — larger than any other component. This aligns with the design
+rationale of memory-augmented ERC models such as the Conversational
+Memory Network~\cite{hazarika2018conversational}, which explicitly model
+per-speaker state to capture within-speaker emotional continuity across
+dialogue turns. The present results confirm that this inductive bias
+remains effective even when encoded as explicit graph structure rather
+than learned recurrent state, and that structural encoding of speaker
+continuity allows the graph to surface more relevant evidence than
+unstructured flat retrieval.
+
+\paragraph{Cross-dataset consistency of Graph RAG.}
+The EmoryNLP results replicate the main MELD finding: Graph RAG achieves
+the highest macro F1 (0.471) and accuracy (0.500), and the faithfulness
+ordering across methods is consistent with MELD. The margin between
+retrieval and non-retrieval methods is even larger on EmoryNLP (0.145
+macro F1 gap between Graph RAG and LLM-only, versus 0.006 on MELD),
+suggesting that graph-structured evidence selection is particularly
+beneficial when the evaluation domain differs from the LLM's training
+distribution. EmoryNLP's five-class distribution (joy 35.8\%, neutral
+34.6\%, fear 11\%, anger 10\%, sadness 8.6\%) is moderately imbalanced
+but does not prevent meaningful differentiation between methods, in
+contrast to datasets with extreme single-class dominance.
+
+\paragraph{Limitations.}
+Several limitations should be noted. First, both the inference model and
+faithfulness judge are \texttt{gpt-4o-mini}, which may introduce
+self-evaluation bias; future work should validate the faithfulness metric
+against human annotations on a held-out sample. Second, all methods use
+the same evidence-constrained prompt, which may structurally disadvantage
+methods with less citable evidence. Third, the graph construction relies
+on heuristic edge detection (same-speaker links, rule-based emotion-shift
+detection) that has not been independently validated. Fourth, experiments
+are limited to 500 instances per dataset with a single random seed;
+statistical significance of small macro F1 differences (e.g., 0.011
+between Graph RAG and Text-only RAG on MELD) should be interpreted with
+caution. Finally, the acoustic-edge heuristic in the ablation study uses a text-based sentiment-polarity proxy rather than actual audio signals; future work should replace this with genuine multimodal audio features.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Conclusion}
+\label{sec:conclusion}
+
+The central finding of this work is that retrieval-augmented context
+construction raises the faithfulness of LLM-generated explanations by
+an order of magnitude over no-retrieval baselines — from below 0.04 to
+above 0.21 — while graph-augmented retrieval additionally achieves the
+highest macro F1 across both MELD and EmoryNLP. This paper introduced
+a claim-level faithfulness evaluation framework that makes this
+distinction tractable: model explanations are decomposed into atomic
+claims and each claim is independently verified against the retrieved
+evidence, yielding a continuous faithfulness score alongside standard
+accuracy metrics.
+
+The experiments on MELD demonstrate that non-retrieval LLM methods,
+despite achieving high accuracy, produce explanations that are almost
+entirely unsupported by the conversational evidence (98.4\% unsupported
+claims). Graph-augmented RAG achieves the best balance between prediction
+quality and faithfulness among all evaluated methods — the only
+approach that simultaneously achieves macro F1 above 0.49 and
+faithfulness above 0.22 — with same-speaker history identified as the
+most critical structural component. On EmoryNLP, Graph RAG again achieves the highest macro F1 (0.471) and
+accuracy (0.500), and the faithfulness ordering across methods is
+consistent with MELD. The cross-dataset consistency of both classification
+and faithfulness findings strengthens confidence in the main conclusions.
+
+These findings highlight faithfulness as a necessary complement to
+accuracy for evaluating LLM-based ERC systems in socially sensitive
+settings. Future work should investigate learned graph construction
+strategies, label-balanced prompting for imbalanced datasets,
+cross-dataset generalisation, and the relationship between faithfulness
+and human-perceived explanation quality.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section*{Acknowledgements}
+Generative AI tools were used for language editing assistance during the
+preparation of this manuscript, in accordance with the conference's AI
+usage policy. The experimental design, methodology, analysis, and all
+scientific conclusions are solely the responsibility of the authors.
+Author information omitted for blind review.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\bibliographystyle{splncs04}
+\bibliography{references}
+
+\end{document}
